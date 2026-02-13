@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AppShell } from "@/components/layout/app-shell";
-import { CardSkeleton, TableSkeleton } from "@/components/ui/skeleton-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loader";
 import { 
   ArrowUpRight, 
   AlertCircle, 
@@ -9,184 +9,325 @@ import {
   Filter, 
   MoreHorizontal,
   TrendingUp,
-  TrendingDown,
-  Minus
+  Activity,
+  Search,
+  ChevronDown,
+  XCircle,
+  Eye,
+  ArrowRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Mock Data
 const metrics = [
   { 
-    label: "Total Active Signals", 
+    label: "Critical Signals", 
+    value: "5", 
+    subtext: "Requires immediate action", 
+    status: "critical",
+    icon: AlertCircle
+  },
+  { 
+    label: "Total Open Signals", 
     value: "24", 
-    subtext: "5 Critical (P1)", 
-    breakdown: { p1: 5, p2: 12, p3: 7 },
-    status: "critical" // red accent
+    subtext: "+3 since yesterday", 
+    status: "warning",
+    icon: Activity
   },
   { 
-    label: "Sites Requiring Attention", 
+    label: "Sites with Issues", 
     value: "3", 
-    subtext: "Sites with P1 Signals", 
-    status: "warning" // amber accent
+    subtext: "12% of total sites", 
+    status: "warning",
+    icon: TrendingUp
   },
   { 
-    label: "Safety Signals Pending", 
-    value: "8", 
-    subtext: "Mandatory Review", 
-    status: "critical" // red accent
-  },
-  { 
-    label: "Data Currency", 
-    value: "15 min ago", 
-    subtext: "Last Export", 
-    status: "good" // green/neutral
+    label: "Resolved (7d)", 
+    value: "18", 
+    subtext: "Resolution time: 1.2d", 
+    status: "good",
+    icon: CheckCircle2
   },
 ];
 
-const sites = [
-  { id: "102", name: "Memorial Sloan Kettering", signals: 8, p1: 2, p2: 4, trend: [2, 4, 5, 8], status: "critical" },
-  { id: "109", name: "Charité Berlin", signals: 5, p1: 1, p2: 2, trend: [1, 2, 3, 5], status: "critical" },
-  { id: "402", name: "Mass General", signals: 4, p1: 1, p2: 1, trend: [2, 2, 3, 4], status: "critical" },
-  { id: "331", name: "University of Tokyo", signals: 3, p1: 0, p2: 2, trend: [4, 3, 3, 3], status: "warning" },
-  { id: "205", name: "Gustave Roussy", signals: 2, p1: 0, p2: 1, trend: [1, 1, 2, 2], status: "warning" },
-  { id: "512", name: "MD Anderson", signals: 1, p1: 0, p2: 0, trend: [0, 1, 1, 1], status: "good" },
-  { id: "115", name: "Mayo Clinic", signals: 1, p1: 0, p2: 0, trend: [2, 1, 0, 1], status: "good" },
-  { id: "601", name: "Seoul National", signals: 0, p1: 0, p2: 0, trend: [0, 0, 0, 0], status: "good" },
+const signals = [
+  {
+    id: "SIG-2026-042",
+    type: "Data Quality",
+    title: "Concomitant Medication Date Mismatch",
+    description: "Start date in EDC (Jan 12) conflicts with Safety Narrative (Jan 14) for Subject 109-004.",
+    site: "109 - Charité Berlin",
+    priority: "High",
+    impact_score: 85,
+    status: "New",
+    created: "2h ago",
+    category: "Reconciliation"
+  },
+  {
+    id: "SIG-2026-039",
+    type: "Safety",
+    title: "Potential SAE Under-reporting",
+    description: "AE 'Grade 3 Neutropenia' recorded in Lab Data but missing from AE Log for Subject 402-011.",
+    site: "402 - Mass General",
+    priority: "Critical",
+    impact_score: 92,
+    status: "Investigating",
+    created: "5h ago",
+    category: "Safety"
+  },
+  {
+    id: "SIG-2026-035",
+    type: "Protocol",
+    title: "Visit Window Deviation Trend",
+    description: "3 consecutive subjects at Site 331 missed the Visit 6 window by >3 days.",
+    site: "331 - Univ. of Tokyo",
+    priority: "Medium",
+    impact_score: 60,
+    status: "Open",
+    created: "1d ago",
+    category: "Compliance"
+  },
+  {
+    id: "SIG-2026-031",
+    type: "Data Quality",
+    title: "Duplicate Lab Records",
+    description: "Multiple hematology panels received with identical timestamps for Subject 205-003.",
+    site: "205 - Gustave Roussy",
+    priority: "Low",
+    impact_score: 35,
+    status: "New",
+    created: "1d ago",
+    category: "Data Mgmt"
+  }
 ];
-
-function Sparkline({ data, color }: { data: number[], color: string }) {
-  const max = Math.max(...data, 5); // Minimum scale of 5
-  const points = data.map((val, i) => {
-    const x = (i / (data.length - 1)) * 100;
-    const y = 100 - (val / max) * 100;
-    return `${x},${y}`;
-  }).join(" ");
-
-  return (
-    <svg className="w-full h-8 overflow-visible" preserveAspectRatio="none">
-      <polyline
-        points={points}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        className={color}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("All");
 
   // Simulate loading
-  setTimeout(() => setLoading(false), 2000);
+  setTimeout(() => setLoading(false), 1500);
 
   return (
     <AppShell>
-      <div className="space-y-8 pb-10">
+      <div className="space-y-8 pb-10 h-full flex flex-col">
         
         {/* Header Section */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 shrink-0">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">Signal Dashboard</h1>
           <p className="text-muted-foreground text-sm max-w-2xl">
-            Operational view of all active signals across sites. Prioritized by urgency and impact on Critical Data Elements.
+            Real-time monitoring of data quality, safety, and protocol compliance signals across all active sites.
           </p>
         </div>
 
-        {/* Summary Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Metrics Bar */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
           {loading ? (
             Array(4).fill(0).map((_, i) => <CardSkeleton key={i} />)
           ) : (
             metrics.map((metric, i) => (
-              <div key={i} className="group p-5 rounded-xl border border-border/60 bg-card shadow-[0_2px_8px_rgba(0,0,0,0.02)] relative overflow-hidden">
-                <div className={cn("absolute top-0 left-0 w-1 h-full", 
-                  metric.status === 'critical' ? 'bg-red-500' : 
-                  metric.status === 'warning' ? 'bg-amber-500' : 
-                  'bg-emerald-500'
-                )} />
-                <div className="pl-2">
-                  <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">{metric.label}</div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-semibold tracking-tighter text-foreground">{metric.value}</span>
+              <div key={i} className="p-5 rounded-xl border border-border/60 bg-card shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+                <div className="flex justify-between items-start mb-2">
+                  <div className={cn(
+                    "p-2 rounded-lg",
+                    metric.status === 'critical' ? 'bg-red-50 text-red-600' : 
+                    metric.status === 'warning' ? 'bg-amber-50 text-amber-600' : 
+                    'bg-emerald-50 text-emerald-600'
+                  )}>
+                    <metric.icon className="h-5 w-5" />
                   </div>
-                  <div className="text-xs text-muted-foreground mt-1 font-medium">{metric.subtext}</div>
-                  
-                  {metric.breakdown && (
-                    <div className="flex gap-1 mt-3">
-                      <div className="h-1.5 rounded-full bg-red-500" style={{ width: `${(metric.breakdown.p1 / 24) * 100}%` }} />
-                      <div className="h-1.5 rounded-full bg-amber-500" style={{ width: `${(metric.breakdown.p2 / 24) * 100}%` }} />
-                      <div className="h-1.5 rounded-full bg-slate-300" style={{ width: `${(metric.breakdown.p3 / 24) * 100}%` }} />
-                    </div>
+                  {metric.status === 'critical' && (
+                    <span className="flex h-2 w-2 relative">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
                   )}
+                </div>
+                <div>
+                  <div className="text-3xl font-semibold tracking-tighter text-foreground mb-1">{metric.value}</div>
+                  <div className="text-sm font-medium text-muted-foreground">{metric.label}</div>
+                  <div className="text-xs text-muted-foreground/70 mt-1">{metric.subtext}</div>
                 </div>
               </div>
             ))
           )}
         </div>
 
-        {/* Signal Map (Site Grid) */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium text-foreground">Site Signal Map</h2>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground mr-2">Sort by: Urgency</span>
-              <button className="p-1.5 rounded-md hover:bg-secondary text-muted-foreground">
-                <Filter className="h-4 w-4" />
+        {/* Priority Heatmap & Signal List Container */}
+        <div className="flex-1 flex gap-6 overflow-hidden">
+          
+          {/* Main Signal Feed */}
+          <div className="flex-1 flex flex-col bg-transparent overflow-hidden">
+            <div className="flex items-center justify-between mb-4 shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input 
+                    type="text" 
+                    placeholder="Search signals..." 
+                    className="h-9 w-64 rounded-lg border border-border/60 bg-white pl-9 pr-4 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all"
+                  />
+                </div>
+                <div className="flex items-center bg-white border border-border/60 rounded-lg p-1">
+                  {['All', 'High', 'Critical', 'New'].map((f) => (
+                    <button
+                      key={f}
+                      onClick={() => setFilter(f)}
+                      className={cn(
+                        "px-3 py-1 rounded-md text-xs font-medium transition-all",
+                        filter === f ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border/60 bg-white text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
+                <Filter className="h-3 w-3" />
+                Filter View
               </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto space-y-3 pr-2">
+              {loading ? (
+                 Array(3).fill(0).map((_, i) => (
+                   <div key={i} className="h-32 bg-secondary/20 rounded-xl animate-pulse" />
+                 ))
+              ) : (
+                signals.map((signal, i) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    key={signal.id}
+                    className="group bg-white border border-border/60 rounded-xl p-5 hover:shadow-md hover:border-border transition-all relative overflow-hidden cursor-pointer"
+                  >
+                    <div className={cn("absolute left-0 top-0 bottom-0 w-1 transition-colors", 
+                      signal.priority === 'Critical' ? "bg-red-500" :
+                      signal.priority === 'High' ? "bg-orange-500" :
+                      signal.priority === 'Medium' ? "bg-amber-400" :
+                      "bg-blue-400"
+                    )} />
+                    
+                    <div className="flex justify-between items-start mb-2 pl-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{signal.id}</span>
+                        <span className="h-1 w-1 rounded-full bg-border" />
+                        <span className="text-xs font-medium text-primary bg-primary/5 px-2 py-0.5 rounded-full border border-primary/10">
+                          {signal.category}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {signal.created}
+                        </span>
+                        <button className="text-muted-foreground hover:text-foreground p-1 hover:bg-secondary rounded">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="pl-2 pr-12 relative">
+                      <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                        {signal.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                        {signal.description}
+                      </p>
+                      
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-secondary/30 px-2 py-1 rounded">
+                             <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                             {signal.site}
+                          </div>
+                          {signal.status === 'Investigating' && (
+                            <div className="flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-100">
+                               <Eye className="h-3 w-3" /> Under Review
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 absolute right-0 bottom-0">
+                           <button className="px-3 py-1.5 bg-white border border-border text-xs font-medium rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground shadow-sm">
+                             Dismiss
+                           </button>
+                           <button className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-medium rounded-lg hover:bg-primary/90 shadow-sm flex items-center gap-1">
+                             Investigate <ArrowRight className="h-3 w-3" />
+                           </button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </div>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-               {Array(8).fill(0).map((_, i) => <div key={i} className="h-32 bg-secondary/30 rounded-xl animate-pulse" />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {sites.map((site) => (
-                <div key={site.id} className={cn(
-                  "p-5 rounded-xl border transition-all cursor-pointer hover:shadow-md relative overflow-hidden",
-                  site.status === 'critical' ? "bg-red-50/10 border-red-100 hover:border-red-200" :
-                  site.status === 'warning' ? "bg-amber-50/10 border-amber-100 hover:border-amber-200" :
-                  "bg-card border-border/60 hover:border-border"
-                )}>
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <div className="text-2xl font-semibold text-foreground">{site.id}</div>
-                      <div className="text-xs text-muted-foreground truncate max-w-[120px]">{site.name}</div>
-                    </div>
-                    {site.p1 > 0 ? (
-                      <div className="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-bold border border-red-200 shadow-sm">
-                        P1 Signal
-                      </div>
-                    ) : (
-                      <div className="px-2 py-1 rounded bg-secondary text-muted-foreground text-xs font-medium border border-border/50">
-                        {site.signals} Signals
-                      </div>
-                    )}
+          {/* Right Sidebar: Risk Heatmap */}
+          <div className="w-80 shrink-0 flex flex-col gap-6">
+            
+            {/* Heatmap Card */}
+            <div className="bg-white border border-border/60 rounded-xl p-5 shadow-sm">
+               <div className="flex items-center justify-between mb-4">
+                 <h3 className="font-semibold text-sm">Risk Heatmap</h3>
+                 <button className="text-xs text-muted-foreground hover:text-foreground">View Full</button>
+               </div>
+               
+               <div className="aspect-square bg-secondary/10 rounded-lg border border-border/40 p-4 relative">
+                  {/* Grid Labels */}
+                  <div className="absolute left-1 bottom-8 -rotate-90 text-[10px] text-muted-foreground origin-left font-medium">Likelihood</div>
+                  <div className="absolute bottom-1 left-8 text-[10px] text-muted-foreground font-medium">Impact</div>
+
+                  {/* Heatmap Grid */}
+                  <div className="grid grid-cols-2 grid-rows-2 gap-1 h-full w-full pl-4 pb-4">
+                     {/* Q2: High Impact, Low Likelihood */}
+                     <div className="bg-orange-100 rounded flex flex-col items-center justify-center relative hover:bg-orange-200 transition-colors cursor-pointer group">
+                        <span className="text-2xl font-bold text-orange-600">3</span>
+                        <span className="text-[10px] text-orange-700/70 font-medium">Warning</span>
+                     </div>
+                     
+                     {/* Q1: High Impact, High Likelihood */}
+                     <div className="bg-red-100 rounded flex flex-col items-center justify-center relative hover:bg-red-200 transition-colors cursor-pointer group">
+                        <span className="text-2xl font-bold text-red-600">5</span>
+                        <span className="text-[10px] text-red-700/70 font-medium">Critical</span>
+                     </div>
+                     
+                     {/* Q3: Low Impact, Low Likelihood */}
+                     <div className="bg-slate-100 rounded flex flex-col items-center justify-center relative hover:bg-slate-200 transition-colors cursor-pointer group">
+                        <span className="text-2xl font-bold text-slate-600">12</span>
+                        <span className="text-[10px] text-slate-500 font-medium">Monitor</span>
+                     </div>
+
+                     {/* Q4: Low Impact, High Likelihood */}
+                     <div className="bg-amber-50 rounded flex flex-col items-center justify-center relative hover:bg-amber-100 transition-colors cursor-pointer group">
+                        <span className="text-2xl font-bold text-amber-600">4</span>
+                        <span className="text-[10px] text-amber-700/70 font-medium">Elevated</span>
+                     </div>
                   </div>
-                  
-                  {/* Sparkline Area */}
-                  <div className="mt-4">
-                    <Sparkline 
-                      data={site.trend} 
-                      color={
-                        site.status === 'critical' ? 'text-red-500' : 
-                        site.status === 'warning' ? 'text-amber-500' : 
-                        'text-emerald-500'
-                      } 
-                    />
-                    <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                      <span>4 weeks ago</span>
-                      <span>Today</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+               </div>
             </div>
-          )}
+
+            {/* Quick Actions */}
+            <div className="bg-secondary/20 rounded-xl p-5 border border-border/40">
+               <h3 className="font-semibold text-sm mb-3">Quick Actions</h3>
+               <div className="space-y-2">
+                 <button className="w-full text-left px-3 py-2 rounded-lg bg-white border border-border/60 hover:border-primary/50 text-xs font-medium transition-colors shadow-sm flex items-center justify-between group">
+                   <span>Export Signal Report</span>
+                   <ArrowUpRight className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                 </button>
+                 <button className="w-full text-left px-3 py-2 rounded-lg bg-white border border-border/60 hover:border-primary/50 text-xs font-medium transition-colors shadow-sm flex items-center justify-between group">
+                   <span>Trigger Data Refresh</span>
+                   <ArrowUpRight className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                 </button>
+               </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </AppShell>

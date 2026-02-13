@@ -2,164 +2,211 @@ import { AppShell } from "@/components/layout/app-shell";
 import { Skeleton } from "@/components/ui/skeleton-loader";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Download, Share2, Printer, AlertTriangle, CheckCircle, Calendar } from "lucide-react";
+import { 
+  Download, 
+  Share2, 
+  Printer, 
+  AlertTriangle, 
+  CheckCircle, 
+  Calendar,
+  Building2,
+  MapPin,
+  Phone,
+  Mail,
+  Users,
+  Clock,
+  ChevronRight,
+  TrendingUp,
+  FileText
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Dossier() {
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("overview");
   
   // Simulate loading
   setTimeout(() => setLoading(false), 2000);
 
   return (
     <AppShell>
-      <div className="flex justify-center pb-20">
-        <div className="w-full max-w-4xl space-y-8">
-          
-          {/* Action Bar */}
-          <div className="flex items-center justify-between mb-8 sticky top-0 bg-background/95 backdrop-blur py-4 z-10 border-b border-border/40">
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight">Site Dossier: 109 - Charité Berlin</h1>
-              <p className="text-muted-foreground text-xs mt-1">Generated: Feb 14, 2026 • For Visit: Monitor Visit 4</p>
-            </div>
-            <div className="flex gap-2">
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border bg-white hover:bg-secondary/50 text-sm font-medium transition-colors shadow-sm">
-                <Share2 className="h-4 w-4" />
-                Share
-              </button>
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-medium transition-colors shadow-sm">
-                <Download className="h-4 w-4" />
-                Export PDF
-              </button>
-            </div>
+      <div className="flex flex-col h-[calc(100vh-140px)]">
+        
+        {/* Site Header Profile */}
+        <div className="bg-card border-b border-border/60 p-6 shrink-0 flex items-start justify-between">
+          <div className="flex gap-6">
+             <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center border border-indigo-100/50 shadow-sm text-indigo-700 font-bold text-2xl">
+               109
+             </div>
+             <div>
+               <div className="flex items-center gap-3 mb-1">
+                 <h1 className="text-2xl font-bold tracking-tight text-foreground">Charité Berlin</h1>
+                 <span className="px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-100 text-xs font-bold uppercase tracking-wide flex items-center gap-1.5">
+                   <AlertTriangle className="h-3 w-3" /> Risk Level: High
+                 </span>
+               </div>
+               <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                 <div className="flex items-center gap-1.5">
+                   <MapPin className="h-3.5 w-3.5" /> Berlin, Germany
+                 </div>
+                 <div className="flex items-center gap-1.5">
+                   <UserAvatar name="Dr. Webber" />
+                   <span className="font-medium text-foreground">PI: Dr. Klaus Webber</span>
+                 </div>
+                 <div className="flex items-center gap-1.5">
+                   <Clock className="h-3.5 w-3.5" /> Local Time: 14:30 PM
+                 </div>
+               </div>
+             </div>
           </div>
 
-          {/* Document Content */}
-          <div className="bg-white border border-border/60 shadow-sm rounded-xl overflow-hidden min-h-[800px] relative">
-            {loading ? (
-              <div className="p-12 space-y-8">
-                <Skeleton height={40} width="60%" />
-                <div className="space-y-2">
-                  <Skeleton height={16} width="100%" />
-                  <Skeleton height={16} width="90%" />
-                  <Skeleton height={16} width="95%" />
-                </div>
-                <div className="grid grid-cols-2 gap-8 pt-8">
-                   <div className="space-y-4">
-                     <Skeleton height={24} width="40%" />
-                     <Skeleton height={120} className="rounded-lg" />
-                   </div>
-                   <div className="space-y-4">
-                     <Skeleton height={24} width="40%" />
-                     <Skeleton height={120} className="rounded-lg" />
-                   </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-8 md:p-12">
-                {/* Document Header */}
-                <div className="border-b border-border/40 pb-8 mb-8">
-                   <div className="flex justify-between items-start">
-                     <div>
-                       <h2 className="font-serif text-3xl text-gray-900 mb-2">Pre-Visit Monitoring Intelligence</h2>
-                       <p className="text-gray-500 text-sm font-sans">Protocol: NCT03003962 | Site: 109 (Charité Berlin)</p>
-                     </div>
-                     <div className="text-right">
-                       <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 rounded-full border border-red-100 text-xs font-medium uppercase tracking-wide">
-                         <AlertTriangle className="h-3 w-3" />
-                         High Priority
+          <div className="flex gap-2">
+             <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-white hover:bg-secondary/50 text-xs font-medium transition-colors shadow-sm text-foreground">
+               <Mail className="h-3.5 w-3.5" />
+               Contact Site
+             </button>
+             <button className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-medium transition-colors shadow-sm">
+               <Download className="h-3.5 w-3.5" />
+               Download Dossier PDF
+             </button>
+          </div>
+        </div>
+
+        <div className="flex-1 flex overflow-hidden">
+          {/* Main Content Scrollable */}
+          <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-secondary/5">
+             <div className="max-w-5xl mx-auto space-y-8">
+               
+               {/* Executive Summary Card */}
+               <section className="bg-white rounded-xl border border-border/60 shadow-sm p-6 relative overflow-hidden">
+                 <div className="absolute top-0 left-0 w-1 h-full bg-red-500" />
+                 <h2 className="text-lg font-semibold mb-4 font-serif text-foreground">Executive Intelligence Summary</h2>
+                 <p className="text-sm text-muted-foreground leading-relaxed">
+                   Site 109 shows emerging risk patterns in <strong className="text-foreground">Concomitant Medication reporting</strong> and <strong className="text-foreground">RECIST 1.1 assessment windows</strong>. Cross-system validation between EDC and Safety narratives indicates 3 high-confidence discrepancies. While enrollment is on track (12/15 subjects), data entry latency has increased by 15% since the last monitoring visit. Immediate attention required for Subject 109-004 reconciliation.
+                 </p>
+               </section>
+
+               <div className="grid grid-cols-3 gap-6">
+                 {/* KRI Panel */}
+                 <div className="col-span-2 space-y-6">
+                    <div>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Key Risk Indicators</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <KRICard label="Data Entry Lag" value="4.2 Days" trend="up" status="warning" />
+                        <KRICard label="Query Response" value="24 Hours" trend="flat" status="good" />
+                        <KRICard label="AE Reporting" value="100%" trend="flat" status="good" />
+                        <KRICard label="Protocol Deviations" value="8.5%" trend="up" status="critical" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Open Signals & Action Items</h3>
+                      <div className="bg-white border border-border/60 rounded-xl overflow-hidden shadow-sm">
+                        {[
+                          { title: "ConMed Date Mismatch", id: "SIG-004", severity: "High", due: "2 days" },
+                          { title: "Missed Tumor Assessment", id: "SIG-002", severity: "Medium", due: "5 days" },
+                          { title: "Informed Consent Version", id: "SIG-009", severity: "Low", due: "7 days" }
+                        ].map((item, i) => (
+                          <div key={i} className="flex items-center justify-between p-4 border-b border-border/40 last:border-0 hover:bg-secondary/20 transition-colors cursor-pointer group">
+                             <div className="flex items-center gap-3">
+                               <div className={cn("h-2 w-2 rounded-full", 
+                                 item.severity === "High" ? "bg-red-500" :
+                                 item.severity === "Medium" ? "bg-amber-500" : "bg-blue-500"
+                               )} />
+                               <div>
+                                 <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{item.title}</div>
+                                 <div className="text-xs text-muted-foreground">ID: {item.id}</div>
+                               </div>
+                             </div>
+                             <div className="flex items-center gap-4">
+                               <span className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-1 rounded">Due in {item.due}</span>
+                               <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                             </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                 </div>
+
+                 {/* Side Stats */}
+                 <div className="space-y-6">
+                    <div className="bg-white rounded-xl border border-border/60 p-5 shadow-sm">
+                       <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Enrollment Funnel</h3>
+                       <div className="space-y-4">
+                          <FunnelStage label="Screened" value={18} total={20} color="bg-blue-100" />
+                          <FunnelStage label="Randomized" value={12} total={18} color="bg-indigo-100" />
+                          <FunnelStage label="Active" value={11} total={12} color="bg-emerald-100" />
+                          <FunnelStage label="Completed" value={1} total={12} color="bg-slate-100" />
                        </div>
-                     </div>
-                   </div>
-                </div>
+                    </div>
 
-                {/* Executive Summary */}
-                <section className="mb-10">
-                  <h3 className="font-serif text-xl font-medium text-gray-900 mb-4 flex items-center gap-2">
-                    Executive Summary
-                  </h3>
-                  <div className="bg-secondary/20 p-6 rounded-lg border border-border/40 text-gray-700 text-sm leading-relaxed font-sans">
-                    <p>
-                      Site 109 shows emerging risk patterns in <span className="font-semibold text-gray-900">Concomitant Medication reporting</span> and <span className="font-semibold text-gray-900">RECIST 1.1 assessment windows</span>. 
-                      Cross-system validation between EDC and Safety narratives indicates 3 high-confidence discrepancies. 
-                      Enrollment is on track (12/15 subjects), but data entry latency has increased by 15% since last visit.
-                    </p>
-                  </div>
-                </section>
-
-                {/* Critical Findings Grid */}
-                <section className="mb-10">
-                  <h3 className="font-serif text-xl font-medium text-gray-900 mb-6">Open Signals & Recommended Actions</h3>
-                  
-                  <div className="space-y-6">
-                    {[
-                      {
-                        title: "Concomitant Medication Discrepancy",
-                        desc: "Subject 109-004: Steroid start date in EDC (12-Jan) conflicts with Narrative (14-Jan). Critical for immune-response evaluation.",
-                        impact: "Analysis Impact: Potential confounding variable for primary endpoint.",
-                        action: "Review source logs for Jan 12-14. Request query if source confirms 14-Jan.",
-                        severity: "High"
-                      },
-                      {
-                        title: "Missed Tumor Assessment Window",
-                        desc: "Subject 109-002: Visit 6 scan scheduled 3 days outside protocol window (+/- 7 days).",
-                        impact: "Regulatory Impact: Minor protocol deviation.",
-                        action: "Document deviation note. Re-train coordinator on window calculator tool.",
-                        severity: "Medium"
-                      }
-                    ].map((item, i) => (
-                      <div key={i} className="flex gap-4 p-4 rounded-lg border border-border/40 hover:bg-secondary/10 transition-colors">
-                        <div className={cn("w-1 h-full rounded-full flex-shrink-0 self-stretch", 
-                          item.severity === "High" ? "bg-red-500" : "bg-orange-400"
-                        )} />
-                        <div className="flex-1 space-y-2">
-                          <div className="flex justify-between">
-                            <h4 className="font-medium text-gray-900 text-sm font-sans">{item.title}</h4>
-                            <span className="text-xs text-muted-foreground font-mono uppercase">{item.severity}</span>
-                          </div>
-                          <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
-                          <div className="pt-2 flex gap-4 text-xs">
-                             <div className="flex-1 bg-gray-50 p-2 rounded border border-gray-100">
-                               <span className="block font-semibold text-gray-700 mb-0.5">Impact</span>
-                               <span className="text-gray-500">{item.impact}</span>
-                             </div>
-                             <div className="flex-1 bg-blue-50/50 p-2 rounded border border-blue-100/50">
-                               <span className="block font-semibold text-blue-800 mb-0.5">Recommended Action</span>
-                               <span className="text-blue-700">{item.action}</span>
-                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Operational Metrics */}
-                <section>
-                  <h3 className="font-serif text-xl font-medium text-gray-900 mb-6">Site Performance Metrics</h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    {[
-                      { label: "Data Entry Lag", value: "4.2 Days", status: "Warning", color: "text-orange-600" },
-                      { label: "Query Response", value: "24 Hours", status: "Good", color: "text-emerald-600" },
-                      { label: "SDV Completion", value: "92%", status: "Good", color: "text-emerald-600" },
-                    ].map((metric, i) => (
-                      <div key={i} className="p-4 rounded-lg bg-gray-50/50 border border-border/40 text-center">
-                        <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">{metric.label}</div>
-                        <div className="text-2xl font-semibold text-gray-900 mb-1">{metric.value}</div>
-                        <div className={cn("text-xs font-medium", metric.color)}>{metric.status}</div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-                
-                {/* Footer */}
-                <div className="mt-12 pt-8 border-t border-border/40 text-center text-xs text-muted-foreground font-sans">
-                  <p>Confidential • Generated by Clinical Intelligence Platform • Do Not Distribute</p>
-                </div>
-              </div>
-            )}
+                    <div className="bg-white rounded-xl border border-border/60 p-5 shadow-sm">
+                       <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Site Team</h3>
+                       <div className="space-y-3">
+                          <TeamMember name="Dr. Klaus Webber" role="Principal Investigator" />
+                          <TeamMember name="Sarah Miller" role="Study Coordinator" />
+                          <TeamMember name="James Chen" role="Pharmacist" />
+                       </div>
+                    </div>
+                 </div>
+               </div>
+             </div>
           </div>
         </div>
       </div>
     </AppShell>
+  );
+}
+
+function UserAvatar({ name }: { name: string }) {
+  return (
+    <div className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold border border-primary/20">
+      {name.split(' ').map(n => n[0]).join('')}
+    </div>
+  );
+}
+
+function KRICard({ label, value, trend, status }: { label: string, value: string, trend: string, status: string }) {
+  return (
+    <div className="bg-white p-4 rounded-xl border border-border/60 shadow-sm">
+      <div className="text-xs text-muted-foreground mb-1">{label}</div>
+      <div className="flex items-end justify-between">
+        <div className="text-xl font-semibold text-foreground">{value}</div>
+        <div className={cn("text-xs font-medium flex items-center gap-0.5", 
+          status === "critical" ? "text-red-600" :
+          status === "warning" ? "text-amber-600" : "text-emerald-600"
+        )}>
+          {status === "critical" || status === "warning" ? <TrendingUp className="h-3 w-3" /> : <CheckCircle className="h-3 w-3" />}
+          {status === "critical" ? "Critical" : status === "warning" ? "Warning" : "Good"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FunnelStage({ label, value, total, color }: { label: string, value: number, total: number, color: string }) {
+  const width = (value / 20) * 100; // Normalized to max screening
+  return (
+    <div>
+      <div className="flex justify-between text-xs mb-1">
+        <span className="text-muted-foreground">{label}</span>
+        <span className="font-medium text-foreground">{value}</span>
+      </div>
+      <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+        <div className={cn("h-full rounded-full", color.replace('100', '500'))} style={{ width: `${width}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function TeamMember({ name, role }: { name: string, role: string }) {
+  return (
+    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 transition-colors">
+      <UserAvatar name={name} />
+      <div className="overflow-hidden">
+        <div className="text-sm font-medium text-foreground truncate">{name}</div>
+        <div className="text-[10px] text-muted-foreground truncate">{role}</div>
+      </div>
+    </div>
   );
 }
