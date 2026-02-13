@@ -10,7 +10,8 @@ import {
   Server,
   FileJson,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  ChevronRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
