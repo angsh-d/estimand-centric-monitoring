@@ -9,11 +9,13 @@ import CriticalData from "@/pages/critical-data";
 import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
+import StudyOverview from "@/pages/study-overview";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
+      <Route path="/study/overview" component={StudyOverview} />
       <Route path="/study/dashboard" component={Dashboard} />
       <Route path="/study/critical-data" component={CriticalData} />
       <Route path="/study/dossier" component={Dossier} />
