@@ -87,8 +87,8 @@ export default function Landing() {
                 Welcome back, Alex.
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                You have <span className="text-foreground font-medium">3 active signals</span> requiring attention across your assigned studies. 
-                Intelligence analysis for "Phase III Oncology" was last updated 15 minutes ago.
+                You have <span className="text-foreground font-medium">5 active signals</span> requiring attention across your assigned studies. 
+                Intelligence analysis for "PEARL: Durvalumab vs SoC" was last updated 15 minutes ago.
               </p>
             </motion.div>
           </div>
