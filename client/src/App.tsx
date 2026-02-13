@@ -10,6 +10,7 @@ import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
 import StudyOverview from "@/pages/study-overview";
+import MVRCopilot from "@/pages/mvr";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/study/dashboard" component={Dashboard} />
       <Route path="/study/critical-data" component={CriticalData} />
       <Route path="/study/dossier" component={Dossier} />
+      <Route path="/study/mvr" component={MVRCopilot} />
       <Route path="/study/investigations" component={Investigations} />
       <Route component={NotFound} />
     </Switch>
