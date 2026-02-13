@@ -72,7 +72,7 @@ export default function Dashboard() {
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">Proactive Signal Detection</h1>
           <p className="text-muted-foreground text-sm max-w-2xl">
-            Monitoring intelligence across heterogeneous data sources. Focused on Critical Data Elements per protocol ONC-2025-001.
+            Monitoring intelligence across heterogeneous data sources. Focused on Critical Data Elements per protocol NCT03003962.
           </p>
         </div>
 

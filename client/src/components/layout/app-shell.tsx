@@ -113,9 +113,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
              </Sheet>
 
              <div className="flex items-center text-sm text-muted-foreground truncate">
-                <span className="hidden sm:inline">Protocol: ONC-2025-001</span>
+                <span className="hidden sm:inline">Protocol: NCT03003962 (PEARL)</span>
                 <ChevronRight className="h-4 w-4 mx-2 hidden sm:block" />
-                <span className="text-foreground font-medium truncate">Phase III Oncology</span>
+                <span className="text-foreground font-medium truncate">Durvalumab vs SoC in NSCLC</span>
              </div>
           </div>
           

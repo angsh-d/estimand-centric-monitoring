@@ -61,7 +61,7 @@ export default function Dossier() {
                    <div className="flex justify-between items-start">
                      <div>
                        <h2 className="font-serif text-3xl text-gray-900 mb-2">Pre-Visit Monitoring Intelligence</h2>
-                       <p className="text-gray-500 text-sm font-sans">Protocol: ONC-2025-001 | Site: 109 (Charité Berlin)</p>
+                       <p className="text-gray-500 text-sm font-sans">Protocol: NCT03003962 | Site: 109 (Charité Berlin)</p>
                      </div>
                      <div className="text-right">
                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 rounded-full border border-red-100 text-xs font-medium uppercase tracking-wide">

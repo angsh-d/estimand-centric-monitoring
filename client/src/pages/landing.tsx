@@ -4,37 +4,37 @@ import { motion } from "framer-motion";
 
 const studies = [
   {
-    id: "ONC-2025-001",
-    title: "Phase III Oncology",
+    id: "NCT03003962",
+    title: "PEARL: Durvalumab vs SoC",
     phase: "Phase III",
-    indication: "Non-Small Cell Lung Cancer",
-    sites: 42,
-    patients: 315,
+    indication: "PD-L1-High Advanced NSCLC",
+    sites: 142,
+    patients: 680,
     status: "Active - Enrolling",
-    nextVisit: "12 Feb 2026",
-    alerts: 3
+    nextVisit: "19 Feb 2026",
+    alerts: 5
   },
   {
-    id: "CV-2024-002",
-    title: "Cardiovascular Outcome Study",
-    phase: "Phase IIb",
-    indication: "Hypertension",
-    sites: 18,
-    patients: 120,
-    status: "Active - Maintenance",
-    nextVisit: "18 Feb 2026",
+    id: "NCT02542293",
+    title: "NEPTUNE: Durvalumab + Tremelimumab",
+    phase: "Phase III",
+    indication: "Metastatic NSCLC",
+    sites: 210,
+    patients: 800,
+    status: "Active - Analysis",
+    nextVisit: "22 Feb 2026",
+    alerts: 2
+  },
+  {
+    id: "NCT03596866",
+    title: "Brigatinib-3001: ALK+ NSCLC",
+    phase: "Phase III",
+    indication: "ALK+ NSCLC (Post-Crizotinib)",
+    sites: 85,
+    patients: 240,
+    status: "Active - Long Term Follow-up",
+    nextVisit: "28 Feb 2026",
     alerts: 0
-  },
-  {
-    id: "NEU-2025-004",
-    title: "Alzheimer's Prevention",
-    phase: "Phase I",
-    indication: "Early Stage Alzheimer's",
-    sites: 5,
-    patients: 24,
-    status: "Startup",
-    nextVisit: "24 Feb 2026",
-    alerts: 1
   }
 ];
 
@@ -106,7 +106,7 @@ export default function Landing() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {studies.map((study, idx) => (
-                <Link key={study.id} href={study.id === "ONC-2025-001" ? "/study/dashboard" : "#"}>
+                <Link key={study.id} href={study.id === "NCT03003962" ? "/study/dashboard" : "#"}>
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
