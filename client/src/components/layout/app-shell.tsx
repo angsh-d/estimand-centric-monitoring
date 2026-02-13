@@ -23,21 +23,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
-    { label: "Signal Detection", icon: Activity, href: "/" },
-    { label: "Critical Data", icon: Database, href: "/critical-data" },
-    { label: "Site Dossiers", icon: Files, href: "/dossier" },
-    { label: "Investigations", icon: Search, href: "/investigations" },
+    { label: "Signal Detection", icon: Activity, href: "/study/dashboard" },
+    { label: "Critical Data", icon: Database, href: "/study/critical-data" },
+    { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
+    { label: "Investigations", icon: Search, href: "/study/investigations" },
   ];
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full justify-between">
       <div>
-        <div className="flex items-center gap-2 px-2 py-4 mb-6">
-          <div className="h-6 w-6 bg-primary rounded-md flex items-center justify-center shadow-sm">
-            <div className="h-2 w-2 bg-white rounded-full" />
+        <Link href="/">
+          <div className="flex items-center gap-2 px-2 py-4 mb-6 cursor-pointer hover:opacity-80 transition-opacity">
+            <div className="h-6 w-6 bg-primary rounded-md flex items-center justify-center shadow-sm">
+              <div className="h-2 w-2 bg-white rounded-full" />
+            </div>
+            <span className="font-semibold tracking-tight text-sm">Clinical Intelligence</span>
           </div>
-          <span className="font-semibold tracking-tight text-sm">Clinical Intelligence</span>
-        </div>
+        </Link>
 
         <nav className="space-y-1">
           {navItems.map((item) => {

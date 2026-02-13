@@ -8,14 +8,16 @@ import Dashboard from "@/pages/dashboard";
 import CriticalData from "@/pages/critical-data";
 import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
+import Landing from "@/pages/landing";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} />
-      <Route path="/critical-data" component={CriticalData} />
-      <Route path="/dossier" component={Dossier} />
-      <Route path="/investigations" component={Investigations} />
+      <Route path="/" component={Landing} />
+      <Route path="/study/dashboard" component={Dashboard} />
+      <Route path="/study/critical-data" component={CriticalData} />
+      <Route path="/study/dossier" component={Dossier} />
+      <Route path="/study/investigations" component={Investigations} />
       <Route component={NotFound} />
     </Switch>
   );
