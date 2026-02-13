@@ -11,37 +11,75 @@ import {
   Database,
   Files,
   Menu,
-  X
+  Network,
+  GitBranch,
+  BarChart3,
+  ListChecks,
+  ChevronDown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navItems = [
-    { label: "Signal Detection", icon: Activity, href: "/study/dashboard" },
-    { label: "Critical Data", icon: Database, href: "/study/critical-data" },
+    { label: "Study Overview", icon: LayoutDashboard, href: "/study/overview" },
+    { label: "Criticality Model", icon: GitBranch, href: "/study/critical-data" },
+    { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
+    { label: "Investigation", icon: Search, href: "/study/investigations" },
     { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
-    { label: "Investigations", icon: Search, href: "/study/investigations" },
+    { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
+    { label: "Data Status", icon: Database, href: "/study/data-status" },
+    { label: "Configuration", icon: Settings, href: "/study/config" },
   ];
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full justify-between">
       <div>
-        <Link href="/">
-          <div className="flex items-center gap-2 px-2 py-4 mb-6 cursor-pointer hover:opacity-80 transition-opacity">
-            <div className="h-6 w-6 bg-primary rounded-md flex items-center justify-center shadow-sm">
-              <div className="h-2 w-2 bg-white rounded-full" />
-            </div>
-            <span className="font-semibold tracking-tight text-sm">Clinical Intelligence</span>
-          </div>
-        </Link>
+        <div className="px-2 py-4 mb-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="w-full flex items-center justify-between gap-2 px-3 py-2 bg-white/50 hover:bg-white/80 border border-border/40 rounded-lg transition-all text-left group">
+                 <div className="flex flex-col overflow-hidden">
+                   <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors">Current Study</span>
+                   <span className="text-sm font-semibold text-foreground truncate">PEARL (NCT03003962)</span>
+                 </div>
+                 <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="start">
+              <DropdownMenuLabel>Switch Study</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>PEARL (NCT03003962)</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>NEPTUNE (NCT02542293)</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Brigatinib-3001</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href="/">Back to All Studies</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
-        <nav className="space-y-1">
+        <nav className="space-y-0.5">
           {navItems.map((item) => {
             const isActive = location === item.href;
             return (
