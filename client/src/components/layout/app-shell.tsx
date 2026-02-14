@@ -13,10 +13,11 @@ import {
   Menu,
   Network,
   GitBranch,
-  ChevronDown
+  ChevronDown,
+  UserCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, createContext, useContext } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,21 +29,61 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// --- Role Context ---
+type UserRole = "Lead Central Monitor" | "Clinical Research Associate";
+
+interface RoleContextType {
+  role: UserRole;
+  setRole: (role: UserRole) => void;
+}
+
+const RoleContext = createContext<RoleContextType | undefined>(undefined);
+
+export function useRole() {
+  const context = useContext(RoleContext);
+  if (!context) {
+    throw new Error("useRole must be used within a RoleProvider");
+  }
+  return context;
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const [role, setRole] = useState<UserRole>("Lead Central Monitor");
+
+  return (
+    <RoleContext.Provider value={{ role, setRole }}>
+      <ShellContent>{children}</ShellContent>
+    </RoleContext.Provider>
+  );
+}
+
+function ShellContent({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { role, setRole } = useRole();
 
-  const navItems = [
-    { label: "Study Overview", icon: LayoutDashboard, href: "/study/overview" },
-    { label: "Criticality Model", icon: GitBranch, href: "/study/critical-data" },
-    { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
-    { label: "Investigation", icon: Search, href: "/study/investigations" },
-    { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
-    { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
-    { label: "Data Status", icon: Database, href: "/study/data-status" },
-    { label: "Configuration", icon: Settings, href: "/study/config" },
-  ];
+  const navItems = role === "Lead Central Monitor" 
+    ? [
+        { label: "Study Overview", icon: LayoutDashboard, href: "/study/overview" },
+        { label: "Criticality Model", icon: GitBranch, href: "/study/critical-data" },
+        { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
+        { label: "Investigation", icon: Search, href: "/study/investigations" },
+        { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
+        { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
+        { label: "Data Status", icon: Database, href: "/study/data-status" },
+        { label: "Configuration", icon: Settings, href: "/study/config" },
+      ]
+    : [
+        { label: "My Sites", icon: LayoutDashboard, href: "/sites/my-sites" }, // Placeholder link
+        { label: "Visit Schedule", icon: Calendar, href: "/sites/schedule" }, // Placeholder
+        { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
+        { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
+        { label: "Query Resolution", icon: Search, href: "/study/investigations" },
+      ];
 
+  // Placeholder icon needed for CRA list above if not imported
+  // Adding Calendar import to top... (handled below in standard way if I could edit imports directly but I am rewriting file)
+  
   const SidebarContent = () => (
     <div className="flex flex-col h-full justify-between py-2">
       <div>
@@ -51,27 +92,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <DropdownMenuTrigger asChild>
               <button className="w-full flex items-center justify-between gap-2 px-3 py-2 bg-white/50 hover:bg-white border border-slate-200/60 rounded-xl transition-all text-left group shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
                  <div className="flex flex-col overflow-hidden">
-                   <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-0.5">Current Study</span>
-                   <span className="text-sm font-semibold text-slate-900 truncate">PEARL (NCT03003962)</span>
+                   <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-0.5">Current Context</span>
+                   <span className="text-sm font-semibold text-slate-900 truncate">
+                     {role === "Lead Central Monitor" ? "PEARL (NCT03003962)" : "Northeast Region"}
+                   </span>
                  </div>
                  <ChevronDown className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
-              <DropdownMenuLabel>Switch Study</DropdownMenuLabel>
+              <DropdownMenuLabel>Switch Role View</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <span>PEARL (NCT03003962)</span>
+              <DropdownMenuItem onClick={() => setRole("Lead Central Monitor")}>
+                <div className="flex items-center gap-2">
+                  <div className={cn("h-2 w-2 rounded-full", role === "Lead Central Monitor" ? "bg-blue-600" : "bg-slate-200")} />
+                  <span>Lead Central Monitor</span>
+                </div>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>NEPTUNE (NCT02542293)</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Brigatinib-3001</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href="/">Back to All Studies</Link>
+              <DropdownMenuItem onClick={() => setRole("Clinical Research Associate")}>
+                <div className="flex items-center gap-2">
+                  <div className={cn("h-2 w-2 rounded-full", role === "Clinical Research Associate" ? "bg-blue-600" : "bg-slate-200")} />
+                  <span>Clinical Research Associate</span>
+                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -79,9 +121,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <nav className="space-y-0.5 px-2">
           {navItems.map((item) => {
-            const isActive = location === item.href;
+            // Simple logic to handle placeholder links for now
+            const isPlaceholder = item.href.startsWith("/sites/");
+            const linkHref = isPlaceholder ? "/" : item.href; 
+            
+            const isActive = location === linkHref;
             return (
-              <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)}>
+              <Link key={item.label} href={linkHref} onClick={() => setMobileOpen(false)}>
                 <div
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer group",
@@ -99,11 +145,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="mt-8 px-5">
-          <h3 className="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-wider">Recent Dossiers</h3>
+          <h3 className="text-[10px] font-bold text-slate-400 mb-3 uppercase tracking-wider">
+            {role === "Lead Central Monitor" ? "Recent Dossiers" : "My Sites"}
+          </h3>
           <div className="space-y-2">
-            {['Site 402 - Boston', 'Site 109 - London', 'Site 331 - Tokyo'].map((site, i) => (
+            {(role === "Lead Central Monitor" 
+              ? ['Site 402 - Boston', 'Site 109 - London', 'Site 331 - Tokyo'] 
+              : ['Site 109 - London (Next Visit)', 'Site 204 - Manchester', 'Site 882 - Paris']
+            ).map((site, i) => (
               <div key={i} className="flex items-center gap-2 text-[13px] text-slate-500 hover:text-slate-900 cursor-pointer transition-colors group">
-                <div className="h-1.5 w-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors" />
+                <div className={cn("h-1.5 w-1.5 rounded-full transition-colors", 
+                  role === "Clinical Research Associate" && i === 0 ? "bg-emerald-500 ring-2 ring-emerald-100" : "bg-slate-300 group-hover:bg-blue-500"
+                )} />
                 {site}
               </div>
             ))}
@@ -118,7 +171,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex flex-col">
             <span className="text-slate-900 font-medium text-xs">Alex Morgan</span>
-            <span className="text-[10px] text-slate-500">Lead Central Monitor</span>
+            <span className="text-[10px] text-slate-500">{role}</span>
           </div>
         </div>
       </div>
@@ -150,9 +203,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
              </Sheet>
 
              <div className="flex items-center text-sm text-slate-500 truncate">
-                <span className="hidden sm:inline font-medium text-slate-900">Protocol: NCT03003962</span>
+                <span className="hidden sm:inline font-medium text-slate-900">
+                  {role === "Lead Central Monitor" ? "Protocol: NCT03003962" : "Region: EMEA North"}
+                </span>
                 <ChevronRight className="h-4 w-4 mx-2 text-slate-300 hidden sm:block" />
-                <span className="truncate">Durvalumab vs SoC in NSCLC</span>
+                <span className="truncate">
+                  {role === "Lead Central Monitor" ? "Durvalumab vs SoC in NSCLC" : "3 Sites Assigned"}
+                </span>
              </div>
           </div>
           
@@ -179,11 +236,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 scroll-smooth">
           <AnimatePresence mode="wait">
             <motion.div
-              key={location}
+              key={location + role} // Force re-render on role change
               initial={{ opacity: 0, y: 8, scale: 0.99 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.99 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} // Apple-style spring/ease
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-7xl mx-auto min-h-full"
             >
               {children}
@@ -194,3 +251,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+// Add Calendar icon import to the list
+import { Calendar } from "lucide-react";
