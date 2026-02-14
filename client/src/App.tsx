@@ -13,21 +13,24 @@ import StudyOverview from "@/pages/study-overview";
 import MVRCopilot from "@/pages/mvr";
 import DataStatus from "@/pages/data-status";
 import Configuration from "@/pages/configuration";
+import { AppShell } from "@/components/layout/app-shell";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Landing} />
-      <Route path="/study/overview" component={StudyOverview} />
-      <Route path="/study/dashboard" component={Dashboard} />
-      <Route path="/study/critical-data" component={CriticalData} />
-      <Route path="/study/dossier" component={Dossier} />
-      <Route path="/study/mvr" component={MVRCopilot} />
-      <Route path="/study/data-status" component={DataStatus} />
-      <Route path="/study/config" component={Configuration} />
-      <Route path="/study/investigations" component={Investigations} />
-      <Route component={NotFound} />
-    </Switch>
+    <AppShell>
+      <Switch>
+        <Route path="/" component={Landing} />
+        <Route path="/study/overview" component={StudyOverview} />
+        <Route path="/study/dashboard" component={Dashboard} />
+        <Route path="/study/critical-data" component={CriticalData} />
+        <Route path="/study/dossier" component={Dossier} />
+        <Route path="/study/mvr" component={MVRCopilot} />
+        <Route path="/study/data-status" component={DataStatus} />
+        <Route path="/study/config" component={Configuration} />
+        <Route path="/study/investigations" component={Investigations} />
+        <Route component={NotFound} />
+      </Switch>
+    </AppShell>
   );
 }
 
