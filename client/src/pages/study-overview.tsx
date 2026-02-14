@@ -10,7 +10,9 @@ import {
   CheckCircle2,
   FileBarChart,
   BarChart3,
-  ArrowRight
+  ArrowRight,
+  Target,
+  BrainCircuit
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -65,9 +67,104 @@ export default function StudyOverview() {
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground">Study Overview</h1>
           <p className="text-muted-foreground text-sm max-w-2xl">
-            High-level performance metrics, KRI monitoring, and enrollment status for PEARL (NCT03003962).
+            High-level performance metrics, estimand health surveillance, and enrollment status for PEARL (NCT03003962).
           </p>
         </div>
+
+        {/* Estimand Health Surveillance */}
+        <section className="bg-card border border-border/60 rounded-xl p-6 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-medium flex items-center gap-2">
+                <Target className="h-5 w-5 text-primary" />
+                Estimand Health Surveillance
+              </h2>
+              <p className="text-xs text-muted-foreground mt-1">Real-time data integrity monitoring for primary and key secondary endpoints.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">Last Analysis: 15m ago</span>
+              <button className="text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors flex items-center gap-1">
+                <BrainCircuit className="h-3 w-3" />
+                AI Diagnostic
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Primary Endpoint */}
+            <div className="border border-border/60 rounded-lg p-5 bg-white relative group hover:border-primary/40 transition-colors">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <div className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Primary Endpoint</div>
+                  <h3 className="font-serif text-lg font-medium text-foreground">PFS (Progression Free Survival)</h3>
+                </div>
+                <div className="h-10 w-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 font-bold text-sm">
+                  98%
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Data Completeness</span>
+                  <span className="font-medium text-foreground">100%</span>
+                </div>
+                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-emerald-500 h-full w-full" />
+                </div>
+                
+                <div className="flex justify-between text-xs pt-1">
+                  <span className="text-muted-foreground">Event Adjudication</span>
+                  <span className="font-medium text-foreground">92%</span>
+                </div>
+                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-emerald-500 h-full w-[92%]" />
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-border/40 text-xs text-muted-foreground flex items-center gap-2">
+                <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                No critical signals impacting this estimand.
+              </div>
+            </div>
+
+            {/* Secondary Endpoint */}
+            <div className="border border-border/60 rounded-lg p-5 bg-white relative group hover:border-amber-300/40 transition-colors">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">Key Secondary Endpoint</div>
+                  <h3 className="font-serif text-lg font-medium text-foreground">OS (Overall Survival)</h3>
+                </div>
+                <div className="h-10 w-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100 font-bold text-sm">
+                  85%
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Survival Status Known</span>
+                  <span className="font-medium text-foreground">88%</span>
+                </div>
+                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-amber-500 h-full w-[88%]" />
+                </div>
+                
+                <div className="flex justify-between text-xs pt-1">
+                  <span className="text-muted-foreground">Loss to Follow-up Risk</span>
+                  <span className="font-medium text-amber-600">High (12%)</span>
+                </div>
+                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-amber-500 h-full w-[12%]" />
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-border/40 text-xs text-amber-600 flex items-center gap-2 font-medium bg-amber-50/50 p-2 rounded -mx-2">
+                <AlertTriangle className="h-3 w-3" />
+                3 Sites showing survival status latency > 7 days.
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           

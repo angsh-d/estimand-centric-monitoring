@@ -14,7 +14,8 @@ import {
   ChevronDown,
   XCircle,
   Eye,
-  ArrowRight
+  ArrowRight,
+  Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,7 +63,8 @@ const signals = [
     impact_score: 85,
     status: "New",
     created: "2h ago",
-    category: "Reconciliation"
+    category: "Reconciliation",
+    estimand: "PFS Analysis (Data Integrity)"
   },
   {
     id: "SIG-2026-039",
@@ -74,7 +76,8 @@ const signals = [
     impact_score: 92,
     status: "Investigating",
     created: "5h ago",
-    category: "Safety"
+    category: "Safety",
+    estimand: "Safety Population Analysis"
   },
   {
     id: "SIG-2026-035",
@@ -86,7 +89,8 @@ const signals = [
     impact_score: 60,
     status: "Open",
     created: "1d ago",
-    category: "Compliance"
+    category: "Compliance",
+    estimand: "Per-Protocol Population"
   },
   {
     id: "SIG-2026-031",
@@ -98,7 +102,8 @@ const signals = [
     impact_score: 35,
     status: "New",
     created: "1d ago",
-    category: "Data Mgmt"
+    category: "Data Mgmt",
+    estimand: "Safety Labs"
   }
 ];
 
@@ -238,7 +243,13 @@ export default function Dashboard() {
                         {signal.description}
                       </p>
                       
-                      <div className="flex items-center justify-between mt-4">
+                      {/* Estimand Impact Tag */}
+                      <div className="mb-4 inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-secondary/40 border border-border/50 text-xs text-muted-foreground">
+                        <Target className="h-3 w-3 text-foreground" />
+                        Impacts: <span className="font-medium text-foreground">{signal.estimand}</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-secondary/30 px-2 py-1 rounded">
                              <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
