@@ -160,7 +160,7 @@ export default function StudyOverview() {
 
               <div className="mt-4 pt-3 border-t border-border/40 text-xs text-amber-600 flex items-center gap-2 font-medium bg-amber-50/50 p-2 rounded -mx-2">
                 <AlertTriangle className="h-3 w-3" />
-                3 Sites showing survival status latency > 7 days.
+                3 Sites showing survival status latency &gt; 7 days.
               </div>
             </div>
           </div>
