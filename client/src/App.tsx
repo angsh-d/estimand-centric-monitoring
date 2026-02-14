@@ -13,6 +13,7 @@ import StudyOverview from "@/pages/study-overview";
 import MVRCopilot from "@/pages/mvr";
 import DataStatus from "@/pages/data-status";
 import Configuration from "@/pages/configuration";
+import MySites from "@/pages/my-sites";
 import { AppShell } from "@/components/layout/app-shell";
 
 function Router() {
@@ -28,6 +29,8 @@ function Router() {
         <Route path="/study/data-status" component={DataStatus} />
         <Route path="/study/config" component={Configuration} />
         <Route path="/study/investigations" component={Investigations} />
+        <Route path="/sites/my-sites" component={MySites} />
+        <Route path="/sites/schedule" component={MySites} />
         <Route component={NotFound} />
       </Switch>
     </AppShell>

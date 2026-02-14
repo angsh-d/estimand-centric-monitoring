@@ -14,7 +14,8 @@ import {
   Network,
   GitBranch,
   ChevronDown,
-  UserCircle
+  UserCircle,
+  Calendar
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, createContext, useContext } from "react";
@@ -74,16 +75,12 @@ function ShellContent({ children }: { children: React.ReactNode }) {
         { label: "Configuration", icon: Settings, href: "/study/config" },
       ]
     : [
-        { label: "My Sites", icon: LayoutDashboard, href: "/sites/my-sites" }, // Placeholder link
-        { label: "Visit Schedule", icon: Calendar, href: "/sites/schedule" }, // Placeholder
+        { label: "My Sites & Schedule", icon: LayoutDashboard, href: "/sites/my-sites" },
         { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
         { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
         { label: "Query Resolution", icon: Search, href: "/study/investigations" },
       ];
 
-  // Placeholder icon needed for CRA list above if not imported
-  // Adding Calendar import to top... (handled below in standard way if I could edit imports directly but I am rewriting file)
-  
   const SidebarContent = () => (
     <div className="flex flex-col h-full justify-between py-2">
       <div>
@@ -121,13 +118,9 @@ function ShellContent({ children }: { children: React.ReactNode }) {
 
         <nav className="space-y-0.5 px-2">
           {navItems.map((item) => {
-            // Simple logic to handle placeholder links for now
-            const isPlaceholder = item.href.startsWith("/sites/");
-            const linkHref = isPlaceholder ? "/" : item.href; 
-            
-            const isActive = location === linkHref;
+            const isActive = location === item.href;
             return (
-              <Link key={item.label} href={linkHref} onClick={() => setMobileOpen(false)}>
+              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}>
                 <div
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer group",
@@ -251,6 +244,3 @@ function ShellContent({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-// Add Calendar icon import to the list
-import { Calendar } from "lucide-react";
