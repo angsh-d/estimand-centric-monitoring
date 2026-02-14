@@ -117,8 +117,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
           <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-gray-200 to-gray-400 shadow-inner" />
           <div className="flex flex-col">
-            <span className="text-foreground font-medium text-xs">Dr. Sarah Chen</span>
-            <span className="text-[10px]">Medical Monitor</span>
+            <span className="text-foreground font-medium text-xs">Alex Morgan</span>
+            <span className="text-[10px]">Clinical Research Associate</span>
           </div>
           <Settings className="ml-auto h-4 w-4" />
         </div>
