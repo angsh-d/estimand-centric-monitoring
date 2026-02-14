@@ -12,45 +12,18 @@ import {
   BarChart3,
   ArrowRight,
   Target,
-  BrainCircuit
+  BrainCircuit,
+  MoreHorizontal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-// Mock Data for Overview
+// Mock Data
 const kriMetrics = [
-  {
-    id: "KRI-001",
-    label: "SAE Reporting Latency",
-    value: "2.4 days",
-    target: "< 24 hours",
-    status: "warning",
-    trend: "up"
-  },
-  {
-    id: "KRI-002",
-    label: "Protocol Deviations",
-    value: "4.2%",
-    target: "< 5%",
-    status: "good",
-    trend: "stable"
-  },
-  {
-    id: "KRI-003",
-    label: "Query Response Time",
-    value: "12 days",
-    target: "< 14 days",
-    status: "good",
-    trend: "down"
-  },
-  {
-    id: "KRI-004",
-    label: "Lost to Follow-up",
-    value: "1.8%",
-    target: "< 2%",
-    status: "warning",
-    trend: "up"
-  }
+  { id: "KRI-001", label: "SAE Reporting Latency", value: "2.4 days", target: "< 24h", status: "warning", trend: "up" },
+  { id: "KRI-002", label: "Protocol Deviations", value: "4.2%", target: "< 5%", status: "good", trend: "stable" },
+  { id: "KRI-003", label: "Query Response Time", value: "12 days", target: "< 14d", status: "good", trend: "down" },
+  { id: "KRI-004", label: "Lost to Follow-up", value: "1.8%", target: "< 2%", status: "warning", trend: "up" }
 ];
 
 export default function StudyOverview() {
@@ -65,100 +38,101 @@ export default function StudyOverview() {
         
         {/* Header */}
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Study Overview</h1>
-          <p className="text-muted-foreground text-sm max-w-2xl">
-            High-level performance metrics, estimand health surveillance, and enrollment status for PEARL (NCT03003962).
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Study Overview</h1>
+          <p className="text-slate-500 text-[13px] max-w-2xl font-normal">
+            High-level performance metrics and estimand health surveillance.
           </p>
         </div>
 
-        {/* Estimand Health Surveillance */}
-        <section className="bg-card border border-border/60 rounded-xl p-6 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+        {/* Estimand Health Surveillance - Apple Style Card */}
+        <section className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-lg font-medium flex items-center gap-2">
-                <Target className="h-5 w-5 text-primary" />
-                Estimand Health Surveillance
-              </h2>
-              <p className="text-xs text-muted-foreground mt-1">Real-time data integrity monitoring for primary and key secondary endpoints.</p>
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+                <Target className="h-4 w-4" />
+              </div>
+              <div>
+                <h2 className="text-base font-semibold text-slate-900">Estimand Health</h2>
+                <p className="text-[11px] text-slate-500">Real-time data integrity monitoring.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">Last Analysis: 15m ago</span>
-              <button className="text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors flex items-center gap-1">
-                <BrainCircuit className="h-3 w-3" />
-                AI Diagnostic
-              </button>
-            </div>
+            <button className="text-[11px] font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full hover:bg-slate-200 transition-colors flex items-center gap-1.5">
+              <BrainCircuit className="h-3 w-3" />
+              AI Diagnostic
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Primary Endpoint */}
-            <div className="border border-border/60 rounded-lg p-5 bg-white relative group hover:border-primary/40 transition-colors">
+            <div className="group rounded-xl p-5 border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-md transition-all duration-300 cursor-default">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <div className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Primary Endpoint</div>
-                  <h3 className="font-serif text-lg font-medium text-foreground">PFS (Progression Free Survival)</h3>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Primary Endpoint</div>
+                  <h3 className="text-base font-semibold text-slate-900">PFS (Progression Free Survival)</h3>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 font-bold text-sm">
+                <div className="h-9 w-9 rounded-full bg-white text-emerald-600 flex items-center justify-center border border-slate-100 font-bold text-xs shadow-sm">
                   98%
                 </div>
               </div>
               
-              <div className="space-y-3">
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Data Completeness</span>
-                  <span className="font-medium text-foreground">100%</span>
-                </div>
-                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-emerald-500 h-full w-full" />
+              <div className="space-y-4">
+                <div>
+                   <div className="flex justify-between text-[11px] mb-1.5">
+                    <span className="text-slate-500">Data Completeness</span>
+                    <span className="font-medium text-slate-900">100%</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-slate-900 h-full w-full" />
+                  </div>
                 </div>
                 
-                <div className="flex justify-between text-xs pt-1">
-                  <span className="text-muted-foreground">Event Adjudication</span>
-                  <span className="font-medium text-foreground">92%</span>
+                <div>
+                   <div className="flex justify-between text-[11px] mb-1.5">
+                    <span className="text-slate-500">Event Adjudication</span>
+                    <span className="font-medium text-slate-900">92%</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-slate-900 h-full w-[92%]" />
+                  </div>
                 </div>
-                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-emerald-500 h-full w-[92%]" />
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border/40 text-xs text-muted-foreground flex items-center gap-2">
-                <CheckCircle2 className="h-3 w-3 text-emerald-500" />
-                No critical signals impacting this estimand.
               </div>
             </div>
 
             {/* Secondary Endpoint */}
-            <div className="border border-border/60 rounded-lg p-5 bg-white relative group hover:border-amber-300/40 transition-colors">
+            <div className="group rounded-xl p-5 border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-md transition-all duration-300 cursor-default">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">Key Secondary Endpoint</div>
-                  <h3 className="font-serif text-lg font-medium text-foreground">OS (Overall Survival)</h3>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Secondary Endpoint</div>
+                  <h3 className="text-base font-semibold text-slate-900">OS (Overall Survival)</h3>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100 font-bold text-sm">
+                <div className="h-9 w-9 rounded-full bg-white text-amber-500 flex items-center justify-center border border-slate-100 font-bold text-xs shadow-sm">
                   85%
                 </div>
               </div>
               
-              <div className="space-y-3">
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">Survival Status Known</span>
-                  <span className="font-medium text-foreground">88%</span>
-                </div>
-                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-amber-500 h-full w-[88%]" />
+              <div className="space-y-4">
+                 <div>
+                   <div className="flex justify-between text-[11px] mb-1.5">
+                    <span className="text-slate-500">Survival Status Known</span>
+                    <span className="font-medium text-slate-900">88%</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-amber-500 h-full w-[88%]" />
+                  </div>
                 </div>
                 
-                <div className="flex justify-between text-xs pt-1">
-                  <span className="text-muted-foreground">Loss to Follow-up Risk</span>
-                  <span className="font-medium text-amber-600">High (12%)</span>
-                </div>
-                <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-amber-500 h-full w-[12%]" />
+                <div>
+                   <div className="flex justify-between text-[11px] mb-1.5">
+                    <span className="text-slate-500">Loss to Follow-up</span>
+                    <span className="font-medium text-amber-600">High (12%)</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-amber-500 h-full w-[12%]" />
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-border/40 text-xs text-amber-600 flex items-center gap-2 font-medium bg-amber-50/50 p-2 rounded -mx-2">
+              <div className="mt-4 pt-3 border-t border-slate-200/50 text-[10px] text-amber-600 flex items-center gap-2 font-medium">
                 <AlertTriangle className="h-3 w-3" />
                 3 Sites showing survival status latency &gt; 7 days.
               </div>
@@ -172,17 +146,14 @@ export default function StudyOverview() {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Enrollment Tracker */}
-            <section className="bg-card border border-border/60 rounded-xl p-6 shadow-sm">
+            <section className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-lg font-medium flex items-center gap-2">
-                    <Users className="h-5 w-5 text-muted-foreground" />
-                    Enrollment Forecast
-                  </h2>
-                  <p className="text-xs text-muted-foreground mt-1">Actual vs. Projected subject accrual</p>
+                  <h2 className="text-base font-semibold text-slate-900">Enrollment Forecast</h2>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Actual vs. Projected subject accrual</p>
                 </div>
-                <div className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 flex items-center gap-1">
-                  <TrendingUp className="h-3 w-3" /> On Track
+                <div className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> On Track
                 </div>
               </div>
 
@@ -191,111 +162,55 @@ export default function StudyOverview() {
                   <Skeleton height={200} width="100%" />
                 </div>
               ) : (
-                <div className="relative h-48 w-full mt-4 flex items-end gap-2 px-2 border-b border-border/40">
-                   {/* Simplified Bar Chart Simulation */}
+                <div className="relative h-48 w-full mt-4 flex items-end gap-3 px-2">
+                   {/* Clean Bars */}
                    {[20, 35, 45, 60, 75, 82, 95, 110, 125, 140, 155, 170].map((val, i) => (
-                     <div key={i} className="flex-1 flex flex-col justify-end group relative">
+                     <div key={i} className="flex-1 flex flex-col justify-end group relative cursor-pointer">
+                       {/* Projected Ghost Bar */}
                        <div 
-                         className="w-full bg-blue-100 rounded-t-sm relative transition-all group-hover:bg-blue-200"
+                         className="w-full bg-slate-100 rounded-t-sm absolute bottom-0 left-0 right-0 transition-colors group-hover:bg-slate-200"
                          style={{ height: `${(val / 200) * 100}%` }}
-                       >
-                         {/* Actuals Overlay */}
-                         {i < 8 && (
-                           <div 
-                             className="absolute bottom-0 left-0 w-full bg-primary rounded-t-sm"
-                             style={{ height: `${(val * (0.9 + Math.random() * 0.2)) / val * 100}%` }}
-                           />
-                         )}
-                       </div>
-                       <div className="text-[10px] text-muted-foreground text-center mt-2 opacity-0 group-hover:opacity-100 absolute -bottom-5 left-0 right-0">
-                         M{i+1}
+                       />
+                       {/* Actual Bar */}
+                       {i < 8 && (
+                         <div 
+                           className="w-full bg-slate-900 rounded-t-sm relative z-10"
+                           style={{ height: `${(val * (0.9 + Math.random() * 0.2)) / val * 100}%` }}
+                         />
+                       )}
+                       {/* Tooltip */}
+                       <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded whitespace-nowrap z-20">
+                         M{i+1}: {val}
                        </div>
                      </div>
                    ))}
-                   
-                   {/* Legend */}
-                   <div className="absolute top-0 right-0 p-2 bg-white/80 rounded border border-border/40 text-[10px] space-y-1">
-                     <div className="flex items-center gap-2">
-                       <div className="h-2 w-2 bg-primary rounded-sm" /> Actual
-                     </div>
-                     <div className="flex items-center gap-2">
-                       <div className="h-2 w-2 bg-blue-100 rounded-sm" /> Projected
-                     </div>
-                   </div>
                 </div>
               )}
               
-              <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-border/40">
+              <div className="grid grid-cols-3 gap-8 mt-8 pt-6 border-t border-slate-100">
                 <div>
-                   <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Randomized</div>
-                   <div className="text-2xl font-semibold">315 <span className="text-sm text-muted-foreground font-normal">/ 680</span></div>
+                   <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1 font-semibold">Randomized</div>
+                   <div className="text-2xl font-light text-slate-900">315 <span className="text-sm text-slate-400 font-normal">/ 680</span></div>
                 </div>
                 <div>
-                   <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Screen Fail Rate</div>
-                   <div className="text-2xl font-semibold text-muted-foreground">26%</div>
+                   <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1 font-semibold">Screen Fail Rate</div>
+                   <div className="text-2xl font-light text-slate-900">26%</div>
                 </div>
                 <div>
-                   <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Active Sites</div>
-                   <div className="text-2xl font-semibold text-muted-foreground">42</div>
+                   <div className="text-[10px] text-slate-400 uppercase tracking-wider mb-1 font-semibold">Active Sites</div>
+                   <div className="text-2xl font-light text-slate-900">42</div>
                 </div>
               </div>
-            </section>
-
-            {/* Quality Tolerance Limits */}
-            <section className="bg-card border border-border/60 rounded-xl p-6 shadow-sm">
-               <div className="flex items-center justify-between mb-6">
-                 <h2 className="text-lg font-medium flex items-center gap-2">
-                    <Activity className="h-5 w-5 text-muted-foreground" />
-                    Quality Tolerance Limits (QTLs)
-                 </h2>
-                 <button className="text-xs text-primary hover:underline flex items-center gap-1">
-                   View Analysis Plan <ArrowRight className="h-3 w-3" />
-                 </button>
-               </div>
-               
-               <div className="space-y-6">
-                 {loading ? (
-                   <Skeleton height={100} width="100%" />
-                 ) : (
-                   <div className="relative pt-6 pb-2">
-                     <div className="h-2 bg-secondary rounded-full w-full relative">
-                        {/* Safe Zone */}
-                        <div className="absolute left-[20%] right-[20%] top-0 bottom-0 bg-emerald-500/20 rounded-sm" />
-                        
-                        {/* Current Value Marker */}
-                        <div className="absolute left-[35%] top-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
-                           <div className="h-4 w-4 bg-primary rounded-full border-2 border-white shadow-sm mb-1 group-hover:scale-125 transition-transform" />
-                           <div className="absolute -top-8 bg-foreground text-background text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                             Current: 3.5% (p=0.04)
-                           </div>
-                        </div>
-                        
-                        <div className="absolute left-[20%] top-1/2 -translate-y-1/2 h-4 w-0.5 bg-muted-foreground/50" />
-                        <div className="absolute right-[20%] top-1/2 -translate-y-1/2 h-4 w-0.5 bg-muted-foreground/50" />
-                     </div>
-                     
-                     <div className="flex justify-between mt-6 text-xs text-muted-foreground">
-                       <span className="font-medium text-amber-600">Lower Limit: 2%</span>
-                       <span className="font-medium text-emerald-600">Target Zone</span>
-                       <span className="font-medium text-amber-600">Upper Limit: 8%</span>
-                     </div>
-                     
-                     <div className="mt-4 pt-4 border-t border-border/40 text-sm">
-                        <span className="font-semibold text-foreground">Primary QTL:</span> Proportion of patients excluded from Per-Protocol Population due to major deviations.
-                     </div>
-                   </div>
-                 )}
-               </div>
             </section>
           </div>
 
           {/* Right Column: KRIs */}
           <div className="space-y-4">
             <div className="flex items-center justify-between mb-2">
-               <h2 className="text-lg font-medium flex items-center gap-2">
-                 <BarChart3 className="h-5 w-5 text-muted-foreground" />
-                 Risk Indicators
-               </h2>
+               <h2 className="text-base font-semibold text-slate-900">Risk Indicators</h2>
+               <button className="text-slate-400 hover:text-slate-900">
+                 <MoreHorizontal className="h-4 w-4" />
+               </button>
             </div>
             
             {loading ? (
@@ -303,63 +218,36 @@ export default function StudyOverview() {
             ) : (
               kriMetrics.map((kri) => (
                 <motion.div 
-                  whileHover={{ y: -2 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   key={kri.id} 
-                  className="p-5 rounded-xl border border-border/60 bg-white shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                  className="p-5 rounded-xl border border-slate-200/60 bg-white shadow-sm hover:shadow-md transition-all cursor-pointer group"
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider w-[70%]" title={kri.label}>
+                  <div className="flex justify-between items-start mb-1">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide truncate w-[70%]" title={kri.label}>
                       {kri.label}
                     </span>
                     {kri.status === 'warning' ? (
-                      <AlertTriangle className="h-4 w-4 text-amber-500" />
+                      <div className="h-2 w-2 rounded-full bg-amber-500 ring-2 ring-amber-100" />
                     ) : (
-                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      <div className="h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-emerald-100" />
                     )}
                   </div>
-                  <div className="flex items-baseline justify-between mt-2">
-                    <span className="text-2xl font-semibold tracking-tighter text-foreground">{kri.value}</span>
+                  <div className="flex items-baseline justify-between mt-3">
+                    <span className="text-2xl font-light tracking-tight text-slate-900">{kri.value}</span>
                     <span className={cn(
-                      "text-xs font-medium px-1.5 py-0.5 rounded",
-                      kri.trend === 'up' && kri.status === 'warning' ? "bg-red-50 text-red-600" : "bg-secondary text-muted-foreground"
+                      "text-[10px] font-medium px-1.5 py-0.5 rounded",
+                      kri.trend === 'up' && kri.status === 'warning' ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-500"
                     )}>
-                      {kri.trend === 'up' ? '↗ Increasing' : '↘ Decreasing'}
+                      {kri.trend === 'up' ? '↗' : '↘'}
                     </span>
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border/40 flex items-center justify-between">
-                    <span>Target: {kri.target}</span>
-                    <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </motion.div>
               ))
             )}
-            
-            <button className="w-full py-3 border border-dashed border-border rounded-xl text-sm text-muted-foreground hover:bg-secondary/20 hover:text-foreground transition-colors flex items-center justify-center gap-2">
-               View Full Risk Dashboard <ArrowRight className="h-3 w-3" />
-            </button>
           </div>
-
         </div>
       </div>
     </AppShell>
   );
-}
-
-function ChevronRight({ className }: { className?: string }) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width="24" 
-      height="24" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      className={className}
-    >
-      <path d="m9 18 6-6-6-6"/>
-    </svg>
-  )
 }

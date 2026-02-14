@@ -2,26 +2,18 @@ import { AppShell } from "@/components/layout/app-shell";
 import { useState } from "react";
 import { 
   GitBranch, 
-  FileText, 
   CheckCircle2, 
   AlertTriangle, 
   ChevronRight, 
   ChevronDown, 
   Search, 
   Filter, 
-  UploadCloud, 
   Loader2,
   Table as TableIcon,
-  Network
+  Network,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Tabs, 
-  TabsContent, 
-  TabsList, 
-  TabsTrigger 
-} from "@/components/ui/tabs";
 
 // Mock Data for Derivation Tree
 const derivationTree = [
@@ -95,32 +87,32 @@ function TreeNode({ node, level = 0, onSelect, selectedId }: { node: any, level?
     <div className="select-none">
       <div 
         className={cn(
-          "flex items-center gap-2 py-1.5 px-2 rounded-md cursor-pointer transition-colors border border-transparent",
-          isSelected ? "bg-primary/10 border-primary/20" : "hover:bg-secondary/50",
-          level === 0 && "font-medium text-foreground",
-          level > 0 && "text-sm text-muted-foreground"
+          "flex items-center gap-2 py-1.5 px-2 rounded-lg cursor-pointer transition-all border border-transparent",
+          isSelected ? "bg-blue-50 border-blue-100" : "hover:bg-slate-50",
+          level === 0 && "font-medium text-slate-900",
+          level > 0 && "text-[13px] text-slate-600"
         )}
-        style={{ paddingLeft: `${level * 16 + 8}px` }}
+        style={{ paddingLeft: `${level * 20 + 8}px` }}
         onClick={() => onSelect(node)}
       >
         <button 
           onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
-          className={cn("p-0.5 rounded hover:bg-black/5 transition-colors", !hasChildren && "invisible")}
+          className={cn("p-0.5 rounded hover:bg-slate-200 transition-colors text-slate-400", !hasChildren && "invisible")}
         >
           {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
         </button>
         
         {/* Node Icon/Badge */}
         <div className={cn(
-          "h-2 w-2 rounded-full shrink-0",
-          node.type === 'estimand' ? "bg-primary" :
+          "h-2 w-2 rounded-full shrink-0 ring-2 ring-white",
+          node.type === 'estimand' ? "bg-slate-900" :
           node.type === 'analysis' ? "bg-blue-500" :
           node.type === 'adam' ? "bg-indigo-400" :
           node.type === 'sdtm' ? "bg-violet-400" :
           "bg-slate-300"
         )} />
         
-        <span className={cn("truncate", isSelected && "text-primary")}>{node.label}</span>
+        <span className={cn("truncate", isSelected && "text-blue-700 font-medium")}>{node.label}</span>
         
         {node.confidence === 'low' && (
           <AlertTriangle className="h-3 w-3 text-amber-500 ml-auto" />
@@ -128,7 +120,7 @@ function TreeNode({ node, level = 0, onSelect, selectedId }: { node: any, level?
       </div>
       
       {expanded && hasChildren && (
-        <div className="border-l border-border/40 ml-[calc(1rem+3px)]">
+        <div className="border-l border-slate-100 ml-[calc(1.25rem+4px)]">
           {node.children.map((child: any) => (
             <TreeNode key={child.id} node={child} level={level + 1} onSelect={onSelect} selectedId={selectedId} />
           ))}
@@ -141,40 +133,39 @@ function TreeNode({ node, level = 0, onSelect, selectedId }: { node: any, level?
 export default function CriticalData() {
   const [viewMode, setViewMode] = useState<"tree" | "table">("tree");
   const [selectedNode, setSelectedNode] = useState<any>(derivationTree[0]);
-  const [processing, setProcessing] = useState(false); // Simulate extraction state
+  const [processing, setProcessing] = useState(false);
 
   return (
     <AppShell>
-      <div className="h-[calc(100vh-140px)] flex flex-col space-y-4 pb-4">
+      <div className="h-[calc(100vh-140px)] flex flex-col space-y-6 pb-4">
         
         {/* Header with Mode Switcher */}
         <div className="flex items-center justify-between shrink-0">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground flex items-center gap-2">
-              <GitBranch className="h-6 w-6 text-muted-foreground" />
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
               Criticality Model Builder
             </h1>
-            <p className="text-muted-foreground text-xs mt-1">
-              Validating derivation chains for PEARL (NCT03003962) • Draft v0.4
+            <p className="text-slate-500 text-[13px] mt-1 font-medium">
+              Mapping Protocol → Analysis → Data Source
             </p>
           </div>
           
-          <div className="flex items-center gap-2 bg-secondary/30 p-1 rounded-lg border border-border/40">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
             <button 
               onClick={() => setViewMode("tree")}
               className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
-                viewMode === "tree" ? "bg-white shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
+                "flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-medium transition-all",
+                viewMode === "tree" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-900"
               )}
             >
               <Network className="h-3 w-3" />
-              Derivation Tree
+              Tree View
             </button>
             <button 
               onClick={() => setViewMode("table")}
               className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
-                viewMode === "table" ? "bg-white shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
+                "flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-medium transition-all",
+                viewMode === "table" ? "bg-white shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-900"
               )}
             >
               <TableIcon className="h-3 w-3" />
@@ -184,27 +175,26 @@ export default function CriticalData() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-card border border-border/60 rounded-xl shadow-sm overflow-hidden flex flex-col relative">
+        <div className="flex-1 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col relative">
           
           {processing && (
-            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-              <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
-              <p className="text-sm font-medium">Extracting insights from Protocol & SAP...</p>
-              <p className="text-xs text-muted-foreground mt-1">Mapping SDTM domains to CRF fields</p>
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-slate-900 mb-4" />
+              <p className="text-sm font-medium text-slate-900">Analyzing Protocol...</p>
             </div>
           )}
 
           {viewMode === "tree" ? (
             <div className="flex h-full">
               {/* Left Panel: Tree */}
-              <div className="w-1/3 border-r border-border/60 bg-secondary/5 flex flex-col">
-                <div className="p-3 border-b border-border/60 flex gap-2">
+              <div className="w-1/3 border-r border-slate-200 bg-slate-50/50 flex flex-col">
+                <div className="p-3 border-b border-slate-200 flex gap-2">
                   <div className="relative flex-1">
-                    <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                    <input className="w-full bg-white h-8 rounded-md border border-border/60 pl-7 pr-2 text-xs" placeholder="Search estimands or variables..." />
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <input className="w-full bg-white h-9 rounded-lg border border-slate-200 pl-8 pr-2 text-[12px] focus:ring-2 focus:ring-slate-100 outline-none placeholder:text-slate-400" placeholder="Search..." />
                   </div>
-                  <button className="p-2 bg-white border border-border/60 rounded-md text-muted-foreground hover:text-foreground">
-                    <Filter className="h-3 w-3" />
+                  <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-slate-900">
+                    <Filter className="h-4 w-4" />
                   </button>
                 </div>
                 <div className="flex-1 overflow-y-auto p-4 space-y-1">
@@ -219,43 +209,43 @@ export default function CriticalData() {
                 {selectedNode ? (
                   <>
                     {/* Node Header */}
-                    <div className="p-6 border-b border-border/40">
+                    <div className="p-8 border-b border-slate-100">
                       <div className="flex items-start justify-between">
                         <div>
-                          <div className="flex items-center gap-2 mb-2">
+                          <div className="flex items-center gap-2 mb-3">
                             <span className={cn(
-                              "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border",
-                              selectedNode.type === 'estimand' ? "bg-primary/10 text-primary border-primary/20" : "bg-secondary text-muted-foreground border-border"
+                              "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border",
+                              selectedNode.type === 'estimand' ? "bg-slate-900 text-white border-slate-900" : "bg-slate-100 text-slate-500 border-slate-200"
                             )}>
                               {selectedNode.type}
                             </span>
                             {selectedNode.confidence === 'low' && (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1">
                                 <AlertTriangle className="h-3 w-3" /> Inferred
                               </span>
                             )}
                           </div>
-                          <h2 className="text-xl font-serif text-foreground">{selectedNode.label}</h2>
+                          <h2 className="text-2xl font-semibold text-slate-900 tracking-tight">{selectedNode.label}</h2>
                         </div>
                         <div className="flex gap-2">
-                          <button className="px-3 py-1.5 text-xs font-medium bg-secondary text-muted-foreground hover:text-foreground rounded-md transition-colors">
-                            Flag for Review
+                          <button className="px-3 py-1.5 text-[11px] font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors">
+                            Flag
                           </button>
-                          <button className="px-3 py-1.5 text-xs font-medium bg-emerald-600 text-white hover:bg-emerald-700 rounded-md transition-colors flex items-center gap-1.5">
+                          <button className="px-3 py-1.5 text-[11px] font-medium bg-slate-900 text-white hover:bg-slate-800 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm">
                             <CheckCircle2 className="h-3 w-3" />
-                            Confirm
+                            Verify
                           </button>
                         </div>
                       </div>
                     </div>
 
                     {/* Node Details */}
-                    <div className="p-6 space-y-8 overflow-y-auto flex-1">
+                    <div className="p-8 space-y-8 overflow-y-auto flex-1">
                       
                       {/* Derivation Logic */}
                       <section>
-                        <h3 className="text-sm font-medium text-foreground mb-3">Derivation Logic & Context</h3>
-                        <div className="p-4 bg-secondary/10 rounded-lg border border-border/40 text-sm text-muted-foreground leading-relaxed">
+                        <h3 className="text-[13px] font-bold text-slate-900 uppercase tracking-wide mb-3">Logic & Context</h3>
+                        <div className="p-5 bg-slate-50/50 rounded-xl border border-slate-100 text-[13px] text-slate-600 leading-relaxed">
                           {selectedNode.type === 'estimand' ? (
                             <p>Derived from Protocol Section 8.1. Primary efficacy analysis based on ITT population. Censoring rules applied for new anti-cancer therapy start date.</p>
                           ) : (
@@ -266,31 +256,19 @@ export default function CriticalData() {
 
                       {/* Source Traceability */}
                       <section>
-                        <h3 className="text-sm font-medium text-foreground mb-3">Source Traceability</h3>
+                        <h3 className="text-[13px] font-bold text-slate-900 uppercase tracking-wide mb-3">Traceability</h3>
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 border border-border/60 rounded-lg bg-card">
-                            <div className="flex items-center gap-3">
-                              <div className="h-8 w-8 bg-blue-50 text-blue-600 rounded flex items-center justify-center border border-blue-100">
-                                <FileText className="h-4 w-4" />
+                          <div className="flex items-center justify-between p-4 border border-slate-200 rounded-xl bg-white hover:border-slate-300 transition-colors group cursor-pointer shadow-sm">
+                            <div className="flex items-center gap-4">
+                              <div className="h-10 w-10 bg-slate-50 text-slate-500 rounded-lg flex items-center justify-center border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors">
+                                <FileText className="h-5 w-5" />
                               </div>
                               <div>
-                                <div className="text-xs font-medium">Protocol V4.0</div>
-                                <div className="text-[10px] text-muted-foreground">Page 42, Section 8.1</div>
+                                <div className="text-[13px] font-semibold text-slate-900">Protocol V4.0</div>
+                                <div className="text-[11px] text-slate-500 font-medium">Page 42, Section 8.1</div>
                               </div>
                             </div>
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                          </div>
-                          <div className="flex items-center justify-between p-3 border border-border/60 rounded-lg bg-card">
-                            <div className="flex items-center gap-3">
-                              <div className="h-8 w-8 bg-indigo-50 text-indigo-600 rounded flex items-center justify-center border border-indigo-100">
-                                <FileText className="h-4 w-4" />
-                              </div>
-                              <div>
-                                <div className="text-xs font-medium">Statistical Analysis Plan v1.2</div>
-                                <div className="text-[10px] text-muted-foreground">Page 18, Table 3</div>
-                              </div>
-                            </div>
-                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                            <ChevronRight className="h-4 w-4 text-slate-300 group-hover:text-slate-500" />
                           </div>
                         </div>
                       </section>
@@ -298,34 +276,31 @@ export default function CriticalData() {
                       {/* Tier Classification Editor (only for leaf nodes) */}
                       {selectedNode.type === 'crf' && (
                         <section>
-                          <h3 className="text-sm font-medium text-foreground mb-3">Criticality Tier</h3>
+                          <h3 className="text-[13px] font-bold text-slate-900 uppercase tracking-wide mb-3">Criticality Tier</h3>
                           <div className="flex gap-4">
                             {['1', '2', '3'].map(tier => (
                               <button
                                 key={tier}
                                 className={cn(
-                                  "flex-1 py-3 border rounded-lg text-sm font-medium transition-all",
+                                  "flex-1 py-3 border rounded-xl text-[13px] font-medium transition-all",
                                   selectedNode.tier === tier 
-                                    ? "border-primary bg-primary/5 text-primary ring-1 ring-primary/20" 
-                                    : "border-border/60 hover:bg-secondary/20 text-muted-foreground"
+                                    ? "border-slate-900 bg-slate-900 text-white shadow-md" 
+                                    : "border-slate-200 hover:bg-slate-50 text-slate-500"
                                 )}
                               >
                                 Tier {tier}
                               </button>
                             ))}
                           </div>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Tier 1: Critical for primary/key secondary analysis. Requires 100% SDV.
-                          </p>
                         </section>
                       )}
 
                     </div>
                   </>
                 ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
+                  <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
                     <GitBranch className="h-12 w-12 mb-4 opacity-20" />
-                    <p>Select a node from the derivation tree to view details</p>
+                    <p className="text-sm font-medium">Select a node to view details</p>
                   </div>
                 )}
               </div>
@@ -333,57 +308,54 @@ export default function CriticalData() {
           ) : (
             // Table View
             <div className="flex flex-col h-full bg-white">
-              <div className="p-4 border-b border-border/60 flex items-center justify-between">
+              <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                  <div className="flex items-center gap-2">
-                   <Filter className="h-4 w-4 text-muted-foreground" />
-                   <span className="text-xs font-medium text-muted-foreground">Filtering by: All Fields</span>
+                   <Filter className="h-3.5 w-3.5 text-slate-400" />
+                   <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Filtering: All Fields</span>
                  </div>
                  <div className="flex gap-2">
-                   <button className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-secondary">
-                     Bulk Edit
-                   </button>
-                   <button className="px-3 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90">
+                   <button className="px-3 py-1.5 text-[11px] font-medium bg-white border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600 shadow-sm">
                      Export CSV
                    </button>
                  </div>
               </div>
               
               <div className="flex-1 overflow-auto">
-                <table className="w-full text-sm text-left">
-                  <thead className="bg-secondary/30 text-xs text-muted-foreground uppercase tracking-wider sticky top-0 z-10">
+                <table className="w-full text-[13px] text-left">
+                  <thead className="bg-white text-slate-500 font-medium sticky top-0 z-10 border-b border-slate-200">
                     <tr>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">Form</th>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">Field</th>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">SDTM Mapping</th>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">Tier</th>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">Estimand</th>
-                      <th className="px-6 py-3 font-medium border-b border-border/60">Status</th>
+                      <th className="px-6 py-3 font-semibold">Form</th>
+                      <th className="px-6 py-3 font-semibold">Field</th>
+                      <th className="px-6 py-3 font-semibold">SDTM Mapping</th>
+                      <th className="px-6 py-3 font-semibold text-center">Tier</th>
+                      <th className="px-6 py-3 font-semibold">Estimand</th>
+                      <th className="px-6 py-3 font-semibold">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border/40">
+                  <tbody className="divide-y divide-slate-100">
                     {crfFields.map((field, i) => (
-                      <tr key={i} className="hover:bg-secondary/10 transition-colors">
-                        <td className="px-6 py-3 text-foreground">{field.form}</td>
-                        <td className="px-6 py-3 text-foreground font-medium">{field.field}</td>
-                        <td className="px-6 py-3 font-mono text-xs text-muted-foreground">{field.sdtm}</td>
-                        <td className="px-6 py-3">
+                      <tr key={i} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="px-6 py-3 text-slate-900 font-medium">{field.form}</td>
+                        <td className="px-6 py-3 text-slate-600">{field.field}</td>
+                        <td className="px-6 py-3 font-mono text-[11px] text-slate-400">{field.sdtm}</td>
+                        <td className="px-6 py-3 text-center">
                           <span className={cn(
-                            "inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold",
-                            field.tier === '1' ? "bg-primary text-primary-foreground" : 
-                            field.tier === '2' ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"
+                            "inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold border",
+                            field.tier === '1' ? "bg-slate-900 text-white border-slate-900" : 
+                            field.tier === '2' ? "bg-white text-slate-600 border-slate-200" : "bg-slate-50 text-slate-400 border-slate-100"
                           )}>
                             {field.tier}
                           </span>
                         </td>
-                        <td className="px-6 py-3 text-muted-foreground">{field.estimand}</td>
+                        <td className="px-6 py-3 text-slate-500">{field.estimand}</td>
                         <td className="px-6 py-3">
                           {field.status === 'Flagged' ? (
-                            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
-                              <AlertTriangle className="h-3 w-3" /> Flagged
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 uppercase tracking-wide">
+                              <AlertTriangle className="h-3 w-3" /> Review
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                              <CheckCircle2 className="h-3 w-3" /> Confirmed
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-wide">
+                              <CheckCircle2 className="h-3 w-3" /> Valid
                             </span>
                           )}
                         </td>
