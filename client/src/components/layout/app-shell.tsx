@@ -118,7 +118,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex flex-col">
             <span className="text-slate-900 font-medium text-xs">Alex Morgan</span>
-            <span className="text-[10px] text-slate-500">Clinical Research Associate</span>
+            <span className="text-[10px] text-slate-500">Lead Central Monitor</span>
           </div>
         </div>
       </div>
