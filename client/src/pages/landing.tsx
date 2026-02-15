@@ -105,21 +105,24 @@ export default function Landing() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <h1 className="text-[56px] leading-[1.05] font-semibold tracking-tight text-[#1d1d1f] mb-4">
-              Intelligent AI Agents
+              Estimand-Centric Monitoring
             </h1>
             <p className="text-[24px] leading-normal text-[#6e6e73] font-normal mb-8 max-w-2xl mx-auto">
-              Across the Clinical Trial Lifecycle
+              Monitor What Matters.
             </p>
             <p className="text-[17px] leading-relaxed text-[#424245] font-normal max-w-xl mx-auto mb-10">
-              Agentic AI that reasons, plans, acts autonomously, and adapts to optimize clinical research from protocol design through regulatory submission.
+              Transform clinical oversight from reactive signal counting to proactive health assessment of your study's primary objectives.
             </p>
             
             <div className="flex items-center justify-center gap-4">
-              <button className="h-10 px-6 rounded-full bg-[#1d1d1f] text-white text-[13px] font-medium hover:bg-[#333336] transition-colors shadow-sm">
-                Explore Agents
+              <button 
+                onClick={() => setLocation("/study/dashboard")}
+                className="h-10 px-6 rounded-full bg-[#1d1d1f] text-white text-[13px] font-medium hover:bg-[#333336] transition-colors shadow-sm"
+              >
+                View Dashboard
               </button>
               <button className="h-10 px-6 rounded-full bg-white border border-[#d2d2d7] text-[#1d1d1f] text-[13px] font-medium hover:border-[#86868b] transition-colors">
-                Launch Protocol Agent
+                Learn Methodology
               </button>
             </div>
           </motion.div>
