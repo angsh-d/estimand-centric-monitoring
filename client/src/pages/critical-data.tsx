@@ -18,11 +18,142 @@ import {
   MoreHorizontal,
   Search,
   Filter,
-  Check
+  Check,
+  FileCheck,
+  ChevronDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+
+// --- Mock Data from Reference ---
+
+const SOA = {
+  id: "XYZ-301",
+  title: "Phase III, Randomized, Double-Blind, Placebo-Controlled Study of Drug X in MDD",
+  visits: [
+    { id: "V1", label: "Screening", week: -2, win: "Day -14 to -1" },
+    { id: "V2", label: "Baseline", week: 0, win: "Day 1" },
+    { id: "V3", label: "Week 1", week: 1, win: "±2d" },
+    { id: "V4", label: "Week 2", week: 2, win: "±3d" },
+    { id: "V5", label: "Week 4", week: 4, win: "±3d" },
+    { id: "V6", label: "Week 6", week: 6, win: "±3d" },
+    { id: "V7", label: "Week 8", week: 8, win: "±3d", primary: true },
+    { id: "V8", label: "Follow-up", week: 10, win: "±5d" },
+  ],
+  rows: [
+    { name: "Informed Consent", v: [1,0,0,0,0,0,0,0] },
+    { name: "Inclusion/Exclusion", v: [1,0,0,0,0,0,0,0] },
+    { name: "Demographics", v: [1,0,0,0,0,0,0,0] },
+    { name: "Medical History", v: [1,0,0,0,0,0,0,0] },
+    { name: "MADRS", v: [1,1,1,1,1,1,1,0], highlight: true },
+    { name: "CGI-S / CGI-I", v: [1,1,0,1,1,1,1,0] },
+    { name: "Vital Signs", v: [1,1,1,1,1,1,1,1] },
+    { name: "Laboratory Panel", v: [1,1,0,0,1,0,1,1] },
+    { name: "12-Lead ECG", v: [1,1,0,0,0,0,1,0] },
+    { name: "Adverse Events", v: [0,1,1,1,1,1,1,1] },
+    { name: "Concomitant Meds", v: [1,1,1,1,1,1,1,1] },
+    { name: "Study Drug Dispensing", v: [0,1,0,1,1,1,0,0] },
+    { name: "Drug Accountability", v: [0,0,1,1,1,1,1,0] },
+    { name: "Disposition", v: [0,0,0,0,0,0,0,1] },
+  ],
+};
+
+const ACRF = [
+  { dom: "DM", label: "Demographics", std: "CDASH DM v2.2", fields: [
+    { var: "SUBJID", lbl: "Subject Identifier", type: "Char", cdash: "SUBJID", ct: null },
+    { var: "BRTHDTC", lbl: "Date of Birth", type: "Date", cdash: "BRTHDTC", ct: null },
+    { var: "SEX", lbl: "Sex", type: "Char", cdash: "SEX", ct: "M, F" },
+    { var: "RACE", lbl: "Race", type: "Char", cdash: "RACE", ct: "CDISC Race CT" },
+    { var: "ETHNIC", lbl: "Ethnicity", type: "Char", cdash: "ETHNIC", ct: "CDISC Ethnicity CT" },
+  ]},
+  { dom: "IE", label: "Inclusion/Exclusion", std: "CDASH IE v2.2", fields: [
+    { var: "IETEST", lbl: "I/E Criterion", type: "Char", cdash: "IETEST", ct: null },
+    { var: "IEORRES", lbl: "I/E Result", type: "Char", cdash: "IEORRES", ct: "Y, N" },
+    { var: "IEDTC", lbl: "Date Assessed", type: "Date", cdash: "IEDTC", ct: null },
+  ]},
+  { dom: "QS", label: "Questionnaires — MADRS", std: "CDASH QS v2.2", note: "10 items per assessment (Q1 Apparent Sadness → Q10 Suicidal Thoughts). Total score derived.", fields: [
+    { var: "QSCAT", lbl: "Category", type: "Char", cdash: "QSCAT", ct: "MADRS" },
+    { var: "QSTEST", lbl: "MADRS Item", type: "Char", cdash: "QSTEST", ct: "MADRS item CT" },
+    { var: "QSORRES", lbl: "Item Score (0–6)", type: "Num", cdash: "QSORRES", ct: "0,1,2,3,4,5,6" },
+    { var: "QSDTC", lbl: "Assessment Date", type: "Date", cdash: "QSDTC", ct: null },
+    { var: "VISITNUM", lbl: "Visit Number", type: "Num", cdash: "VISITNUM", ct: null },
+    { var: "QSEVAL", lbl: "Evaluator", type: "Char", cdash: "QSEVAL", ct: "CLINICIAN" },
+  ]},
+  { dom: "QS-CGI", label: "Questionnaires — CGI", std: "CDASH QS v2.2", fields: [
+    { var: "QSTEST", lbl: "CGI Assessment", type: "Char", cdash: "QSTEST", ct: "CGI-S, CGI-I" },
+    { var: "QSORRES", lbl: "Score (1–7)", type: "Num", cdash: "QSORRES", ct: "1–7" },
+    { var: "QSDTC", lbl: "Assessment Date", type: "Date", cdash: "QSDTC", ct: null },
+  ]},
+  { dom: "VS", label: "Vital Signs", std: "CDASH VS v2.2", fields: [
+    { var: "VSTEST", lbl: "Test Name", type: "Char", cdash: "VSTEST", ct: "SYSBP, DIABP, HR, TEMP, WEIGHT" },
+    { var: "VSORRES", lbl: "Result", type: "Num", cdash: "VSORRES", ct: null },
+    { var: "VSORRESU", lbl: "Unit", type: "Char", cdash: "VSORRESU", ct: "CDISC Unit CT" },
+    { var: "VSDTC", lbl: "Date", type: "Date", cdash: "VSDTC", ct: null },
+  ]},
+  { dom: "LB", label: "Laboratory", std: "CDASH LB v2.2", fields: [
+    { var: "LBTEST", lbl: "Lab Test", type: "Char", cdash: "LBTEST", ct: "CDISC Lab CT" },
+    { var: "LBORRES", lbl: "Result", type: "Char", cdash: "LBORRES", ct: null },
+    { var: "LBORNRLO", lbl: "Normal Low", type: "Num", cdash: "LBORNRLO", ct: null },
+    { var: "LBORNRHI", lbl: "Normal High", type: "Num", cdash: "LBORNRHI", ct: null },
+    { var: "LBDTC", lbl: "Collection Date", type: "Date", cdash: "LBDTC", ct: null },
+  ]},
+  { dom: "EG", label: "ECG", std: "CDASH EG v2.2", fields: [
+    { var: "EGTEST", lbl: "ECG Test", type: "Char", cdash: "EGTEST", ct: "CDISC ECG CT" },
+    { var: "EGORRES", lbl: "Result", type: "Char", cdash: "EGORRES", ct: null },
+    { var: "EGDTC", lbl: "Date", type: "Date", cdash: "EGDTC", ct: null },
+  ]},
+  { dom: "AE", label: "Adverse Events", std: "CDASH AE v2.2", fields: [
+    { var: "AETERM", lbl: "AE Term (verbatim)", type: "Char", cdash: "AETERM", ct: null },
+    { var: "AESTDTC", lbl: "Start Date", type: "Date", cdash: "AESTDTC", ct: null },
+    { var: "AEENDTC", lbl: "End Date", type: "Date", cdash: "AEENDTC", ct: null },
+    { var: "AESER", lbl: "Serious?", type: "Char", cdash: "AESER", ct: "Y, N" },
+    { var: "AEREL", lbl: "Causality", type: "Char", cdash: "AEREL", ct: "CDISC Causality CT" },
+    { var: "AEACN", lbl: "Action Taken", type: "Char", cdash: "AEACN", ct: "CDISC Action CT" },
+    { var: "AEOUT", lbl: "Outcome", type: "Char", cdash: "AEOUT", ct: "CDISC Outcome CT" },
+  ]},
+  { dom: "CM", label: "Concomitant Meds", std: "CDASH CM v2.2", fields: [
+    { var: "CMTRT", lbl: "Medication Name", type: "Char", cdash: "CMTRT", ct: null },
+    { var: "CMSTDTC", lbl: "Start Date", type: "Date", cdash: "CMSTDTC", ct: null },
+    { var: "CMENDTC", lbl: "End Date", type: "Date", cdash: "CMENDTC", ct: null },
+    { var: "CMINDC", lbl: "Indication", type: "Char", cdash: "CMINDC", ct: null },
+  ]},
+  { dom: "EX", label: "Exposure", std: "CDASH EX v2.2", fields: [
+    { var: "EXTRT", lbl: "Treatment", type: "Char", cdash: "EXTRT", ct: null },
+    { var: "EXDOSE", lbl: "Dose", type: "Num", cdash: "EXDOSE", ct: null },
+    { var: "EXSTDTC", lbl: "Start Date", type: "Date", cdash: "EXSTDTC", ct: null },
+    { var: "EXENDTC", lbl: "End Date", type: "Date", cdash: "EXENDTC", ct: null },
+  ]},
+  { dom: "DS", label: "Disposition", std: "CDASH DS v2.2", fields: [
+    { var: "DSSCAT", lbl: "Subcategory", type: "Char", cdash: "DSSCAT", ct: "COMPLETED, EARLY TERM" },
+    { var: "DSTERM", lbl: "Reason", type: "Char", cdash: "DSTERM", ct: null },
+    { var: "DSDTC", lbl: "Date", type: "Date", cdash: "DSDTC", ct: null },
+  ]},
+];
+
+const DMAP_INIT = [
+  { dom: "QS", field: "QSORRES (MADRS Q1–Q10)", sap: "AVAL = Σ(Q1..Q10)", deriv: "MADRS total = sum of 10 items", link: "Direct component of primary endpoint", tier: "1" },
+  { dom: "QS", field: "QSORRES (MADRS, Visit 2)", sap: "BASE = AVAL at Visit 2", deriv: "Baseline MADRS total score", link: "Baseline for CHG computation", tier: "1" },
+  { dom: "QS", field: "QSDTC (Visit 7 / Week 8)", sap: "ADT", deriv: "Assessment date at primary timepoint", link: "Window compliance — primary", tier: "1" },
+  { dom: "QS", field: "VISITNUM", sap: "AVISIT / AVISITN", deriv: "Visit mapping for MMRM model", link: "Repeated measures structure", tier: "1" },
+  { dom: "CM", field: "CMTRT (rescue medications)", sap: "CRIT1FL (rescue flag)", deriv: "If rescue → composite failure", link: "Intercurrent event — changes endpoint", tier: "1" },
+  { dom: "EX", field: "EXSTDTC, EXENDTC", sap: "TRTSDT, TRTEDT", deriv: "Treatment start/end dates", link: "mITT definition (≥1 dose)", tier: "1" },
+  { dom: "DM", field: "SUBJID, RFSTDTC", sap: "USUBJID, RFSTDTC", deriv: "Subject ID and reference start", link: "Population and windowing anchor", tier: "1" },
+  { dom: "DS", field: "DSSCAT, DSDTC", sap: "EOSSTT, EOSDT", deriv: "Discontinuation flag + date", link: "Intercurrent event — treatment policy", tier: "2" },
+  { dom: "QS", field: "QSORRES (MADRS, Visits 3–6)", sap: "AVAL at intermediate visits", deriv: "Intermediate MADRS scores", link: "MMRM — repeated measures", tier: "2" },
+  { dom: "IE", field: "IEORRES", sap: "RANDFL", deriv: "I/E met → randomized", link: "Eligibility verification", tier: "2" },
+  { dom: "QS-CGI", field: "QSORRES (CGI-S, CGI-I)", sap: "CGI analysis variables", deriv: "Key secondary endpoint", link: "Secondary analysis", tier: "2" },
+  { dom: "AE", field: "AETERM, AESER, AEREL", sap: "Safety analysis variables", deriv: "AE characterization", link: "Safety — not primary estimand", tier: "3" },
+  { dom: "DM", field: "SEX, RACE, AGE", sap: "Covariates in MMRM", deriv: "Stratification factors", link: "Model covariates — not derivation-critical", tier: "3" },
+  { dom: "VS", field: "VSORRES (all)", sap: "Safety VS analysis", deriv: "Vital sign monitoring", link: "Safety analysis only", tier: "3" },
+  { dom: "LB", field: "LBORRES (all)", sap: "Safety LB analysis", deriv: "Lab shift / toxicity grading", link: "Safety analysis only", tier: "3" },
+  { dom: "EG", field: "EGORRES (all)", sap: "Safety ECG analysis", deriv: "QTc analysis", link: "Safety analysis only", tier: "3" },
+];
+
+const ESTS = [
+  { id: "E1", label: "Primary Estimand", var: "Change from baseline in MADRS total score at Week 8", pop: "mITT (≥1 dose)", trt: "Drug X 200mg vs Placebo", ic: [{ ev: "Treatment discontinuation", st: "Treatment policy" }, { ev: "Rescue medication use", st: "Composite (failure)" }], sum: "Difference in means of change from baseline MADRS at Week 8, regardless of discontinuation, rescue = failure.", conf: 0.96 },
+  { id: "E2", label: "Key Secondary", var: "MADRS response (≥50% reduction) at Week 8", pop: "mITT", trt: "Drug X 200mg vs Placebo", ic: [{ ev: "Treatment discontinuation", st: "Treatment policy" }], sum: "Proportion achieving ≥50% MADRS reduction at Week 8.", conf: 0.91 },
+];
 
 // --- Types ---
 type WizardStep = 
@@ -38,74 +169,7 @@ type WizardStep =
   | "review-criticality" 
   | "complete";
 
-// --- Mock Data ---
-
-const soaData = [
-  { assessment: "Informed Consent", visits: ["X", "", "", "", "", "", "", ""] },
-  { assessment: "Demographics", visits: ["X", "", "", "", "", "", "", ""] },
-  { assessment: "Medical History", visits: ["X", "", "", "", "", "", "", ""] },
-  { assessment: "Vital Signs", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-  { assessment: "ECOG Performance Status", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-  { assessment: "MADRS (Depression Scale)", visits: ["X", "X", "X", "X", "X", "X", "X", "X"], highlight: true },
-  { assessment: "CGI-S", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-  { assessment: "Hematology/Chemistry", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-  { assessment: "Urinalysis", visits: ["X", "", "", "X", "", "", "X", ""] },
-  { assessment: "pk Sampling", visits: ["", "X", "", "X", "", "X", "", ""] },
-  { assessment: "Concomitant Meds", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-  { assessment: "Adverse Events", visits: ["X", "X", "X", "X", "X", "X", "X", "X"] },
-];
-
-const visitLabels = ["Screening", "Baseline", "Week 1", "Week 2", "Week 4", "Week 6", "Week 8", "EOT"];
-
-const cdashDomains = [
-  { id: "DM", label: "Demographics", vars: 12 },
-  { id: "IE", label: "Inclusion/Exclusion", vars: 8 },
-  { id: "QS-MADRS", label: "MADRS Questionnaire", vars: 15, note: "Includes 10 items + Total" },
-  { id: "QS-CGI", label: "CGI Scale", vars: 4 },
-  { id: "VS", label: "Vital Signs", vars: 9 },
-  { id: "LB", label: "Laboratory", vars: 22 },
-  { id: "EG", label: "ECG", vars: 14 },
-  { id: "AE", label: "Adverse Events", vars: 18 },
-  { id: "CM", label: "Concomitant Meds", vars: 16 },
-  { id: "EX", label: "Exposure", vars: 10 },
-  { id: "DS", label: "Disposition", vars: 6 },
-];
-
-const estimands = [
-  {
-    id: "EST-001",
-    label: "Primary: Change from Baseline in MADRS at Week 8",
-    population: "ITT (Intent-to-Treat)",
-    variable: "MADRS Total Score",
-    intercurrent: [
-      { event: "Rescue Medication", strategy: "Composite" },
-      { event: "Discontinuation due to AE", strategy: "Treatment Policy" }
-    ]
-  },
-  {
-    id: "EST-002",
-    label: "Secondary: CGI-S Response Rate",
-    population: "Per Protocol",
-    variable: "CGI-S Score <= 2",
-    intercurrent: [
-      { event: "Protocol Deviation", strategy: "Exclude" }
-    ]
-  }
-];
-
-const derivationMap = [
-  { domain: "QS", field: "QSORRES (MADRS Item 1)", sap: "MADRS.ITEM1", derivation: "Direct Map", estimand: "Pri: MADRS Change", tier: "1" },
-  { domain: "QS", field: "QSORRES (MADRS Item 2)", sap: "MADRS.ITEM2", derivation: "Direct Map", estimand: "Pri: MADRS Change", tier: "1" },
-  { domain: "QS", field: "QSTESTCD='MADRS_TOT'", sap: "AVAL", derivation: "Sum(Item 1..10)", estimand: "Pri: MADRS Change", tier: "1" },
-  { domain: "CM", field: "CMTRT", sap: "RESCUE_MED", derivation: "Lookup(Whodrug)", estimand: "Pri: Rescue (ICE)", tier: "1" },
-  { domain: "DS", field: "DSDECOD", sap: "EOS_REASON", derivation: "Direct Map", estimand: "Pri: Discon (ICE)", tier: "1" },
-  { domain: "VS", field: "VSORRES (Weight)", sap: "VS.WGT", derivation: "Direct Map", estimand: "Safety", tier: "2" },
-  { domain: "LB", field: "LBORRES (ALT)", sap: "LB.ALT", derivation: "Direct Map", estimand: "Safety", tier: "2" },
-  { domain: "AE", field: "AETERM", sap: "AE.TERM", derivation: "Direct Map", estimand: "Safety", tier: "2" },
-  { domain: "MH", field: "MHTERM", sap: "MH.TERM", derivation: "Direct Map", estimand: "None", tier: "3" },
-];
-
-// --- Components ---
+// --- Helper Components ---
 
 const ProcessingScreen = ({ title, steps, onComplete }: { title: string, steps: string[], onComplete: () => void }) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -114,10 +178,10 @@ const ProcessingScreen = ({ title, steps, onComplete }: { title: string, steps: 
     if (currentStep < steps.length) {
       const timer = setTimeout(() => {
         setCurrentStep(prev => prev + 1);
-      }, 800);
+      }, 1200); // Slower for effect
       return () => clearTimeout(timer);
     } else {
-      const timer = setTimeout(onComplete, 500);
+      const timer = setTimeout(onComplete, 800);
       return () => clearTimeout(timer);
     }
   }, [currentStep, steps.length, onComplete]);
@@ -130,23 +194,22 @@ const ProcessingScreen = ({ title, steps, onComplete }: { title: string, steps: 
           <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
         </div>
       </div>
-      <h2 className="text-lg font-semibold text-slate-900 mb-6">{title}</h2>
-      <div className="w-full space-y-3">
+      <h2 className="text-xl font-bold text-slate-900 mb-8 tracking-tight">{title}</h2>
+      <div className="w-full space-y-4">
         {steps.map((step, idx) => (
-          <div key={idx} className="flex items-center gap-3 text-sm">
+          <div key={idx} className="flex items-center gap-4 text-sm transition-all duration-500">
             <div className={cn(
-              "h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors",
+              "h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all duration-500 shrink-0",
               idx < currentStep ? "bg-emerald-500 border-emerald-500 text-white" :
-              idx === currentStep ? "border-blue-500 text-blue-600 animate-pulse" :
+              idx === currentStep ? "border-blue-500 text-blue-600 ring-4 ring-blue-50" :
               "border-slate-200 text-slate-300"
             )}>
-              {idx < currentStep && <Check className="h-3 w-3" />}
-              {idx === currentStep && <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />}
+              {idx < currentStep ? <Check className="h-3.5 w-3.5" /> : idx === currentStep ? <div className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" /> : null}
             </div>
             <span className={cn(
-              "transition-colors font-medium",
+              "transition-all duration-500 font-medium text-left",
               idx < currentStep ? "text-slate-900" :
-              idx === currentStep ? "text-blue-700" :
+              idx === currentStep ? "text-blue-700 scale-105 origin-left" :
               "text-slate-400"
             )}>
               {step}
@@ -158,25 +221,44 @@ const ProcessingScreen = ({ title, steps, onComplete }: { title: string, steps: 
   );
 };
 
-const UploadCard = ({ title, desc, onUpload }: { title: string, desc: string, onUpload: () => void }) => (
+const UploadCard = ({ title, desc, icon: Icon, onUpload }: { title: string, desc: string, icon: any, onUpload: () => void }) => (
   <div 
     onClick={onUpload}
-    className="border-2 border-dashed border-slate-200 rounded-2xl p-10 flex flex-col items-center justify-center text-center hover:bg-slate-50 hover:border-blue-400 transition-all cursor-pointer group h-[400px]"
+    className="border-2 border-dashed border-slate-200 rounded-3xl p-12 flex flex-col items-center justify-center text-center hover:bg-slate-50/80 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer group h-[420px] max-w-xl mx-auto bg-white"
   >
-    <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-      <UploadCloud className="h-8 w-8" />
+    <div className="h-20 w-20 bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm border border-blue-100">
+      <Icon className="h-10 w-10 stroke-[1.5]" />
     </div>
-    <h3 className="text-lg font-semibold text-slate-900 mb-2">{title}</h3>
-    <p className="text-sm text-slate-500 max-w-xs leading-relaxed">{desc}</p>
-    <Button variant="outline" className="mt-6 pointer-events-none">
+    <h3 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">{title}</h3>
+    <p className="text-base text-slate-500 max-w-sm leading-relaxed mb-8">{desc}</p>
+    <Button size="lg" className="pointer-events-none bg-slate-900 text-white shadow-md">
       Select Document
     </Button>
   </div>
 );
 
+const Header = ({ step, total, title, desc, onNext, nextLabel, onBack }: any) => (
+  <div className="flex justify-between items-start mb-8 shrink-0">
+    <div>
+      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+        {onBack && <button onClick={onBack} className="hover:text-slate-900 transition-colors"><ChevronRight className="h-3 w-3 rotate-180" /></button>}
+        Step {step} of {total}
+      </div>
+      <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{title}</h2>
+      <p className="text-sm text-slate-500 mt-1">{desc}</p>
+    </div>
+    <Button onClick={onNext} className="gap-2 bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition-all hover:scale-105 active:scale-95">
+      {nextLabel || "Continue"} <ArrowRight className="h-4 w-4" />
+    </Button>
+  </div>
+);
+
+// --- Main Wizard Component ---
+
 export default function CriticalData() {
   const [step, setStep] = useState<WizardStep>("upload-protocol");
-  const [derivationData, setDerivationData] = useState(derivationMap);
+  const [derivationData, setDerivationData] = useState(DMAP_INIT);
+  const [selectedDomain, setSelectedDomain] = useState("QS");
 
   const toggleTier = (idx: number) => {
     const newData = [...derivationData];
@@ -188,72 +270,69 @@ export default function CriticalData() {
 
   return (
     <div className="h-[calc(100vh-140px)] flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between shrink-0 mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
-            Criticality Model Builder
-          </h1>
-          <div className="flex items-center gap-2 text-[13px] text-slate-500 mt-1 font-medium">
-            <span>Protocol</span>
+      {/* Top Breadcrumb */}
+      {step !== "upload-protocol" && step !== "complete" && (
+        <div className="flex items-center justify-between shrink-0 mb-6 px-1">
+          <div className="flex items-center gap-2 text-[13px] text-slate-500 font-medium">
+            <span className={cn(step.includes("protocol") || step.includes("soa") || step.includes("acrf") ? "text-slate-900" : "")}>Protocol</span>
             <ChevronRight className="h-3 w-3" />
-            <span>Analysis</span>
+            <span className={cn(step.includes("sap") || step.includes("estimand") ? "text-slate-900" : "")}>Analysis</span>
             <ChevronRight className="h-3 w-3" />
-            <span>Data Source</span>
+            <span className={cn(step.includes("derivation") || step.includes("criticality") ? "text-slate-900" : "")}>Data Source</span>
+          </div>
+          
+          <div className="flex items-center gap-1.5">
+            {[1, 2, 3, 4, 5, 6].map(i => {
+              let active = false;
+              if (step === "review-soa" && i <= 1) active = true;
+              if (step === "review-acrf" && i <= 2) active = true;
+              if (step === "review-estimand" && i <= 3) active = true;
+              if (step === "review-derivation" && i <= 4) active = true;
+              if (step === "review-criticality" && i <= 5) active = true;
+              if (step === "complete" && i <= 6) active = true;
+              return (
+                <div key={i} className={cn("h-1.5 w-8 rounded-full transition-all duration-500", active ? "bg-slate-900" : "bg-slate-200")} />
+              )
+            })}
           </div>
         </div>
-        
-        {step !== "upload-protocol" && step !== "complete" && (
-          <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg p-1.5 shadow-sm">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-2">Progress</span>
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5, 6].map(i => (
-                <div key={i} className={cn(
-                  "h-1.5 w-6 rounded-full transition-colors",
-                  // Very rough mapping of steps to progress bars for visual flair
-                  (step === "review-soa" && i <= 1) || 
-                  (step === "review-acrf" && i <= 2) ||
-                  (step === "review-estimand" && i <= 3) ||
-                  (step === "review-derivation" && i <= 4) ||
-                  (step === "review-criticality" && i <= 5) ||
-                  (step === "complete" && i <= 6)
-                    ? "bg-blue-600" 
-                    : "bg-slate-100"
-                )} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      )}
 
-      {/* Main Content Area */}
-      <div className="flex-1 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden relative flex flex-col">
-        <div className="flex-1 overflow-y-auto p-6 md:p-8">
+      {/* Main Card */}
+      <div className="flex-1 bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden relative flex flex-col">
+        <div className="flex-1 overflow-y-auto p-8 scroll-smooth">
           <AnimatePresence mode="wait">
             
+            {/* STEP 0: Upload Protocol */}
             {step === "upload-protocol" && (
               <motion.div 
                 key="upload-proto"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="h-full flex flex-col items-center justify-center"
+                className="h-full flex flex-col items-center justify-center bg-slate-50/30"
               >
+                <div className="text-center mb-8">
+                  <h1 className="text-3xl font-bold text-slate-900 tracking-tight mb-2">Criticality Model Builder</h1>
+                  <p className="text-slate-500 text-sm">Automated protocol digitization and risk-based quality management</p>
+                </div>
                 <UploadCard 
                   title="Upload Protocol" 
+                  icon={FileText}
                   desc="Upload the clinical protocol (PDF/Word). The system will extract the SOA and generate a CDASH-annotated CRF." 
                   onUpload={() => setStep("processing-soa")} 
                 />
               </motion.div>
             )}
 
+            {/* STEP 1: Process Protocol */}
             {step === "processing-soa" && (
-              <motion.div key="proc-soa" className="h-full">
+              <motion.div key="proc-soa" className="h-full flex items-center justify-center">
                 <ProcessingScreen 
-                  title="Analyzing Protocol Structure"
+                  title="Digitizing Protocol"
                   steps={[
                     "Parsing document structure",
-                    "Identifying Schedule of Activities (SOA)",
+                    "Identifying Schedule of Assessments (SOA)",
                     "Extracting visit matrix",
                     "Mapping assessment windows",
                     "Validating logic"
@@ -263,39 +342,53 @@ export default function CriticalData() {
               </motion.div>
             )}
 
+            {/* STEP 2: SOA Review */}
             {step === "review-soa" && (
               <motion.div key="rev-soa" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Step 1 of 6</div>
-                    <h2 className="text-xl font-semibold text-slate-900">Review Schedule of Activities</h2>
-                    <p className="text-slate-500 text-sm">Extracted 12 assessments across 8 visits.</p>
-                  </div>
-                  <Button onClick={() => setStep("processing-acrf")} className="gap-2">
-                    Generate aCRF <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Header 
+                  step={1} total={6} 
+                  title="Review Schedule of Assessments" 
+                  desc="Extracted from the protocol. This drives the aCRF generation."
+                  onNext={() => setStep("processing-acrf")}
+                  nextLabel="Generate aCRF"
+                />
                 
-                <div className="flex-1 overflow-auto border border-slate-200 rounded-xl">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-slate-50 text-slate-500 font-medium sticky top-0 z-10">
+                <div className="mb-4">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-100 text-[11px] font-semibold text-blue-700 tracking-wide uppercase">
+                    <FileText className="h-3 w-3" />
+                    {SOA.id} — {SOA.title}
+                  </span>
+                </div>
+
+                <div className="flex-1 overflow-auto border border-slate-200 rounded-2xl shadow-sm bg-white">
+                  <table className="w-full text-sm text-left border-collapse">
+                    <thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-20">
                       <tr>
-                        <th className="p-3 border-b border-slate-200 min-w-[200px]">Assessment</th>
-                        {visitLabels.map((v, i) => (
-                          <th key={i} className={cn("p-3 border-b border-slate-200 text-center min-w-[80px]", v === "Week 8" && "bg-blue-50 text-blue-700")}>
-                            {v}
-                            {v === "Week 8" && <div className="text-[9px] font-bold text-blue-600 uppercase">Primary</div>}
+                        <th className="p-4 border-b border-slate-200 min-w-[200px] sticky left-0 bg-slate-50 z-30 shadow-[4px_0_12px_rgba(0,0,0,0.05)] text-[11px] uppercase tracking-wider">Assessment</th>
+                        {SOA.visits.map((v, i) => (
+                          <th key={i} className={cn("p-3 border-b border-slate-200 text-center min-w-[100px]", v.primary && "bg-blue-50/50")}>
+                            <div className="text-[12px] text-slate-900">{v.label}</div>
+                            <div className="text-[10px] font-normal text-slate-400 mt-0.5">{v.win}</div>
+                            {v.primary && <div className="text-[9px] font-bold text-blue-600 uppercase mt-1 tracking-wider">Primary</div>}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {soaData.map((row, i) => (
-                        <tr key={i} className={cn("hover:bg-slate-50", row.highlight && "bg-blue-50/30")}>
-                          <td className="p-3 font-medium text-slate-700 border-r border-slate-50">{row.assessment}</td>
-                          {row.visits.map((val, j) => (
-                            <td key={j} className="p-3 text-center text-slate-400">
-                              {val === "X" && <div className="h-2 w-2 bg-slate-400 rounded-full mx-auto" />}
+                      {SOA.rows.map((row, i) => (
+                        <tr key={i} className={cn("hover:bg-slate-50 transition-colors", row.highlight && "bg-blue-50/20")}>
+                          <td className={cn("p-3 pl-4 font-medium text-slate-700 border-r border-slate-100 sticky left-0 bg-white z-10 text-[13px]", row.highlight && "bg-blue-50/20 font-semibold text-blue-900")}>
+                            {row.name}
+                          </td>
+                          {row.v.map((val, j) => (
+                            <td key={j} className={cn("p-3 text-center", row.highlight && "bg-blue-50/20")}>
+                              {val === 1 ? (
+                                <div className={cn("h-5 w-5 rounded-md flex items-center justify-center mx-auto shadow-sm transition-transform hover:scale-110", row.highlight ? "bg-blue-500 text-white" : "bg-slate-200 text-slate-500")}>
+                                  <Check className="h-3.5 w-3.5 stroke-[3]" />
+                                </div>
+                              ) : (
+                                <span className="text-slate-200 text-xl font-light">·</span>
+                              )}
                             </td>
                           ))}
                         </tr>
@@ -306,84 +399,141 @@ export default function CriticalData() {
               </motion.div>
             )}
 
+            {/* STEP 3: Process aCRF */}
             {step === "processing-acrf" && (
-              <motion.div key="proc-acrf" className="h-full">
+              <motion.div key="proc-acrf" className="h-full flex items-center justify-center">
                  <ProcessingScreen 
                   title="Generating Annotated CRF"
                   steps={[
-                    "Applying CDASH v2.2 standards",
-                    "Mapping to SDTM domains",
-                    "Generating variable annotations",
-                    "Applying controlled terminology"
+                    "Applying CDASH Implementation Guide v2.2",
+                    "Mapping assessments to SDTM domains",
+                    "Generating variable-level annotations",
+                    "Applying controlled terminology",
+                    "Cross-referencing SOA completeness"
                   ]}
                   onComplete={() => setStep("review-acrf")}
                 />
               </motion.div>
             )}
 
+            {/* STEP 4: Review aCRF */}
             {step === "review-acrf" && (
               <motion.div key="rev-acrf" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Step 2 of 6</div>
-                    <h2 className="text-xl font-semibold text-slate-900">Review CDASH Domains</h2>
-                    <p className="text-slate-500 text-sm">Generated 11 domains with 47 annotated variables.</p>
-                  </div>
-                  <Button onClick={() => setStep("upload-sap")} className="gap-2">
-                    Confirm & Proceed <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Header 
+                  step={2} total={6} 
+                  title="Review Annotated CRF" 
+                  desc={`Generated from SOA using CDISC CDASH v2.2 — ${ACRF.length} domains, ${ACRF.reduce((s, d) => s + d.fields.length, 0)} variables.`}
+                  onNext={() => setStep("upload-sap")}
+                  nextLabel="Confirm & Upload SAP"
+                />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {cdashDomains.map((domain) => (
-                    <div key={domain.id} className="p-4 border border-slate-200 rounded-xl hover:border-blue-300 hover:shadow-sm transition-all cursor-default group">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="text-lg font-bold text-slate-900">{domain.id}</span>
-                        <span className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-full">{domain.vars} vars</span>
+                <div className="flex gap-2 mb-6 flex-wrap">
+                  {ACRF.map(d => (
+                    <button 
+                      key={d.dom} 
+                      onClick={() => setSelectedDomain(d.dom)}
+                      className={cn(
+                        "px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border",
+                        selectedDomain === d.dom 
+                          ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
+                          : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-700"
+                      )}
+                    >
+                      {d.dom}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex-1 overflow-hidden border border-slate-200 rounded-2xl shadow-sm bg-white flex flex-col">
+                  {ACRF.filter(d => d.dom === selectedDomain).map(d => (
+                    <div key={d.dom} className="flex flex-col h-full">
+                      <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                        <div>
+                          <div className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            {d.dom} — {d.label}
+                            <span className="text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded-full text-slate-500 font-medium">CDASH v2.2</span>
+                          </div>
+                        </div>
+                        <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{d.fields.length} Variables</div>
                       </div>
-                      <div className="text-sm font-medium text-slate-600 mb-1">{domain.label}</div>
-                      {domain.note && (
-                        <div className="text-[11px] text-blue-600 bg-blue-50 p-2 rounded mt-2">
-                          Note: {domain.note}
+                      
+                      <div className="flex-1 overflow-auto">
+                        <table className="w-full text-sm text-left">
+                          <thead>
+                            <tr className="bg-white border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                              <th className="p-3 pl-5">Variable</th>
+                              <th className="p-3">Label</th>
+                              <th className="p-3">Type</th>
+                              <th className="p-3 font-mono">CDASH VAR</th>
+                              <th className="p-3">Controlled Terminology</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {d.fields.map((f, i) => (
+                              <tr key={i} className="hover:bg-slate-50 transition-colors group">
+                                <td className="p-3 pl-5 font-mono text-[12px] font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{f.var}</td>
+                                <td className="p-3 text-[13px] text-slate-600">{f.lbl}</td>
+                                <td className="p-3"><span className="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase">{f.type}</span></td>
+                                <td className="p-3 font-mono text-[11px] text-slate-400">{f.cdash}</td>
+                                <td className="p-3 text-[11px] text-slate-500 font-medium">
+                                  {f.ct ? (
+                                    <span className="text-slate-700 bg-slate-50 px-2 py-0.5 rounded border border-slate-100">{f.ct}</span>
+                                  ) : <span className="text-slate-300">—</span>}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      {d.note && (
+                        <div className="p-3 bg-amber-50/50 border-t border-amber-100 text-[11px] text-amber-700 flex items-center gap-2 font-medium">
+                          <AlertTriangle className="h-3.5 w-3.5" />
+                          Note: {d.note}
                         </div>
                       )}
-                      <div className="mt-4 pt-3 border-t border-slate-50 flex items-center gap-2 text-[11px] text-slate-400 group-hover:text-blue-500 transition-colors">
-                        <CheckCircle2 className="h-3 w-3" /> CDASH Compliant
-                      </div>
                     </div>
                   ))}
                 </div>
               </motion.div>
             )}
 
+            {/* STEP 5: Upload SAP */}
             {step === "upload-sap" && (
               <motion.div 
                 key="upload-sap"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="h-full flex flex-col items-center justify-center"
+                className="h-full flex flex-col items-center justify-center bg-slate-50/30"
               >
-                <div className="mb-8 flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full text-sm font-medium border border-emerald-100">
+                <div className="mb-10 flex items-center gap-2 text-emerald-700 bg-emerald-50 px-5 py-2.5 rounded-full text-sm font-semibold border border-emerald-100 shadow-sm">
                   <CheckCircle2 className="h-4 w-4" />
-                  aCRF Generation Complete (11 domains)
+                  aCRF Generation Complete
                 </div>
-                <UploadCard 
-                  title="Upload SAP" 
-                  desc="Upload the Statistical Analysis Plan (SAP) to extract estimands and build derivation chains." 
-                  onUpload={() => setStep("processing-sap")} 
-                />
+                <div className="text-center mb-2">
+                  <h2 className="text-2xl font-bold text-slate-900">Now upload the SAP</h2>
+                  <p className="text-slate-500 mt-1 max-w-md mx-auto text-sm">The platform will extract estimands and map them to aCRF fields through derivation chains.</p>
+                </div>
+                <div className="mt-8">
+                  <UploadCard 
+                    title="Upload SAP" 
+                    icon={Database}
+                    desc="Statistical Analysis Plan (SAP) or Analysis Data Model (ADaM) specifications." 
+                    onUpload={() => setStep("processing-sap")} 
+                  />
+                </div>
               </motion.div>
             )}
 
+            {/* STEP 6: Process SAP */}
             {step === "processing-sap" && (
-              <motion.div key="proc-sap" className="h-full">
+              <motion.div key="proc-sap" className="h-full flex items-center justify-center">
                  <ProcessingScreen 
                   title="Parsing Analysis Plan"
                   steps={[
                     "Extracting estimand definitions",
                     "Identifying populations (ITT, PP, Safety)",
-                    "Parsing derivation logic",
+                    "Parsing derivation logic & formulas",
                     "Mapping intercurrent events",
                     "Tracing aCRF fields to Analysis variables"
                   ]}
@@ -392,48 +542,58 @@ export default function CriticalData() {
               </motion.div>
             )}
 
+            {/* STEP 7: Review Estimands */}
             {step === "review-estimand" && (
               <motion.div key="rev-est" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Step 3 of 6</div>
-                    <h2 className="text-xl font-semibold text-slate-900">Review Estimands</h2>
-                    <p className="text-slate-500 text-sm">Extracted 2 primary/secondary estimands.</p>
-                  </div>
-                  <Button onClick={() => setStep("review-derivation")} className="gap-2">
-                    Approve <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Header 
+                  step={3} total={6} 
+                  title="Review Estimands" 
+                  desc="Extracted from SAP. These define the primary and secondary objectives."
+                  onNext={() => setStep("review-derivation")}
+                  nextLabel="Approve Estimands"
+                />
                 
-                <div className="space-y-4">
-                  {estimands.map((est) => (
-                    <div key={est.id} className="border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 bg-slate-900 text-white rounded-lg flex items-center justify-center font-bold text-xs">
-                             {est.id.split('-')[1]}
+                <div className="space-y-5">
+                  {ESTS.map((est) => (
+                    <div key={est.id} className="border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-all bg-white group cursor-default">
+                      <div className="flex items-start justify-between mb-5">
+                        <div className="flex items-center gap-4">
+                          <div className="h-12 w-12 bg-slate-900 text-white rounded-xl flex items-center justify-center font-bold text-sm shadow-md">
+                             {est.id}
                           </div>
                           <div>
-                            <h3 className="font-semibold text-slate-900 text-base">{est.label}</h3>
-                            <div className="flex items-center gap-3 mt-1 text-sm text-slate-500">
-                               <span className="bg-slate-100 px-2 py-0.5 rounded text-[11px] font-medium border border-slate-200">
-                                 Pop: {est.population}
-                               </span>
-                               <span className="bg-slate-100 px-2 py-0.5 rounded text-[11px] font-medium border border-slate-200">
-                                 Var: {est.variable}
-                               </span>
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-bold text-slate-900 text-lg tracking-tight">{est.label}</h3>
+                              <span className="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full border border-emerald-100 font-bold uppercase tracking-wide flex items-center gap-1">
+                                <ShieldCheck className="h-3 w-3" /> {Math.round(est.conf * 100)}% Conf
+                              </span>
                             </div>
+                            <div className="text-sm text-slate-600">{est.var}</div>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-100">
-                        <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Intercurrent Events</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {est.intercurrent.map((ice, i) => (
-                            <div key={i} className="flex items-center justify-between bg-white p-2.5 rounded border border-slate-200 text-sm">
-                              <span className="text-slate-700">{ice.event}</span>
-                              <span className="font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[11px]">{ice.strategy}</span>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                         <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                           <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Population</div>
+                           <div className="text-sm font-semibold text-slate-900">{est.pop}</div>
+                         </div>
+                         <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                           <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Treatment Comparison</div>
+                           <div className="text-sm font-semibold text-slate-900">{est.trt}</div>
+                         </div>
+                      </div>
+
+                      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                        <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Intercurrent Events & Strategies</div>
+                        <div className="grid grid-cols-1 gap-2">
+                          {est.ic.map((ice, i) => (
+                            <div key={i} className="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                              <div className="flex items-center gap-2">
+                                <AlertTriangle className="h-4 w-4 text-amber-500" />
+                                <span className="text-sm text-slate-700 font-medium">{ice.ev}</span>
+                              </div>
+                              <span className="font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md text-[11px] border border-blue-100">{ice.st}</span>
                             </div>
                           ))}
                         </div>
@@ -444,122 +604,120 @@ export default function CriticalData() {
               </motion.div>
             )}
 
+            {/* STEP 8: Derivation Map */}
             {step === "review-derivation" && (
               <motion.div key="rev-map" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Step 4 of 6</div>
-                    <h2 className="text-xl font-semibold text-slate-900">Derivation Map</h2>
-                    <p className="text-slate-500 text-sm">Tracing data from Source (aCRF) to Analysis (SAP).</p>
-                  </div>
-                  <Button onClick={() => setStep("review-criticality")} className="gap-2">
-                    Next: Criticality <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Header 
+                  step={4} total={6} 
+                  title="Derivation Map" 
+                  desc="Traceability from Source (aCRF) → Analysis (SAP) → Estimand."
+                  onNext={() => setStep("review-criticality")}
+                  nextLabel="Review Criticality"
+                />
                 
-                <div className="flex-1 overflow-auto border border-slate-200 rounded-xl bg-slate-50/50">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-white text-slate-500 font-medium sticky top-0 z-10 border-b border-slate-200">
-                      <tr>
-                        <th className="p-3 pl-4">aCRF Domain</th>
-                        <th className="p-3">Source Field</th>
-                        <th className="p-3">SAP Variable</th>
-                        <th className="p-3">Derivation Logic</th>
-                        <th className="p-3">Estimand Link</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 bg-white">
-                      {derivationData.map((row, i) => (
-                        <tr key={i} className="hover:bg-slate-50">
-                          <td className="p-3 pl-4 font-medium text-slate-900">
-                            <span className="bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-xs">{row.domain}</span>
-                          </td>
-                          <td className="p-3 text-slate-600 font-mono text-xs">{row.field}</td>
-                          <td className="p-3 text-slate-600 font-mono text-xs">{row.sap}</td>
-                          <td className="p-3 text-slate-500 italic">{row.derivation}</td>
-                          <td className="p-3">
-                            <span className={cn(
-                              "text-[11px] font-medium px-2 py-1 rounded-full border",
-                              row.estimand.includes("Pri") ? "bg-blue-50 text-blue-700 border-blue-100" : 
-                              row.estimand === "None" ? "bg-slate-50 text-slate-400 border-slate-100" :
-                              "bg-emerald-50 text-emerald-700 border-emerald-100"
-                            )}>
-                              {row.estimand}
-                            </span>
-                          </td>
+                <div className="flex-1 overflow-hidden border border-slate-200 rounded-2xl bg-white shadow-sm flex flex-col">
+                  <div className="flex-1 overflow-auto">
+                    <table className="w-full text-sm text-left">
+                      <thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-10">
+                        <tr>
+                          <th className="p-3 pl-5 border-b border-slate-200 text-[11px] uppercase tracking-wider">aCRF Domain</th>
+                          <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">Source Field</th>
+                          <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">SAP Variable</th>
+                          <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">Derivation Logic</th>
+                          <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">Estimand Link</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {derivationData.map((row, i) => (
+                          <tr key={i} className="hover:bg-slate-50 transition-colors group">
+                            <td className="p-3 pl-5 font-medium text-slate-900">
+                              <span className="bg-white border border-slate-200 px-2 py-1 rounded-md text-[11px] font-bold shadow-sm group-hover:border-blue-300 transition-colors">{row.dom}</span>
+                            </td>
+                            <td className="p-3 text-slate-700 font-mono text-[12px]">{row.field}</td>
+                            <td className="p-3 text-slate-700 font-mono text-[12px] font-semibold">{row.sap}</td>
+                            <td className="p-3 text-slate-500 italic text-[12px]">{row.deriv}</td>
+                            <td className="p-3">
+                              <span className={cn(
+                                "text-[10px] font-bold px-2 py-1 rounded-full border flex items-center gap-1 w-fit",
+                                row.link.includes("primary") || row.link.includes("Intercurrent") ? "bg-blue-50 text-blue-700 border-blue-100" : 
+                                "bg-slate-50 text-slate-500 border-slate-100"
+                              )}>
+                                {row.link.includes("primary") && <CheckCircle2 className="h-3 w-3" />}
+                                {row.link}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </motion.div>
             )}
 
+            {/* STEP 9: Criticality Review */}
             {step === "review-criticality" && (
               <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Step 5 of 6</div>
-                    <h2 className="text-xl font-semibold text-slate-900">Criticality Review</h2>
-                    <p className="text-slate-500 text-sm">Assign criticality tiers to source data. Click tiers to edit.</p>
-                  </div>
-                  <Button onClick={() => setStep("complete")} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
-                    Finalize Model <CheckCircle2 className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Header 
+                  step={5} total={6} 
+                  title="Criticality Review" 
+                  desc="Verify tiers assigned to data points based on their impact on the primary estimand."
+                  onNext={() => setStep("complete")}
+                  nextLabel="Finalize Model"
+                />
                 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-3 gap-4 mb-6">
-                   <div className="bg-slate-900 text-white p-4 rounded-xl flex items-center justify-between">
+                   <div className="bg-slate-900 text-white p-5 rounded-2xl flex items-center justify-between shadow-md relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform"><ShieldCheck className="h-16 w-16" /></div>
                      <div>
-                       <div className="text-2xl font-bold">{derivationData.filter(d => d.tier === "1").length}</div>
-                       <div className="text-[11px] font-medium opacity-70 uppercase tracking-wide">Tier 1 (Critical)</div>
-                     </div>
-                     <ShieldCheck className="h-5 w-5 opacity-50" />
-                   </div>
-                   <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center justify-between">
-                     <div>
-                       <div className="text-2xl font-bold text-slate-700">{derivationData.filter(d => d.tier === "2").length}</div>
-                       <div className="text-[11px] font-medium text-slate-400 uppercase tracking-wide">Tier 2 (Important)</div>
+                       <div className="text-3xl font-bold tracking-tight mb-1">{derivationData.filter(d => d.tier === "1").length}</div>
+                       <div className="text-[11px] font-bold opacity-80 uppercase tracking-widest">Tier 1 · Critical</div>
                      </div>
                    </div>
-                   <div className="bg-white border border-slate-200 p-4 rounded-xl flex items-center justify-between">
+                   <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
                      <div>
-                       <div className="text-2xl font-bold text-slate-700">{derivationData.filter(d => d.tier === "3").length}</div>
-                       <div className="text-[11px] font-medium text-slate-400 uppercase tracking-wide">Tier 3 (Standard)</div>
+                       <div className="text-3xl font-bold text-slate-700 tracking-tight mb-1">{derivationData.filter(d => d.tier === "2").length}</div>
+                       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Tier 2 · Important</div>
+                     </div>
+                   </div>
+                   <div className="bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between shadow-sm">
+                     <div>
+                       <div className="text-3xl font-bold text-slate-700 tracking-tight mb-1">{derivationData.filter(d => d.tier === "3").length}</div>
+                       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Tier 3 · Supportive</div>
                      </div>
                    </div>
                 </div>
 
-                <div className="flex-1 overflow-auto border border-slate-200 rounded-xl bg-white shadow-sm">
+                <div className="flex-1 overflow-auto border border-slate-200 rounded-2xl bg-white shadow-sm">
                   <table className="w-full text-sm text-left">
-                    <thead className="bg-slate-50 text-slate-500 font-medium sticky top-0 z-10 border-b border-slate-200">
+                    <thead className="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-10">
                       <tr>
-                        <th className="p-3 pl-4">Source Field</th>
-                        <th className="p-3">Analysis Variable</th>
-                        <th className="p-3">Estimand Impact</th>
-                        <th className="p-3 text-center">Tier</th>
+                        <th className="p-3 pl-5 border-b border-slate-200 text-[11px] uppercase tracking-wider">Source Field</th>
+                        <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">Analysis Variable</th>
+                        <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider">Estimand Impact</th>
+                        <th className="p-3 border-b border-slate-200 text-[11px] uppercase tracking-wider text-center">Assigned Tier</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {derivationData.map((row, i) => (
-                        <tr key={i} className="hover:bg-slate-50">
-                          <td className="p-3 pl-4 font-medium text-slate-900">{row.field}</td>
+                        <tr key={i} className="hover:bg-slate-50 transition-colors">
+                          <td className="p-3 pl-5 font-medium text-slate-900">{row.field}</td>
                           <td className="p-3 text-slate-500 font-mono text-xs">{row.sap}</td>
                           <td className="p-3">
-                            <span className="text-xs text-slate-600">{row.estimand}</span>
+                            <span className="text-xs text-slate-600 font-medium">{row.link}</span>
                           </td>
                           <td className="p-3 text-center">
                             <button 
                               onClick={() => toggleTier(i)}
                               className={cn(
-                                "h-7 w-7 rounded-full text-xs font-bold transition-all hover:scale-110 shadow-sm",
+                                "px-3 py-1 rounded-full text-[11px] font-bold transition-all hover:scale-105 shadow-sm uppercase tracking-wide",
                                 row.tier === "1" ? "bg-slate-900 text-white ring-2 ring-slate-100" :
                                 row.tier === "2" ? "bg-white text-slate-700 border border-slate-300" :
                                 "bg-slate-100 text-slate-400"
                               )}
                             >
-                              {row.tier}
+                              Tier {row.tier}
                             </button>
                           </td>
                         </tr>
@@ -570,40 +728,41 @@ export default function CriticalData() {
               </motion.div>
             )}
 
+            {/* STEP 10: Complete */}
             {step === "complete" && (
               <motion.div key="complete" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="h-full flex flex-col items-center justify-center text-center p-8">
-                <div className="h-24 w-24 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mb-6">
-                  <CheckCircle2 className="h-12 w-12" />
+                <div className="h-24 w-24 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mb-8 shadow-sm border border-emerald-100">
+                  <FileCheck className="h-12 w-12 stroke-[1.5]" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-2">Model Complete</h2>
-                <p className="text-slate-500 max-w-md mb-8">
+                <h2 className="text-3xl font-bold text-slate-900 mb-3 tracking-tight">Model Complete</h2>
+                <p className="text-slate-500 max-w-md mb-10 text-base leading-relaxed">
                   The Criticality Model has been validated. 16 derivation chains verified against Protocol V4.0 and SAP V1.2.
                 </p>
                 
-                <div className="grid grid-cols-2 gap-4 w-full max-w-lg mb-8 text-left">
-                   <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                     <div className="text-xs text-slate-400 uppercase font-bold mb-1">Domains</div>
-                     <div className="font-semibold text-slate-900">11 Processed</div>
+                <div className="grid grid-cols-2 gap-4 w-full max-w-lg mb-10 text-left">
+                   <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors">
+                     <div className="text-[10px] text-slate-400 uppercase font-bold mb-1 tracking-wider">Domains Processed</div>
+                     <div className="text-xl font-bold text-slate-900">{ACRF.length}</div>
                    </div>
-                   <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                     <div className="text-xs text-slate-400 uppercase font-bold mb-1">Estimands</div>
-                     <div className="font-semibold text-slate-900">2 Mapped</div>
+                   <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors">
+                     <div className="text-[10px] text-slate-400 uppercase font-bold mb-1 tracking-wider">Estimands Mapped</div>
+                     <div className="text-xl font-bold text-slate-900">{ESTS.length}</div>
                    </div>
-                   <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                     <div className="text-xs text-slate-400 uppercase font-bold mb-1">Critical Vars</div>
-                     <div className="font-semibold text-slate-900">5 Tier-1 Fields</div>
+                   <div className="p-5 bg-slate-900 rounded-2xl border border-slate-900 shadow-sm text-white">
+                     <div className="text-[10px] text-slate-400 uppercase font-bold mb-1 tracking-wider">Critical Variables</div>
+                     <div className="text-xl font-bold">{derivationData.filter(d => d.tier === "1").length} Tier-1</div>
                    </div>
-                   <div className="p-4 bg-amber-50 rounded-xl border border-amber-100">
-                     <div className="text-xs text-amber-500 uppercase font-bold mb-1">SME Review</div>
-                     <div className="font-semibold text-amber-700">Pending Sign-off</div>
+                   <div className="p-5 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm">
+                     <div className="text-[10px] text-amber-600 uppercase font-bold mb-1 tracking-wider">SME Validation</div>
+                     <div className="text-xl font-bold text-amber-700">Pending</div>
                    </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <Button variant="outline" className="gap-2">
+                <div className="flex gap-4">
+                  <Button variant="outline" className="gap-2 h-12 px-6">
                     <Download className="h-4 w-4" /> Export Report
                   </Button>
-                  <Button className="gap-2 bg-slate-900 text-white hover:bg-slate-800">
+                  <Button className="gap-2 bg-slate-900 text-white hover:bg-slate-800 h-12 px-6 shadow-md">
                     <Database className="h-4 w-4" /> Generate RBQM Package
                   </Button>
                 </div>
