@@ -106,6 +106,7 @@ const ESTS_INIT = [
     var: "Change from baseline in MADRS total score at Week 8", 
     pop: "mITT (≥1 dose)", 
     trt: "Drug X 200mg vs Placebo", 
+    algo: "MMRM with terms for treatment, visit, treatment-by-visit interaction, baseline, and baseline-by-visit interaction. Unstructured covariance matrix.",
     ic: [
       { ev: "Treatment discontinuation", st: "Treatment policy", source: "SAP Sec 5.2.1" }, 
       { ev: "Rescue medication use", st: "Composite (failure)", source: "SAP Sec 5.2.2" }
@@ -121,6 +122,7 @@ const ESTS_INIT = [
     var: "MADRS response (≥50% reduction) at Week 8", 
     pop: "mITT", 
     trt: "Drug X 200mg vs Placebo", 
+    algo: "Logistic Regression with terms for treatment and baseline MADRS score.",
     ic: [{ ev: "Treatment discontinuation", st: "Treatment policy", source: "SAP Sec 5.2.1" }], 
     sum: "Proportion achieving ≥50% MADRS reduction at Week 8.", 
     conf: 0.91,
@@ -754,6 +756,10 @@ export default function CriticalData() {
                               <div className="bg-[#F5F5F7] p-4 rounded-xl">
                                  <div className="text-[10px] font-semibold text-black/40 uppercase mb-1">Treatment</div>
                                  <div className="font-medium text-[#1d1d1f] text-sm">{est.trt}</div>
+                              </div>
+                              <div className="col-span-2 bg-[#F5F5F7] p-4 rounded-xl">
+                                 <div className="text-[10px] font-semibold text-black/40 uppercase mb-1">Estimator Algorithm</div>
+                                 <div className="font-medium text-[#1d1d1f] text-sm font-mono leading-relaxed">{est.algo}</div>
                               </div>
                            </div>
                            <div className="mt-4 pt-4 border-t border-black/5 flex justify-end">
