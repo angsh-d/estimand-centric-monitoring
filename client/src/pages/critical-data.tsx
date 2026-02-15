@@ -26,7 +26,9 @@ import {
   Eye,
   Info,
   HelpCircle,
-  AlertCircle
+  AlertCircle,
+  User,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -221,6 +223,9 @@ export default function CriticalData() {
   const [smeAssigned, setSmeAssigned] = useState(false);
   const [validationStatus, setValidationStatus] = useState("pending"); // pending, assigned, approved
 
+  // Current User Persona (Simulated)
+  const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
+
   // Filtering for Criticality
   const [tierFilter, setTierFilter] = useState<string | null>(null);
 
@@ -243,11 +248,57 @@ export default function CriticalData() {
     setValidationStatus("assigned");
   };
 
+  const handleSMEApprove = () => {
+      setValidationStatus("approved");
+      // Optional: switch back to director to see the result
+      setCurrentUser("study-director");
+  };
+
   return (
     <div className="h-[calc(100vh-140px)] flex flex-col bg-[#F5F5F7]">
       
+      {/* Persona Switcher (Demo Control) */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <div className="bg-slate-900 text-white p-1 rounded-full shadow-2xl border border-slate-700 flex items-center gap-1">
+            <button 
+                onClick={() => setCurrentUser("study-director")}
+                className={cn(
+                    "px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2",
+                    currentUser === "study-director" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"
+                )}
+            >
+                <User className="h-3 w-3" /> Study Director
+            </button>
+            <button 
+                onClick={() => setCurrentUser("sme")}
+                className={cn(
+                    "px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2",
+                    currentUser === "sme" ? "bg-emerald-600 text-white" : "text-slate-400 hover:text-white"
+                )}
+            >
+                <UserCheck className="h-3 w-3" /> SME (John Smith)
+            </button>
+        </div>
+      </div>
+
+      {/* SME Banner */}
+      {currentUser === "sme" && (
+          <div className="bg-emerald-600 text-white px-6 py-2 flex justify-between items-center shadow-md z-40">
+              <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 bg-white/20 rounded-full flex items-center justify-center font-bold text-xs">JS</div>
+                  <div className="flex flex-col leading-none">
+                      <span className="font-bold text-sm">John Smith (SME)</span>
+                      <span className="text-[10px] opacity-80">Logged in as Lead Statistician</span>
+                  </div>
+              </div>
+              <div className="text-xs font-medium bg-emerald-700/50 px-3 py-1 rounded-full border border-emerald-500/50">
+                  Validation Portal
+              </div>
+          </div>
+      )}
+
       {/* Conceptual Breadcrumb */}
-      {step !== "upload-protocol" && step !== "complete" && (
+      {step !== "upload-protocol" && step !== "complete" && currentUser === "study-director" && (
         <div className="px-6 pt-4 mb-2 shrink-0">
            <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -306,8 +357,98 @@ export default function CriticalData() {
         <div className="flex-1 overflow-y-auto p-8 scroll-smooth">
           <AnimatePresence mode="wait">
 
+            {/* --- SME Validation View (Available anytime if routed) --- */}
+            {currentUser === "sme" && (
+                <motion.div 
+                    key="sme-view"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="h-full max-w-5xl mx-auto"
+                >
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-slate-900 mb-2">Model Validation Request</h1>
+                        <p className="text-slate-500">Please review the criticality model for Protocol XYZ-301.</p>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-6 mb-8">
+                        <div className="col-span-2 space-y-6">
+                            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                                <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                                    Estimand Review
+                                </h3>
+                                <div className="space-y-4">
+                                    {estimands.map(est => (
+                                        <div key={est.id} className="p-4 bg-slate-50 rounded-lg border border-slate-100 text-sm">
+                                            <div className="flex justify-between mb-2">
+                                                <span className="font-bold text-slate-800">{est.label}</span>
+                                                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">{Math.round(est.conf * 100)}% Conf</Badge>
+                                            </div>
+                                            <p className="text-slate-600 text-xs mb-2">{est.sum}</p>
+                                            <div className="flex gap-2">
+                                                <Button size="sm" variant="outline" className="h-7 text-xs bg-white">Approve</Button>
+                                                <Button size="sm" variant="ghost" className="h-7 text-xs text-slate-500">Comment</Button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                             <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                                <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <Layers className="h-4 w-4 text-blue-600" />
+                                    Criticality Tiers Summary
+                                </h3>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between p-3 bg-slate-50 rounded-lg text-sm">
+                                        <span className="text-slate-600">Tier 1 (Critical)</span>
+                                        <span className="font-bold text-slate-900">{derivationData.filter(d => d.tier === "1").length} Variables</span>
+                                    </div>
+                                    <div className="flex justify-between p-3 bg-slate-50 rounded-lg text-sm">
+                                        <span className="text-slate-600">Tier 2 (Important)</span>
+                                        <span className="font-bold text-slate-900">{derivationData.filter(d => d.tier === "2").length} Variables</span>
+                                    </div>
+                                    <div className="flex justify-between p-3 bg-slate-50 rounded-lg text-sm">
+                                        <span className="text-slate-600">Tier 3 (Supplementary)</span>
+                                        <span className="font-bold text-slate-900">{derivationData.filter(d => d.tier === "3").length} Variables</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-span-1">
+                             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm h-full flex flex-col">
+                                <h3 className="text-sm font-bold text-slate-900 mb-4">Action Required</h3>
+                                <p className="text-xs text-slate-500 mb-8 leading-relaxed">
+                                    By approving this model, you certify that the estimands and criticality definitions align with the Statistical Analysis Plan (SAP) and Protocol.
+                                </p>
+                                
+                                <div className="mt-auto space-y-3">
+                                    {validationStatus === "approved" ? (
+                                        <div className="p-4 bg-emerald-100 text-emerald-800 rounded-lg text-center font-bold text-sm flex flex-col items-center gap-2">
+                                            <CheckCircle2 className="h-6 w-6" />
+                                            Model Approved
+                                            <span className="text-[10px] font-normal opacity-80">RBQM Package Unlocked</span>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg" onClick={handleSMEApprove}>
+                                                <CheckCircle2 className="h-4 w-4 mr-2" /> Approve Model
+                                            </Button>
+                                            <Button variant="outline" className="w-full bg-white border-slate-300 text-slate-700">
+                                                Request Changes
+                                            </Button>
+                                        </>
+                                    )}
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+
             {/* --- STEP 0: Upload Protocol --- */}
-            {step === "upload-protocol" && (
+            {step === "upload-protocol" && currentUser !== "sme" && (
               <motion.div 
                 key="upload-proto"
                 initial={{ opacity: 0 }}
@@ -342,7 +483,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 1: Processing Protocol --- */}
-            {step === "processing-soa" && (
+            {step === "processing-soa" && currentUser !== "sme" && (
                <motion.div key="proc-soa" className="h-full flex items-center justify-center">
                  <div className="flex flex-col items-center max-w-md w-full">
                     <div className="relative mb-10">
@@ -367,7 +508,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 2: Review SOA --- */}
-            {step === "review-soa" && (
+            {step === "review-soa" && currentUser !== "sme" && (
               <motion.div key="rev-soa" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                 <div className="flex justify-between items-start mb-8">
                   <div>
@@ -455,7 +596,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 3: Processing aCRF --- */}
-            {step === "processing-acrf" && (
+            {step === "processing-acrf" && currentUser !== "sme" && (
                <motion.div key="proc-acrf" className="h-full flex items-center justify-center">
                  <div className="flex flex-col items-center max-w-md w-full">
                     <Loader2 className="h-12 w-12 text-blue-600 animate-spin mb-6" />
@@ -467,7 +608,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 4: Review aCRF --- */}
-            {step === "review-acrf" && (
+            {step === "review-acrf" && currentUser !== "sme" && (
               <motion.div key="rev-acrf" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                  <div className="flex justify-between items-center mb-6">
                     <div>
@@ -516,7 +657,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 5: Upload SAP --- */}
-            {step === "upload-sap" && (
+            {step === "upload-sap" && currentUser !== "sme" && (
               <motion.div 
                 key="upload-sap"
                 initial={{ opacity: 0 }}
@@ -539,7 +680,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 6: Process SAP --- */}
-            {step === "processing-sap" && (
+            {step === "processing-sap" && currentUser !== "sme" && (
                <motion.div key="proc-sap" className="h-full flex items-center justify-center">
                  <div className="flex flex-col items-center">
                     <Loader2 className="h-12 w-12 text-blue-600 animate-spin mb-6" />
@@ -551,7 +692,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 7: Review Estimands --- */}
-            {step === "review-estimand" && (
+            {step === "review-estimand" && currentUser !== "sme" && (
                <motion.div key="rev-est" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                   <div className="flex justify-between items-center mb-8">
                      <div>
@@ -630,7 +771,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 8: Derivation Map --- */}
-            {step === "review-derivation" && (
+            {step === "review-derivation" && currentUser !== "sme" && (
                <motion.div key="rev-map" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                   <div className="flex justify-between items-center mb-6">
                      <div>
@@ -682,7 +823,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 9: Criticality Review --- */}
-            {step === "review-criticality" && (
+            {step === "review-criticality" && currentUser !== "sme" && (
                <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                   <div className="flex justify-between items-center mb-6">
                      <div>
@@ -758,7 +899,7 @@ export default function CriticalData() {
             )}
 
             {/* --- STEP 10: Complete / Validation --- */}
-            {step === "complete" && (
+            {step === "complete" && currentUser !== "sme" && (
                <motion.div key="complete" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col items-center justify-center p-8 bg-slate-50/50">
                   <div className="max-w-3xl w-full">
                      <div className="flex items-center gap-6 mb-8">
@@ -821,8 +962,9 @@ export default function CriticalData() {
                              </DialogContent>
                            </Dialog>
                         ) : (
-                           <div className="flex-1 h-14 bg-emerald-50 border border-emerald-100 rounded-lg flex items-center justify-center text-emerald-700 font-bold gap-2">
-                              <CheckCircle2 className="h-5 w-5" /> Routed to John Smith for Review
+                           <div className="flex-1 h-14 bg-emerald-50 border border-emerald-100 rounded-lg flex items-center justify-center text-emerald-700 font-bold gap-2 relative group cursor-help">
+                              <CheckCircle2 className="h-5 w-5" /> 
+                              {validationStatus === "approved" ? "Validated by John Smith" : "Routed to John Smith for Review"}
                            </div>
                         )}
                         
@@ -832,10 +974,15 @@ export default function CriticalData() {
                                  <span className="inline-block">
                                     <Button 
                                        variant="outline" 
-                                       className="h-14 px-8 border-slate-200" 
+                                       className={cn(
+                                          "h-14 px-8 border-slate-200 transition-all",
+                                          validationStatus === "approved" ? "bg-slate-900 text-white hover:bg-slate-800 hover:text-white shadow-lg" : ""
+                                       )}
                                        disabled={validationStatus !== "approved"} 
                                     >
-                                       <Lock className="h-4 w-4 mr-2" /> Generate RBQM Package
+                                       <Lock className={cn("h-4 w-4 mr-2", validationStatus === "approved" && "hidden")} /> 
+                                       {validationStatus === "approved" && <Download className="h-4 w-4 mr-2" />}
+                                       Generate RBQM Package
                                     </Button>
                                  </span>
                               </TooltipTrigger>
