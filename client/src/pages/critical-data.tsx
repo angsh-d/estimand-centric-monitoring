@@ -154,12 +154,13 @@ const AppleCard = ({ children, className }: { children: React.ReactNode, classNa
   </div>
 );
 
-const AppleBadge = ({ children, active, color = "blue" }: { children: React.ReactNode, active?: boolean, color?: "blue" | "green" | "amber" | "gray" }) => {
+const AppleBadge = ({ children, active, color = "gray" }: { children: React.ReactNode, active?: boolean, color?: "blue" | "green" | "amber" | "gray" | "black" }) => {
   const colors = {
-    blue: "bg-blue-500",
-    green: "bg-emerald-500",
-    amber: "bg-amber-500",
-    gray: "bg-slate-400"
+    blue: "bg-black",
+    green: "bg-black",
+    amber: "bg-gray-400",
+    gray: "bg-gray-300",
+    black: "bg-black"
   };
   
   return (
@@ -477,7 +478,7 @@ export default function CriticalData() {
                   />
                   <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition duration-700" />
                   <AppleCard className="relative p-16 flex flex-col items-center justify-center text-center w-[540px] h-[360px] border border-black/[0.04] shadow-2xl shadow-black/[0.03]">
-                     <div className="h-16 w-16 bg-[#F5F5F7] text-black/40 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-105 group-hover:text-blue-600 transition-all duration-500">
+                     <div className="h-16 w-16 bg-[#F5F5F7] text-black/40 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-105 group-hover:text-black transition-all duration-500">
                        <UploadCloud className="h-8 w-8 stroke-[1.5]" />
                      </div>
                      <h3 className="text-xl font-semibold text-[#1d1d1f] mb-2">Upload Protocol</h3>
@@ -495,7 +496,7 @@ export default function CriticalData() {
                <motion.div key="proc-soa" className="h-full flex items-center justify-center">
                  <div className="flex flex-col items-center max-w-sm w-full">
                     <div className="relative mb-12">
-                       <div className="h-16 w-16 rounded-full border-[3px] border-black/5 border-t-blue-600 animate-spin" />
+                       <div className="h-16 w-16 rounded-full border-[3px] border-black/5 border-t-black animate-spin" />
                     </div>
                     <h2 className="text-xl font-medium text-[#1d1d1f] mb-8">Digitizing Protocol</h2>
                     <div className="w-full space-y-5">
@@ -510,7 +511,7 @@ export default function CriticalData() {
                             <div className={cn(
                                 "h-5 w-5 rounded-full flex items-center justify-center shadow-sm transition-all duration-500 border",
                                 i <= processingStage 
-                                    ? "bg-[#34C759] border-[#34C759]" 
+                                    ? "bg-black border-black" 
                                     : "bg-white border-black/10"
                             )}>
                               <Check className={cn(
@@ -582,7 +583,7 @@ export default function CriticalData() {
                                      <ProvenanceTooltip source={row.source} conf={row.conf}>
                                         <div className={cn(
                                            "h-6 w-6 rounded-full flex items-center justify-center mx-auto transition-all cursor-pointer",
-                                           row.conf === "low" ? "bg-amber-100 text-amber-600" : "bg-blue-50 text-blue-600"
+                                           row.conf === "low" ? "bg-amber-100 text-amber-600" : "bg-black/[0.04] text-black"
                                         )}>
                                           <Check className="h-3.5 w-3.5 stroke-[2.5]" />
                                         </div>
@@ -705,7 +706,7 @@ export default function CriticalData() {
             {step === "processing-sap" && currentUser !== "sme" && (
                <motion.div key="proc-sap" className="h-full flex items-center justify-center">
                  <div className="flex flex-col items-center w-64">
-                    <div className="h-12 w-12 rounded-full border-[3px] border-black/5 border-t-blue-600 animate-spin mb-6" />
+                    <div className="h-12 w-12 rounded-full border-[3px] border-black/5 border-t-black animate-spin mb-6" />
                     <h2 className="text-lg font-medium text-[#1d1d1f] mb-4">Parsing Analysis Plan</h2>
                     <div className="w-full space-y-2">
                         <SkeletonLine />
