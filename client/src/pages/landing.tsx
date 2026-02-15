@@ -1,321 +1,234 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { 
-  ArrowRight, 
-  Activity, 
-  Calendar, 
-  Users, 
-  ChevronRight, 
+  Search, 
+  ChevronDown,
+  ArrowRight,
   BrainCircuit,
-  ShieldAlert,
-  Target,
-  Clock,
-  CheckCircle2,
-  Sparkles,
-  LayoutDashboard,
+  Activity,
+  FileText,
+  Database,
+  Users,
+  ShieldCheck,
   Zap,
-  MapPin,
-  CalendarDays
+  LayoutDashboard
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useRole } from "@/components/layout/app-shell";
 
-// --- Data for Lead Central Monitor ---
-const leadActions = [
+// Mock Data for Clinical Studies
+const STUDIES = [
   {
-    id: "ACT-001",
-    type: "Safety",
-    title: "SAE Reconciliation Required",
-    desc: "Subject 109-004: Serious Adverse Event 'Grade 3 Neutropenia' in Safety DB missing from EDC.",
-    impact: "High Impact",
-    time: "2h ago",
-    study: "PEARL"
+    id: "NCT03003962",
+    code: "PEARL",
+    title: "Durvalumab vs SoC in Stage IV NSCLC",
+    phase: "Phase III",
+    status: "Active",
+    sites: 142,
+    patients: 850,
+    alerts: 5,
+    lastUpdate: "2h ago",
+    progress: 68
   },
   {
-    id: "ACT-002",
-    type: "Efficacy",
-    title: "Primary Endpoint Risk",
-    desc: "3 Sites showing latency > 7 days for Tumor Assessment (RECIST 1.1) data entry.",
-    impact: "Critical",
-    time: "4h ago",
-    study: "PEARL"
-  }
-];
-
-const leadInsights = [
-  {
-    id: "INS-001",
-    title: "Enrollment Velocity",
-    desc: "Site 402 is recruiting 2x faster than projected.",
-    trend: "positive",
-    metric: "+15%"
+    id: "NCT04561234",
+    code: "NEPTUNE",
+    title: "Durvalumab + Tremelimumab in mUC",
+    phase: "Phase III",
+    status: "Recruiting",
+    sites: 89,
+    patients: 320,
+    alerts: 2,
+    lastUpdate: "5h ago",
+    progress: 42
   },
   {
-    id: "INS-002",
-    title: "Protocol Deviation Cluster",
-    desc: "New pattern: 'Missed PK Sample' across 3 EU sites.",
-    trend: "negative",
-    metric: "New Pattern"
+    id: "NCT05519876",
+    code: "BRIG-3001",
+    title: "Brigatinib in ALK+ NSCLC (First Line)",
+    phase: "Phase II",
+    status: "Startup",
+    sites: 24,
+    patients: 0,
+    alerts: 0,
+    lastUpdate: "1d ago",
+    progress: 5
   }
-];
-
-// --- Data for CRA (Clinical Research Associate) ---
-const craActions = [
-  {
-    id: "TASK-109",
-    type: "Visit Prep",
-    title: "Prepare for Site 109 Visit",
-    desc: "Upcoming Monitoring Visit on Feb 18. 3 open queries and 1 SAE reconciliation pending review.",
-    impact: "Due in 2 days",
-    time: "10:00 AM",
-    study: "PEARL"
-  },
-  {
-    id: "TASK-204",
-    type: "Query",
-    title: "Site 204: Query Response",
-    desc: "Dr. Chen replied to query #9921 regarding concomitant medication dose. Verify against source.",
-    impact: "Action Required",
-    time: "1h ago",
-    study: "PEARL"
-  }
-];
-
-const craSites = [
-  { id: "109", name: "Charité Berlin", status: "Visit Planned", date: "Feb 18", alert: true },
-  { id: "204", name: "Manchester Royal", status: "Remote Monitoring", date: "Feb 22", alert: false },
-  { id: "882", name: "Hôpital Saint-Louis", status: "Report Pending", date: "Feb 10", alert: false },
 ];
 
 export default function Landing() {
-  const { role } = useRole();
-  const isLead = role === "Lead Central Monitor";
+  const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] font-sans text-slate-900 flex flex-col">
-      {/* Immersive Header - Apple Style */}
-      <header className="bg-white/70 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50 transition-all duration-200">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BrainCircuit className="h-5 w-5 text-slate-900" />
-            <span className="font-semibold text-base tracking-tight text-slate-900">Helix</span>
+    <div className="min-h-screen bg-white font-sans text-[#1d1d1f] flex flex-col">
+      {/* Top Navbar */}
+      <header className="h-[60px] border-b border-[#e5e5e5] flex items-center justify-between px-6 bg-white sticky top-0 z-50">
+        <div className="flex items-center h-full">
+          <img 
+            src="https://www.saama.com/wp-content/uploads/saama_logo.svg" 
+            alt="Saama" 
+            className="h-6 w-auto"
+          />
+          <div className="h-6 w-[1px] bg-[#e5e5e5] mx-4" />
+          <span className="text-[13px] font-medium text-[#6e6e73]">
+            Clinical Trial Intelligence
+          </span>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="relative hidden md:block group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#86868b] group-focus-within:text-[#1d1d1f] transition-colors" />
+            <input 
+              type="text" 
+              placeholder="Search sites, protocols, or investigators..." 
+              className="h-9 w-[320px] rounded-full bg-[#f5f5f7] border-none pl-9 pr-4 text-[13px] text-[#1d1d1f] placeholder:text-[#86868b] focus:ring-0 focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,125,250,0.1)] transition-all outline-none"
+            />
           </div>
           
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-2 text-[11px] font-medium text-slate-500 bg-slate-100/50 px-2 py-1 rounded-md border border-slate-200/50">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-              </span>
-              System Operational
+          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+            <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">
+              AD
             </div>
-            <div className="h-7 w-7 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-500">
-              AM
+            <div className="hidden sm:flex items-center gap-1">
+              <span className="text-[13px] font-medium text-[#1d1d1f]">Angshuman Deb</span>
+              <ChevronDown className="h-3 w-3 text-[#86868b]" />
             </div>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 max-w-5xl mx-auto w-full px-6 py-10">
-        {/* Personalized Greeting */}
-        <section className="mb-10 text-center md:text-left">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
+      <div className="flex-1 overflow-y-auto">
+        {/* Hero Section */}
+        <section className="pt-24 pb-20 px-6 text-center max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-3 tracking-tight">
-              Good morning, Alex.
+            <h1 className="text-[56px] leading-[1.05] font-semibold tracking-tight text-[#1d1d1f] mb-4">
+              Intelligent AI Agents
             </h1>
+            <p className="text-[24px] leading-normal text-[#6e6e73] font-normal mb-8 max-w-2xl mx-auto">
+              Across the Clinical Trial Lifecycle
+            </p>
+            <p className="text-[17px] leading-relaxed text-[#424245] font-normal max-w-xl mx-auto mb-10">
+              Agentic AI that reasons, plans, acts autonomously, and adapts to optimize clinical research from protocol design through regulatory submission.
+            </p>
             
-            {isLead ? (
-              <p className="text-lg md:text-xl text-slate-500 font-light leading-relaxed max-w-2xl">
-                Your Primary Endpoint (PFS) is at <span className="text-slate-900 font-medium">98% integrity</span>. 
-                <br className="hidden md:block"/>
-                However, <span className="text-amber-600 font-medium">2 critical actions</span> require your attention.
-              </p>
-            ) : (
-              <p className="text-lg md:text-xl text-slate-500 font-light leading-relaxed max-w-2xl">
-                You have <span className="text-slate-900 font-medium">1 monitoring visit</span> coming up this week.
-                <br className="hidden md:block"/>
-                Site 109 has <span className="text-amber-600 font-medium">3 items</span> to review before you travel.
-              </p>
-            )}
+            <div className="flex items-center justify-center gap-4">
+              <button className="h-10 px-6 rounded-full bg-[#1d1d1f] text-white text-[13px] font-medium hover:bg-[#333336] transition-colors shadow-sm">
+                Explore Agents
+              </button>
+              <button className="h-10 px-6 rounded-full bg-white border border-[#d2d2d7] text-[#1d1d1f] text-[13px] font-medium hover:border-[#86868b] transition-colors">
+                Launch Protocol Agent
+              </button>
+            </div>
           </motion.div>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          
-          {/* Main Feed */}
-          <div className="md:col-span-8 space-y-8">
-            
-            {/* Critical Actions */}
-            <div>
-              <div className="flex items-center justify-between mb-4 px-1">
-                <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                  {isLead ? "Priority Actions" : "My Tasks"}
-                </h2>
-              </div>
-              
-              <div className="space-y-4">
-                {(isLead ? leadActions : craActions).map((action, idx) => (
-                  <motion.div 
-                    key={action.id}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: idx * 0.1, duration: 0.4 }}
-                    className="group bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-white hover:border-blue-500/30 transition-all cursor-pointer relative overflow-hidden active:scale-[0.99]"
-                  >
-                     <div className="flex justify-between items-start mb-2">
-                       <div className="flex items-center gap-2">
-                         <span className={cn("h-2 w-2 rounded-full",
-                           action.type === 'Safety' || action.type === 'Visit Prep' ? "bg-amber-500" : "bg-blue-500"
-                         )} />
-                         <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                           {action.type}
-                         </span>
-                       </div>
-                       <span className="text-[11px] font-medium text-slate-400">
-                         {action.time}
-                       </span>
-                     </div>
-                     
-                     <h3 className="text-base font-semibold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
-                       {action.title}
-                     </h3>
-                     <p className="text-[13px] text-slate-500 leading-relaxed mb-4 font-normal">
-                       {action.desc}
-                     </p>
-                     
-                     <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-                        <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-md">
-                           <Target className="h-3 w-3" />
-                           {action.impact}
-                        </div>
-                        <Link href={isLead ? "/study/investigations" : "/study/mvr"}>
-                          <button className="text-[13px] font-medium text-blue-600 flex items-center gap-1 transition-opacity hover:opacity-80">
-                            {isLead ? "Investigate" : "Open Workspace"} <ChevronRight className="h-3 w-3" />
-                          </button>
-                        </Link>
-                     </div>
-                  </motion.div>
-                ))}
-              </div>
+        {/* Clinical Studies Grid */}
+        <section className="bg-[#f5f5f7] py-20 px-6 min-h-[500px]">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-[24px] font-semibold text-[#1d1d1f]">Onboarded Studies</h2>
+              <button className="text-[13px] font-medium text-[#0066cc] hover:underline flex items-center gap-1">
+                View all studies <ArrowRight className="h-3 w-3" />
+              </button>
             </div>
 
-            {/* Insights (Only for Lead) or Recent Activity (For CRA) */}
-            {isLead && (
-              <div>
-                <div className="flex items-center justify-between mb-4 px-1">
-                  <h2 className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    Strategic Insights
-                  </h2>
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {leadInsights.map((insight) => (
-                    <div key={insight.id} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md transition-all">
-                      <div className="flex justify-between items-start mb-2">
-                        <Zap className="h-4 w-4 text-slate-400" />
-                        <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded", 
-                          insight.trend === 'positive' ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600"
-                        )}>
-                          {insight.metric}
-                        </span>
-                      </div>
-                      <h3 className="font-semibold text-slate-900 text-[13px] mb-1">{insight.title}</h3>
-                      <p className="text-[11px] text-slate-500 leading-relaxed">
-                        {insight.desc}
-                      </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {STUDIES.map((study, i) => (
+                <motion.div
+                  key={study.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  onClick={() => setLocation("/study/dashboard")}
+                  className="bg-white rounded-[20px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all cursor-pointer group border border-transparent hover:border-[#0066cc]/20 relative overflow-hidden"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider mb-1">
+                        {study.code}
+                      </span>
+                      <span className="text-[10px] font-medium text-[#424245] bg-[#f5f5f7] px-2 py-0.5 rounded-full inline-block w-fit">
+                        {study.id}
+                      </span>
                     </div>
-                  ))}
+                    {study.alerts > 0 ? (
+                      <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-50 text-red-600 text-[11px] font-medium border border-red-100">
+                        <Activity className="h-3 w-3" />
+                        {study.alerts} Signals
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-medium border border-emerald-100">
+                        <ShieldCheck className="h-3 w-3" />
+                        Healthy
+                      </div>
+                    )}
+                  </div>
+
+                  <h3 className="text-[17px] font-semibold text-[#1d1d1f] mb-2 leading-tight group-hover:text-[#0066cc] transition-colors">
+                    {study.title}
+                  </h3>
+                  
+                  <div className="flex items-center gap-4 text-[13px] text-[#6e6e73] mb-6">
+                    <span className="flex items-center gap-1.5">
+                      <LayoutDashboard className="h-3.5 w-3.5" />
+                      {study.phase}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Users className="h-3.5 w-3.5" />
+                      {study.sites} Sites
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="mb-4">
+                    <div className="flex justify-between text-[11px] font-medium mb-1.5">
+                      <span className="text-[#86868b]">Enrollment Progress</span>
+                      <span className="text-[#1d1d1f]">{study.progress}%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-[#f5f5f7] rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-[#1d1d1f] rounded-full transition-all duration-1000 ease-out"
+                        style={{ width: `${study.progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-[#f5f5f7] flex items-center justify-between">
+                    <span className="text-[11px] text-[#86868b]">
+                      Updated {study.lastUpdate}
+                    </span>
+                    <div className="h-7 w-7 rounded-full bg-[#f5f5f7] flex items-center justify-center text-[#1d1d1f] group-hover:bg-[#0066cc] group-hover:text-white transition-colors">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Add New Study Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="bg-white rounded-[20px] p-6 border border-dashed border-[#d2d2d7] flex flex-col items-center justify-center text-center gap-3 cursor-pointer hover:border-[#86868b] hover:bg-[#fafafa] transition-all min-h-[280px] group"
+              >
+                <div className="h-12 w-12 rounded-full bg-[#f5f5f7] flex items-center justify-center text-[#86868b] group-hover:text-[#1d1d1f] transition-colors">
+                  <Zap className="h-5 w-5" />
                 </div>
-              </div>
-            )}
-
+                <div>
+                  <h3 className="text-[15px] font-semibold text-[#1d1d1f]">Onboard New Study</h3>
+                  <p className="text-[13px] text-[#86868b] mt-1">
+                    Import protocol or start from scratch
+                  </p>
+                </div>
+              </motion.div>
+            </div>
           </div>
-
-          {/* Sidebar */}
-          <div className="md:col-span-4 space-y-6">
-             {isLead ? (
-               // Lead: Study Portfolio
-               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="p-4 border-b border-slate-50 flex justify-between items-center">
-                    <h3 className="font-semibold text-slate-900 text-[13px]">Study Portfolio</h3>
-                    <button className="text-[11px] font-medium text-blue-600">All</button>
-                  </div>
-                  
-                  <div className="divide-y divide-slate-50">
-                     {[
-                       { id: "PEARL", title: "Durvalumab vs SoC", status: "Active", alerts: 5, color: "blue" },
-                       { id: "NEPTUNE", title: "Durvalumab + Tremelimumab", status: "Analysis", alerts: 2, color: "slate" },
-                       { id: "BRIG-3001", title: "Brigatinib ALK+", status: "Follow-up", alerts: 0, color: "slate" }
-                     ].map((study) => (
-                       <Link key={study.id} href={study.id === "PEARL" ? "/study/dashboard" : "#"}>
-                         <div className="p-4 hover:bg-slate-50 transition-colors cursor-pointer group">
-                            <div className="flex justify-between items-start mb-1">
-                              <span className="text-[10px] font-bold text-slate-400">{study.id}</span>
-                              {study.alerts > 0 ? (
-                                <div className="h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-red-100" />
-                              ) : (
-                                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 ring-2 ring-emerald-100" />
-                              )}
-                            </div>
-                            <h4 className="text-[13px] font-medium text-slate-900 mb-2">{study.title}</h4>
-                            <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
-                               <div className={cn("h-full w-[70%] rounded-full", study.id === "PEARL" ? "bg-slate-900" : "bg-slate-300")} />
-                            </div>
-                         </div>
-                       </Link>
-                     ))}
-                  </div>
-               </div>
-             ) : (
-               // CRA: Assigned Sites
-               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="p-4 border-b border-slate-50 flex justify-between items-center">
-                    <h3 className="font-semibold text-slate-900 text-[13px]">My Sites</h3>
-                    <button className="text-[11px] font-medium text-blue-600">Map View</button>
-                  </div>
-                  
-                  <div className="divide-y divide-slate-50">
-                     {craSites.map((site) => (
-                       <div key={site.id} className="p-4 hover:bg-slate-50 transition-colors cursor-pointer group">
-                          <div className="flex justify-between items-start mb-1">
-                            <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                              <MapPin className="h-3 w-3" /> {site.id}
-                            </span>
-                            {site.alert && (
-                                <div className="h-1.5 w-1.5 rounded-full bg-amber-500 ring-2 ring-amber-100" />
-                            )}
-                          </div>
-                          <h4 className="text-[13px] font-medium text-slate-900 mb-2">{site.name}</h4>
-                          <div className="flex items-center gap-2 text-[11px] text-slate-500">
-                             <CalendarDays className="h-3 w-3 text-slate-400" />
-                             <span>{site.status}: {site.date}</span>
-                          </div>
-                       </div>
-                     ))}
-                  </div>
-               </div>
-             )}
-
-             {/* Quick Actions (Context Aware) */}
-             <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl p-5 text-white shadow-lg">
-                <h3 className="font-semibold text-base mb-1">
-                  {isLead ? "Analytics Lab" : "Travel Portal"}
-                </h3>
-                <p className="text-blue-100 text-[11px] mb-4 leading-relaxed opacity-90">
-                  {isLead ? "Run ad-hoc cross-study queries." : "Book flights and hotels for Site 109."}
-                </p>
-                <button className="w-full bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg py-2 text-[12px] font-medium transition-colors flex items-center justify-center gap-2">
-                  {isLead ? <BrainCircuit className="h-4 w-4" /> : <Calendar className="h-4 w-4" />}
-                  {isLead ? "Launch Workspace" : "Manage Bookings"}
-                </button>
-             </div>
-          </div>
-
-        </div>
+        </section>
       </div>
     </div>
   );
