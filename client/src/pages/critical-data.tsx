@@ -342,7 +342,7 @@ export default function CriticalData() {
                     <h2 className="text-2xl font-bold text-slate-900 mb-8">Digitizing Protocol</h2>
                     <div className="w-full space-y-4">
                        {["Parsing document structure", "Identifying Schedule of Activities", "Extracting visit matrix", "Validating windows"].map((label, i) => (
-                         <div key={i} className="flex items-center gap-4 text-sm animate-in fade-in slide-in-from-bottom-2 duration-700" style={{ animationDelay: `${i * 300}ms` }}>
+                         <div key={i} className="flex items-center gap-4 text-sm animate-in fade-in slide-in-from-bottom-2 duration-700" style={{ animationDelay: `${i * 1500}ms` }}>
                             <div className="h-6 w-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
                               <Check className="h-3.5 w-3.5" />
                             </div>
@@ -352,7 +352,7 @@ export default function CriticalData() {
                     </div>
                  </div>
                  {/* Auto-advance simulated */}
-                 <div className="hidden">{setTimeout(() => setStep("review-soa"), 2500)}</div>
+                 <div className="hidden">{setTimeout(() => setStep("review-soa"), 8000)}</div>
                </motion.div>
             )}
 
@@ -430,7 +430,7 @@ export default function CriticalData() {
                     <Loader2 className="h-12 w-12 text-blue-600 animate-spin mb-6" />
                     <h2 className="text-xl font-bold text-slate-900 mb-6">Generating Annotated CRF</h2>
                     {/* Auto-advance simulated */}
-                    <div className="hidden">{setTimeout(() => setStep("review-acrf"), 2000)}</div>
+                    <div className="hidden">{setTimeout(() => setStep("review-acrf"), 6000)}</div>
                  </div>
                </motion.div>
             )}
@@ -514,7 +514,7 @@ export default function CriticalData() {
                     <Loader2 className="h-12 w-12 text-blue-600 animate-spin mb-6" />
                     <h2 className="text-xl font-bold text-slate-900">Parsing Analysis Plan</h2>
                     {/* Auto-advance simulated */}
-                    <div className="hidden">{setTimeout(() => setStep("review-estimand"), 2000)}</div>
+                    <div className="hidden">{setTimeout(() => setStep("review-estimand"), 6000)}</div>
                  </div>
                </motion.div>
             )}
