@@ -240,6 +240,12 @@ export default function CriticalData() {
     }
   };
 
+  const handleSapFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setStep("processing-sap");
+    }
+  };
+
   const toggleTier = (id: number) => {
     setDerivationData(prev => prev.map(item => {
       if (item.id === id) {
@@ -675,8 +681,15 @@ export default function CriticalData() {
                 <h2 className="text-3xl font-semibold text-[#1d1d1f] mb-3">Analysis Plan</h2>
                 <div 
                   className="bg-white border border-black/10 rounded-3xl p-12 flex flex-col items-center justify-center cursor-pointer hover:shadow-xl hover:scale-[1.01] transition-all w-[480px] h-[280px]"
-                  onClick={() => setStep("processing-sap")}
+                  onClick={() => document.getElementById('sap-upload')?.click()}
                 >
+                   <input 
+                    type="file" 
+                    id="sap-upload" 
+                    className="hidden" 
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleSapFileSelect}
+                  />
                    <div className="h-14 w-14 bg-[#F5F5F7] text-black/40 rounded-2xl flex items-center justify-center mb-6">
                      <Database className="h-6 w-6" />
                    </div>
