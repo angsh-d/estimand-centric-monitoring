@@ -1,0 +1,13 @@
+Click through the full flow — it's interactive. Here's the restructured journey:
+The 11-screen flow:
+1. Upload Protocol → Single document. Clear purpose: "The platform will extract the SOA and generate a CDASH-annotated CRF."
+2. Processing → Animated steps: parsing structure, identifying SOA, extracting visits, mapping assessments, validating windows.
+3. SOA Review (Step 1 of 6) → Full visit matrix table extracted from the protocol. 14 assessments × 8 visits. MADRS row highlighted in blue. Week 8 marked as PRIMARY. User validates before aCRF generation proceeds.
+4. Processing → "Generating annotated CRF" — applying CDASH v2.2, mapping to domains, generating variable annotations, applying controlled terminology.
+5. aCRF Review (Step 2 of 6) → 11 CDASH domains (DM, IE, QS-MADRS, QS-CGI, VS, LB, EG, AE, CM, EX, DS) with pill navigation. Each domain shows variable name, label, type, CDASH variable mapping, and controlled terminology. QS domain includes the note about 10 MADRS items.
+6. Upload SAP → Success badge confirming aCRF is complete ("11 domains, 47 variables"). Now the SAP upload.
+7. Processing → 9 steps: reading SAP, extracting estimands, identifying populations, parsing variables, mapping intercurrent events, then tracing aCRF fields to SAP variables, building derivation chains, classifying tiers, cross-validating.
+8. Estimand Review (Step 3 of 6) → Expandable cards with population, treatment, variable, intercurrent events with strategies. Must confirm both before proceeding.
+9. Derivation Map (Step 4 of 6) → The critical table: aCRF Domain → aCRF Field → SAP Variable → Derivation → Estimand Link → Tier. Filterable by tier. 16 mappings showing exactly how QS/QSORRES traces to AVAL=Σ(Q1..Q10), how CM/CMTRT maps to the rescue medication composite strategy, etc.
+10. Criticality Review (Step 5 of 6) → Same table but editable. Click any tier badge to reclassify. Summary cards show counts updating in real time.
+11. Complete → Model summary (11 domains, 47 variables, 2 estimands, 16 derivation chains), tier counts, SME validation warning, Export + Generate RBQM Package buttons.
