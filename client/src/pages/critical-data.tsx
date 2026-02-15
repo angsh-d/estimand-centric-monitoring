@@ -214,6 +214,25 @@ export default function CriticalData() {
 
   // File Upload
   const fileInputRef = useState<HTMLInputElement | null>(null);
+  const [processingStage, setProcessingStage] = useState(0);
+
+  useEffect(() => {
+    if (step === "processing-soa") {
+      setProcessingStage(-1);
+      const interval = setInterval(() => {
+        setProcessingStage(prev => (prev < 3 ? prev + 1 : prev));
+      }, 1200);
+      
+      const timeout = setTimeout(() => {
+        setStep("review-soa");
+      }, 6000);
+      
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
+    }
+  }, [step]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -473,16 +492,32 @@ export default function CriticalData() {
                     <h2 className="text-xl font-medium text-[#1d1d1f] mb-8">Digitizing Protocol</h2>
                     <div className="w-full space-y-5">
                        {["Parsing document structure", "Identifying Schedule of Activities", "Extracting visit matrix", "Validating windows"].map((label, i) => (
-                         <div key={i} className="flex items-center gap-4 text-sm animate-in fade-in slide-in-from-bottom-2 duration-700" style={{ animationDelay: `${i * 1500}ms` }}>
-                            <div className="h-5 w-5 rounded-full bg-[#34C759] flex items-center justify-center shadow-sm">
-                              <Check className="h-3 w-3 text-white stroke-[3]" />
+                         <div 
+                            key={i} 
+                            className={cn(
+                                "flex items-center gap-4 text-sm transition-all duration-700",
+                                i > processingStage ? "opacity-40 translate-y-1" : "opacity-100 translate-y-0"
+                            )}
+                         >
+                            <div className={cn(
+                                "h-5 w-5 rounded-full flex items-center justify-center shadow-sm transition-all duration-500 border",
+                                i <= processingStage 
+                                    ? "bg-[#34C759] border-[#34C759]" 
+                                    : "bg-white border-black/10"
+                            )}>
+                              <Check className={cn(
+                                  "h-3 w-3 text-white stroke-[3] transition-all duration-500", 
+                                  i <= processingStage ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                              )} />
                             </div>
-                            <span className="text-[#1d1d1f]/80 font-medium">{label}</span>
+                            <span className={cn(
+                                "font-medium transition-colors duration-500",
+                                i <= processingStage ? "text-[#1d1d1f]" : "text-[#1d1d1f]/60"
+                            )}>{label}</span>
                          </div>
                        ))}
                     </div>
                  </div>
-                 <div className="hidden">{setTimeout(() => setStep("review-soa"), 8000)}</div>
                </motion.div>
             )}
 
