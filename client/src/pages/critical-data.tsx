@@ -24,7 +24,9 @@ import {
   Search,
   Filter,
   Eye,
-  Info
+  Info,
+  HelpCircle,
+  AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,20 +64,21 @@ const SOA_INIT = {
     { id: "V8", label: "Follow-up", week: 10, win: "±5d", source: "Table 1, Pg 22" },
   ],
   rows: [
-    { name: "Informed Consent", v: [1,0,0,0,0,0,0,0], source: "Section 5.1" },
-    { name: "Inclusion/Exclusion", v: [1,0,0,0,0,0,0,0], source: "Section 5.2" },
-    { name: "Demographics", v: [1,0,0,0,0,0,0,0], source: "Section 5.3" },
-    { name: "Medical History", v: [1,0,0,0,0,0,0,0], source: "Section 5.4" },
-    { name: "MADRS", v: [1,1,1,1,1,1,1,0], highlight: true, source: "Section 6.2.1" },
-    { name: "CGI-S / CGI-I", v: [1,1,0,1,1,1,1,0], source: "Section 6.2.2" },
-    { name: "Vital Signs", v: [1,1,1,1,1,1,1,1], source: "Section 7.1" },
-    { name: "Laboratory Panel", v: [1,1,0,0,1,0,1,1], source: "Section 7.2" },
-    { name: "12-Lead ECG", v: [1,1,0,0,0,0,1,0], source: "Section 7.3" },
-    { name: "Adverse Events", v: [0,1,1,1,1,1,1,1], source: "Section 8.1" },
-    { name: "Concomitant Meds", v: [1,1,1,1,1,1,1,1], source: "Section 5.5" },
-    { name: "Study Drug Dispensing", v: [0,1,0,1,1,1,0,0], source: "Section 9.1" },
-    { name: "Drug Accountability", v: [0,0,1,1,1,1,1,0], source: "Section 9.2" },
-    { name: "Disposition", v: [0,0,0,0,0,0,0,1], source: "Section 10.1" },
+    { name: "Informed Consent", v: [1,0,0,0,0,0,0,0], source: "Section 5.1", conf: "high" },
+    { name: "Inclusion/Exclusion", v: [1,0,0,0,0,0,0,0], source: "Section 5.2", conf: "high" },
+    { name: "Demographics", v: [1,0,0,0,0,0,0,0], source: "Section 5.3", conf: "high" },
+    { name: "Medical History", v: [1,0,0,0,0,0,0,0], source: "Section 5.4", conf: "high" },
+    { name: "MADRS", v: [1,1,1,1,1,1,1,0], highlight: true, source: "Section 6.2.1", conf: "high" },
+    { name: "CGI-S / CGI-I", v: [1,1,0,1,1,1,1,0], source: "Section 6.2.2", conf: "high" },
+    { name: "Vital Signs", v: [1,1,1,1,1,1,1,1], source: "Section 7.1", conf: "high" },
+    { name: "Laboratory Panel", v: [1,1,0,0,1,0,1,1], source: "Section 7.2", conf: "high" },
+    { name: "12-Lead ECG", v: [1,1,0,0,0,0,1,0], source: "Section 7.3", conf: "high" },
+    { name: "Adverse Events", v: [0,1,1,1,1,1,1,1], source: "Section 8.1", conf: "high" },
+    { name: "Concomitant Meds", v: [1,1,1,1,1,1,1,1], source: "Section 5.5", conf: "high" },
+    { name: "Study Drug Dispensing", v: [0,1,0,1,1,1,0,0], source: "Section 9.1", conf: "high" },
+    // Low confidence examples
+    { name: "Drug Accountability", v: [0,0,1,1,1,1,1,0], source: "Inferred from Section 8.3", conf: "low" },
+    { name: "Disposition", v: [0,0,0,0,0,0,0,1], source: "Section 10.1", conf: "low" },
   ],
 };
 
@@ -138,21 +141,28 @@ const DMAP_INIT = [
   { id: 10, dom: "IE", field: "IEORRES", sap: "RANDFL", deriv: "I/E met → randomized", link: "Eligibility verification", tier: "2", source: "SAP Sec 4.1" },
   { id: 11, dom: "AE", field: "AETERM, AESER, AEREL", sap: "Safety analysis variables", deriv: "AE characterization", link: "Safety — not primary estimand", tier: "3", source: "SAP Sec 8.1" },
   { id: 12, dom: "DM", field: "SEX, RACE, AGE", sap: "Covariates in MMRM", deriv: "Stratification factors", link: "Model covariates", tier: "3", source: "SAP Sec 4.3" },
+  { id: 12, dom: "DM", field: "SEX, RACE, AGE", sap: "Covariates in MMRM", deriv: "Stratification factors", link: "Model covariates", tier: "3", source: "SAP Sec 4.3" },
 ];
 
 // --- Components ---
 
-const ProvenanceTooltip = ({ source, children }: { source: string, children: React.ReactNode }) => (
+const ProvenanceTooltip = ({ source, conf = "high", children }: { source: string, conf?: string, children: React.ReactNode }) => (
   <TooltipProvider>
     <Tooltip delayDuration={300}>
-      <TooltipTrigger asChild className="cursor-help border-b border-dotted border-slate-300">
+      <TooltipTrigger asChild className="cursor-help">
         {children}
       </TooltipTrigger>
-      <TooltipContent className="bg-slate-900 text-white border-slate-800 text-xs p-3 max-w-xs shadow-xl">
+      <TooltipContent className="bg-slate-900 text-white border-slate-800 text-xs p-3 max-w-xs shadow-xl z-50">
         <div className="font-bold mb-1 flex items-center gap-1.5 text-blue-300 uppercase tracking-wider text-[10px]">
-          <FileText className="h-3 w-3" /> Provenance
+          <FileText className="h-3 w-3" /> Source Provenance
         </div>
-        <p>Extracted from: <span className="font-mono text-emerald-300">{source}</span></p>
+        <p className="mb-2">Extracted from: <span className="font-mono text-emerald-300">{source}</span></p>
+        {conf === "low" && (
+            <div className="flex items-start gap-1.5 text-amber-300 bg-amber-900/30 p-1.5 rounded text-[10px] leading-tight">
+                <AlertCircle className="h-3 w-3 shrink-0 mt-0.5" />
+                <span>Low confidence extraction. System inferred this relationship. Verification recommended.</span>
+            </div>
+        )}
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -397,17 +407,38 @@ export default function CriticalData() {
                       <tbody>
                         {soaData.rows.map((row, i) => (
                           <tr key={i} className={cn("group hover:bg-slate-50 transition-colors border-b border-slate-50", row.highlight && "bg-blue-50/5")}>
-                            <td className="p-3 pl-4 border-r border-slate-100 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-slate-700">
-                               <ProvenanceTooltip source={row.source}>
-                                 <span className="border-b border-dotted border-slate-300 pb-0.5">{row.name}</span>
-                               </ProvenanceTooltip>
+                            <td className="p-3 pl-4 border-r border-slate-100 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-slate-700 relative">
+                               <div className="flex items-center gap-2">
+                                  {row.conf === "low" && (
+                                     <TooltipProvider>
+                                        <Tooltip>
+                                           <TooltipTrigger>
+                                              <div className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                                           </TooltipTrigger>
+                                           <TooltipContent className="bg-amber-950 text-amber-50 border-amber-900 text-xs">Low confidence extraction</TooltipContent>
+                                        </Tooltip>
+                                     </TooltipProvider>
+                                  )}
+                                  <span className={cn(row.conf === "low" && "text-amber-800")}>{row.name}</span>
+                               </div>
+                               <div className="text-[9px] text-slate-400 font-mono mt-0.5 flex items-center gap-1">
+                                  <FileText className="h-2.5 w-2.5" />
+                                  {row.source}
+                               </div>
                             </td>
                             {row.v.map((val, j) => (
                               <td key={j} className="p-3 text-center relative">
                                  {val === 1 ? (
-                                   <div className="h-6 w-6 rounded flex items-center justify-center mx-auto bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-blue-600 transition-all cursor-pointer">
-                                     <Check className="h-4 w-4" />
-                                   </div>
+                                   <ProvenanceTooltip source={row.source} conf={row.conf}>
+                                      <div className={cn(
+                                         "h-6 w-6 rounded flex items-center justify-center mx-auto transition-all cursor-pointer",
+                                         row.conf === "low" 
+                                            ? "bg-amber-50 text-amber-600 border border-amber-200 border-dashed hover:bg-amber-100" 
+                                            : "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-blue-600"
+                                      )}>
+                                        <Check className="h-4 w-4" />
+                                      </div>
+                                   </ProvenanceTooltip>
                                  ) : (
                                    <div className="h-6 w-6 rounded flex items-center justify-center mx-auto opacity-0 group-hover:opacity-100 cursor-pointer hover:bg-slate-200">
                                      <Plus className="h-3 w-3 text-slate-400" />
@@ -795,17 +826,29 @@ export default function CriticalData() {
                            </div>
                         )}
                         
-                        <Button 
-                           variant="outline" 
-                           className="h-14 px-8 border-slate-200" 
-                           disabled={validationStatus !== "approved"} // Mock disabled state
-                        >
-                           <Lock className="h-4 w-4 mr-2" /> Generate RBQM Package
-                        </Button>
+                        <TooltipProvider>
+                           <Tooltip>
+                              <TooltipTrigger asChild>
+                                 <span className="inline-block">
+                                    <Button 
+                                       variant="outline" 
+                                       className="h-14 px-8 border-slate-200" 
+                                       disabled={validationStatus !== "approved"} 
+                                    >
+                                       <Lock className="h-4 w-4 mr-2" /> Generate RBQM Package
+                                    </Button>
+                                 </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-slate-900 text-white border-slate-800">
+                                 {validationStatus !== "approved" ? "Requires SME sign-off before generating package" : "Ready to generate"}
+                              </TooltipContent>
+                           </Tooltip>
+                        </TooltipProvider>
                      </div>
                      
                      {validationStatus !== "approved" && (
-                        <p className="text-center text-xs text-slate-400 mt-4">
+                        <p className="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-2">
+                           <AlertCircle className="h-3 w-3" />
                            Package generation is locked until SME validation is complete.
                         </p>
                      )}
