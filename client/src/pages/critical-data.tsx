@@ -212,6 +212,15 @@ export default function CriticalData() {
   const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
   const [tierFilter, setTierFilter] = useState<string | null>(null);
 
+  // File Upload
+  const fileInputRef = useState<HTMLInputElement | null>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setStep("processing-soa");
+    }
+  };
+
   const toggleTier = (id: number) => {
     setDerivationData(prev => prev.map(item => {
       if (item.id === id) {
@@ -430,8 +439,15 @@ export default function CriticalData() {
                 
                 <div 
                   className="group relative cursor-pointer" 
-                  onClick={() => setStep("processing-soa")}
+                  onClick={() => document.getElementById('protocol-upload')?.click()}
                 >
+                  <input 
+                    type="file" 
+                    id="protocol-upload" 
+                    className="hidden" 
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleFileSelect}
+                  />
                   <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition duration-700" />
                   <AppleCard className="relative p-16 flex flex-col items-center justify-center text-center w-[540px] h-[360px] border border-black/[0.04] shadow-2xl shadow-black/[0.03]">
                      <div className="h-16 w-16 bg-[#F5F5F7] text-black/40 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-105 group-hover:text-blue-600 transition-all duration-500">
