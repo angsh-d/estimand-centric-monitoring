@@ -13,63 +13,108 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { AppleCard, AppleBadge, SkeletonLine, ProvenanceTooltip } from "@/components/criticality/shared";
 
-// --- Mock Data ---
-const SOA_INIT = {
-  id: "XYZ-301",
-  title: "Phase III, Randomized, Double-Blind, Placebo-Controlled Study of Drug X in MDD",
-  visits: [
-    { id: "V1", label: "Screening", week: -2, win: "Day -14 to -1", source: "Table 1, Pg 22" },
-    { id: "V2", label: "Baseline", week: 0, win: "Day 1", source: "Table 1, Pg 22" },
-    { id: "V3", label: "Week 1", week: 1, win: "±2d", source: "Table 1, Pg 22" },
-    { id: "V4", label: "Week 2", week: 2, win: "±3d", source: "Table 1, Pg 22" },
-    { id: "V5", label: "Week 4", week: 4, win: "±3d", source: "Table 1, Pg 22" },
-    { id: "V6", label: "Week 6", week: 6, win: "±3d", source: "Table 1, Pg 22" },
-    { id: "V7", label: "Week 8", week: 8, win: "±3d", primary: true, source: "Section 6.1, Pg 45" },
-    { id: "V8", label: "Follow-up", week: 10, win: "±5d", source: "Table 1, Pg 22" },
-  ],
-  rows: [
-    { name: "Informed Consent", v: [1,0,0,0,0,0,0,0], source: "Section 5.1", conf: "high" },
-    { name: "Inclusion/Exclusion", v: [1,0,0,0,0,0,0,0], source: "Section 5.2", conf: "high" },
-    { name: "Demographics", v: [1,0,0,0,0,0,0,0], source: "Section 5.3", conf: "high" },
-    { name: "Medical History", v: [1,0,0,0,0,0,0,0], source: "Section 5.4", conf: "high" },
-    { name: "MADRS", v: [1,1,1,1,1,1,1,0], highlight: true, source: "Section 6.2.1", conf: "high" },
-    { name: "CGI-S / CGI-I", v: [1,1,0,1,1,1,1,0], source: "Section 6.2.2", conf: "high" },
-    { name: "Vital Signs", v: [1,1,1,1,1,1,1,1], source: "Section 7.1", conf: "high" },
-    { name: "Laboratory Panel", v: [1,1,0,0,1,0,1,1], source: "Section 7.2", conf: "high" },
-    { name: "12-Lead ECG", v: [1,1,0,0,0,0,1,0], source: "Section 7.3", conf: "high" },
-    { name: "Adverse Events", v: [0,1,1,1,1,1,1,1], source: "Section 8.1", conf: "high" },
-    { name: "Concomitant Meds", v: [1,1,1,1,1,1,1,1], source: "Section 5.5", conf: "high" },
-    { name: "Study Drug Dispensing", v: [0,1,0,1,1,1,0,0], source: "Section 9.1", conf: "high" },
-    { name: "Drug Accountability", v: [0,0,1,1,1,1,1,0], source: "Inferred from Section 8.3", conf: "low" },
-    { name: "Disposition", v: [0,0,0,0,0,0,0,1], source: "Section 10.1", conf: "low" },
-  ],
+// Import real data
+import REAL_SOA_RAW from "@/data/soa.json";
+import REAL_ACRF_RAW from "@/data/acrf.json";
+
+// Types for Raw Data
+type RawSoa = {
+  visits: any[];
+  scheduledActivityInstances: any[];
+  [key: string]: any;
 };
 
-const ACRF_INIT = [
-  { dom: "DM", label: "Demographics", std: "CDASH DM v2.2", fields: [
-    { var: "SUBJID", lbl: "Subject Identifier", type: "Char", cdash: "SUBJID", ct: null, source: "Prot Sec 5.3" },
-    { var: "BRTHDTC", lbl: "Date of Birth", type: "Date", cdash: "BRTHDTC", ct: null, source: "Prot Sec 5.3" },
-    { var: "SEX", lbl: "Sex", type: "Char", cdash: "SEX", ct: "M, F", source: "Prot Sec 5.3" },
-    { var: "RACE", lbl: "Race", type: "Char", cdash: "RACE", ct: "CDISC Race CT", source: "Prot Sec 5.3" },
-  ]},
-  { dom: "QS", label: "Questionnaires — MADRS", std: "CDASH QS v2.2", note: "10 items per assessment. Total score derived.", fields: [
-    { var: "QSCAT", lbl: "Category", type: "Char", cdash: "QSCAT", ct: "MADRS", source: "Prot Sec 6.2.1" },
-    { var: "QSTEST", lbl: "MADRS Item", type: "Char", cdash: "QSTEST", ct: "MADRS item CT", source: "Prot Sec 6.2.1" },
-    { var: "QSORRES", lbl: "Item Score (0–6)", type: "Num", cdash: "QSORRES", ct: "0,1,2,3,4,5,6", source: "Prot Sec 6.2.1" },
-    { var: "QSDTC", lbl: "Assessment Date", type: "Date", cdash: "QSDTC", ct: null, source: "Prot Sec 6.2.1" },
-    { var: "VISITNUM", lbl: "Visit Number", type: "Num", cdash: "VISITNUM", ct: null, source: "SOA Col Header" },
-  ]},
-];
+type RawAcrf = {
+  forms: any[];
+  [key: string]: any;
+};
+
+// Data Processing Functions
+const processSoaData = (rawSoa: RawSoa) => {
+  // 1. Process Visits
+  // Filter out visits that might be duplicates or purely administrative if needed, 
+  // but for now we take them all. Sort by timing value.
+  const visits = rawSoa.visits
+    .sort((a, b) => (a.timing?.value || 0) - (b.timing?.value || 0))
+    .map(v => ({
+      id: v.id,
+      label: v.name,
+      week: v.timing?.value, // keeping raw value for now, could convert to weeks
+      win: v.window?.description || "",
+      source: `Table ${v.provenance?.tableId || "SOA"}, Pg ${v.provenance?.pageNumber || "?"}`
+    }));
+
+  // 2. Process Rows (Activities)
+  // We need to group instances by activityName to form rows.
+  // Map: ActivityName -> { [visitId]: isRequired }
+  const activityMap: Record<string, { instances: Record<string, boolean>, source: string }> = {};
+
+  rawSoa.scheduledActivityInstances.forEach(inst => {
+    if (!activityMap[inst.activityName]) {
+      activityMap[inst.activityName] = { 
+        instances: {}, 
+        source: `Table ${inst.provenance?.tableId || "SOA"}` // Take first occurrence as source
+      };
+    }
+    activityMap[inst.activityName].instances[inst.visitId] = inst.isRequired;
+  });
+
+  const rows = Object.entries(activityMap).map(([name, data]) => {
+    // Build the boolean vector for this row corresponding to the sorted visits
+    const v = visits.map(visit => data.instances[visit.id] ? 1 : 0);
+    
+    // Simple heuristic for confidence/highlight
+    const conf = "high"; // Default high since it's from structured JSON
+    const highlight = name.includes("MADRS") || name.includes("Primary"); // Highlight primary endpoints if detected
+
+    return {
+      name,
+      v,
+      source: data.source,
+      conf,
+      highlight
+    };
+  });
+
+  return {
+    id: rawSoa.protocolId || "NCT03003962",
+    title: "Phase III Protocol (Extracted)",
+    visits,
+    rows
+  };
+};
+
+const processAcrfData = (rawAcrf: RawAcrf) => {
+  return rawAcrf.forms.map(form => ({
+    dom: form.domain,
+    label: form.formName,
+    std: `CDASH v${rawAcrf.cdashVersion}`,
+    fields: form.fields.map((field: any) => ({
+      var: field.variableName,
+      lbl: field.label,
+      type: field.dataType,
+      cdash: field.annotationText,
+      ct: field.codelistName,
+      source: "Generated" // Or map from field metadata
+    }))
+  }));
+};
 
 export default function ProtocolAnalysis() {
   const [step, setStep] = useState("upload-protocol");
-  const [soaData, setSoaData] = useState(SOA_INIT);
-  const [acrfData, setAcrfData] = useState(ACRF_INIT);
+  const [soaData, setSoaData] = useState<any>(null); // Initial null, loaded on processing
+  const [acrfData, setAcrfData] = useState<any>(null);
   const [processingStage, setProcessingStage] = useState(0);
 
   useEffect(() => {
     if (step === "processing-soa") {
+      // Simulate processing time, but actually process data
       setProcessingStage(-1);
+      
+      // Process data immediately (it's fast), but show animation
+      const processedSoa = processSoaData(REAL_SOA_RAW as RawSoa);
+      setSoaData(processedSoa);
+
       const interval = setInterval(() => {
         setProcessingStage(prev => (prev < 3 ? prev + 1 : prev));
       }, 1200);
@@ -82,6 +127,14 @@ export default function ProtocolAnalysis() {
         clearInterval(interval);
         clearTimeout(timeout);
       };
+    }
+  }, [step]);
+
+  useEffect(() => {
+    if (step === "processing-acrf") {
+       // Process aCRF data
+       const processedAcrf = processAcrfData(REAL_ACRF_RAW as RawAcrf);
+       setAcrfData(processedAcrf);
     }
   }, [step]);
 
@@ -187,7 +240,7 @@ export default function ProtocolAnalysis() {
             )}
 
             {/* --- STEP 2: Review SOA --- */}
-            {step === "review-soa" && (
+            {step === "review-soa" && soaData && (
               <motion.div key="rev-soa" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1400px] mx-auto">
                 <div className="flex justify-between items-end mb-8 px-2">
                   <div>
@@ -213,17 +266,20 @@ export default function ProtocolAnalysis() {
                         <thead className="bg-gray-50/80 sticky top-0 z-20 backdrop-blur-md">
                           <tr>
                             <th className="p-4 border-b border-black/[0.06] min-w-[220px] sticky left-0 bg-gray-50/95 z-30 font-semibold text-[#1d1d1f]">Assessment</th>
-                            {soaData.visits.map((v, i) => (
+                            {soaData.visits.map((v: any, i: number) => (
                               <th key={i} className="p-3 border-b border-black/[0.06] text-center min-w-[100px] font-medium text-[#1d1d1f]">
-                                 <div className="text-xs">{v.label}</div>
+                                 <div className="text-xs max-w-[120px] truncate mx-auto" title={v.label}>{v.label}</div>
                                  <div className="text-[10px] text-[#86868b] mt-0.5">{v.win}</div>
                               </th>
                             ))}
                           </tr>
                         </thead>
                         <tbody>
-                          {soaData.rows.map((row, i) => (
-                            <tr key={i} className="group hover:bg-black/[0.02] transition-colors border-b border-black/[0.03] last:border-0">
+                          {soaData.rows.map((row: any, i: number) => (
+                            <tr key={i} className={cn(
+                                "group hover:bg-black/[0.02] transition-colors border-b border-black/[0.03] last:border-0",
+                                row.highlight && "bg-blue-50/30"
+                            )}>
                               <td className="p-3 pl-4 border-r border-black/[0.03] sticky left-0 bg-white group-hover:bg-gray-50/50 z-10 font-medium text-[#1d1d1f]">
                                  <div className="flex items-center gap-2">
                                     {row.conf === "low" && <div className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />}
@@ -233,7 +289,7 @@ export default function ProtocolAnalysis() {
                                     <FileText className="h-2.5 w-2.5" /> {row.source}
                                  </div>
                               </td>
-                              {row.v.map((val, j) => (
+                              {row.v.map((val: any, j: number) => (
                                 <td key={j} className="p-3 text-center">
                                    {val === 1 ? (
                                      <ProvenanceTooltip source={row.source} conf={row.conf}>
@@ -278,7 +334,7 @@ export default function ProtocolAnalysis() {
             )}
 
             {/* --- STEP 4: Review aCRF --- */}
-            {step === "review-acrf" && (
+            {step === "review-acrf" && acrfData && (
               <motion.div key="rev-acrf" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1000px] mx-auto">
                  <div className="flex justify-between items-center mb-8">
                     <div>
@@ -289,7 +345,7 @@ export default function ProtocolAnalysis() {
                  </div>
 
                  <div className="flex-1 overflow-auto pb-4 space-y-8">
-                    {acrfData.map((domain, i) => (
+                    {acrfData.map((domain: any, i: number) => (
                       <div key={i}>
                          <div className="flex items-center gap-3 mb-4">
                             <div className="h-6 w-10 bg-black/5 rounded flex items-center justify-center text-[10px] font-bold text-black/60">{domain.dom}</div>
@@ -307,7 +363,7 @@ export default function ProtocolAnalysis() {
                                   </tr>
                                </thead>
                                <tbody className="divide-y divide-black/[0.03]">
-                                  {domain.fields.map((field, j) => (
+                                  {domain.fields.map((field: any, j: number) => (
                                      <tr key={j} className="hover:bg-black/[0.01]">
                                         <td className="p-3 pl-5 font-mono text-[#1d1d1f] text-xs">{field.var}</td>
                                         <td className="p-3 text-black/70 text-xs">{field.lbl}</td>

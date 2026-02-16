@@ -1,0 +1,6761 @@
+{
+  "visits": [
+    {
+      "id": "ENC-001",
+      "name": "PD-L1 Testing",
+      "timing": {
+        "unit": "days",
+        "value": -1,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "before",
+        "lateBound": null,
+        "earlyBound": null,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "Prior to Day 1"
+      },
+      "visitType": "screening",
+      "provenance": {
+        "colIdx": 1,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "PD-L1 Testing (Prior to Day 1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-002",
+      "name": "Screening",
+      "timing": {
+        "unit": "days",
+        "value": -28,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 1,
+        "earlyBound": 28,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "-28 to -1"
+      },
+      "visitType": "screening",
+      "provenance": {
+        "colIdx": 2,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Screening (-4 to -1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-003",
+      "name": "Cycle 1",
+      "timing": {
+        "unit": "days",
+        "value": 1,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "late_only",
+        "lateBound": 3,
+        "earlyBound": null,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "+3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 3,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C1 (0)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "2"
+      ]
+    },
+    {
+      "id": "ENC-004",
+      "name": "Cycle 2",
+      "timing": {
+        "unit": "days",
+        "value": 29,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 4,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C2 (4)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-005",
+      "name": "Cycle 3",
+      "timing": {
+        "unit": "days",
+        "value": 57,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 5,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C3 (8)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-006",
+      "name": "Cycle 4",
+      "timing": {
+        "unit": "days",
+        "value": 85,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 6,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C4 (12)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-007",
+      "name": "Cycle 5",
+      "timing": {
+        "unit": "days",
+        "value": 113,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 7,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C5 (16)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-008",
+      "name": "Cycle 6",
+      "timing": {
+        "unit": "days",
+        "value": 141,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C6 (20)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-009",
+      "name": "Cycle 7",
+      "timing": {
+        "unit": "days",
+        "value": 169,
+        "provenance": {
+          "colIdx": 9,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 9,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C7 (24)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-010",
+      "name": "Cycles 8 to 12",
+      "timing": {
+        "unit": "days",
+        "value": 197,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 10,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C8 to C12 (28, 32, 36, 40, 44)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-011",
+      "name": "Cycle 13 and beyond",
+      "timing": {
+        "unit": "days",
+        "value": 337,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 11,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": {
+        "type": "cycle_based",
+        "pattern": "CYCLE:13+",
+        "interval": 4,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C13¹ etc. (48 etc.)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "1"
+      ]
+    },
+    {
+      "id": "ENC-010",
+      "name": "Cycle 8",
+      "timing": {
+        "unit": "days",
+        "value": 148,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 10,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C8",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-011",
+      "name": "Cycle 9",
+      "timing": {
+        "unit": "days",
+        "value": 169,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 11,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C9",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-012",
+      "name": "Cycles 10 to 17",
+      "timing": {
+        "unit": "days",
+        "value": 190,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 12,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P3W",
+        "interval": 3,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C10 to C17",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-013",
+      "name": "Cycle 18 and Beyond",
+      "timing": {
+        "unit": "days",
+        "value": 358,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 13,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P3W",
+        "interval": 3,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C18, C19, etc.",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-001",
+      "name": "Day 30",
+      "timing": {
+        "unit": "days",
+        "value": 30,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±3"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 1,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Day (±3) 30",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-002",
+      "name": "Month 2",
+      "timing": {
+        "unit": "months",
+        "value": 2,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 2,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 2",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-003",
+      "name": "Month 3",
+      "timing": {
+        "unit": "months",
+        "value": 3,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 3",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-004",
+      "name": "Month 4",
+      "timing": {
+        "unit": "months",
+        "value": 4,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-005",
+      "name": "Month 6",
+      "timing": {
+        "unit": "months",
+        "value": 6,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 6",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-006",
+      "name": "Month 8",
+      "timing": {
+        "unit": "months",
+        "value": 8,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 8",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-007",
+      "name": "Month 10",
+      "timing": {
+        "unit": "months",
+        "value": 10,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 10",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-008",
+      "name": "Long-term Follow-up",
+      "timing": {
+        "unit": "months",
+        "value": 12,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 14,
+        "earlyBound": 14,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±2 weeks"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 8,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P2M",
+        "interval": 2,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "intervalUnit": "months"
+      },
+      "parentVisit": null,
+      "originalName": "12 months and every 2 months (±2 weeks)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    }
+  ],
+  "footnotes": [
+    {
+      "text": "Patients who continue on treatment will be assessed in the same manner",
+      "marker": "1",
+      "category": "OPERATIONAL",
+      "ruleType": "reference",
+      "appliesTo": [
+        "ENC-011"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "subcategory": "site_instruction",
+      "structuredRule": {},
+      "classificationReasoning": "Provides instruction on how to assess continuing patients, purely operational guidance."
+    },
+    {
+      "text": "Every effort should be made to minimize the time between randomization and starting treatment. (i.e. on the same day after randomization)",
+      "marker": "2",
+      "category": "SCHEDULING",
+      "ruleType": "timing_modifier",
+      "appliesTo": [
+        "ENC-003"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": false,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "timing": "same_day_as_randomization"
+      },
+      "classificationReasoning": "Specifies timing constraint for starting treatment relative to randomization, affecting scheduling."
+    },
+    {
+      "text": "Informed consent of study procedures and tumor biopsy sample may be obtained prior to the 28-day screening window, if necessary, in order to permit tumor biopsy sample acquisition and analysis (PD-L1 status and, if unknown, EGFR and ALK status) prior to randomization.",
+      "marker": "3",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "timing": "prior_to_screening_window",
+        "condition": "if_biopsy_analysis_needed"
+      },
+      "classificationReasoning": "Creates conditional logic for when informed consent may be obtained earlier than typical screening window."
+    },
+    {
+      "text": "Body weight is recorded along with vital signs.",
+      "marker": "4",
+      "category": "OPERATIONAL",
+      "ruleType": "reference",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "subcategory": "documentation",
+      "structuredRule": {},
+      "classificationReasoning": "Provides documentation instruction for vital signs procedure, purely operational."
+    },
+    {
+      "text": "Any clinically significant abnormalities detected require a confirmatory ECG.",
+      "marker": "5",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "action": "confirmatory_ECG_required",
+        "condition": "if_clinically_significant_abnormality"
+      },
+      "classificationReasoning": "Creates conditional requirement for additional ECG based on clinical findings."
+    },
+    {
+      "text": "If screening laboratory assessments are performed within 3 days prior to Day 1 (first infusion day), they do not need to be repeated at Day 1.",
+      "marker": "6",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "action": "do_not_repeat",
+        "condition": "if_within_3_days_of_day1"
+      },
+      "classificationReasoning": "Creates conditional logic based on timing (within 3 days) that affects whether assessments are repeated, impacting both branching and scheduling."
+    },
+    {
+      "text": "Free T3 and free T4 will only be measured if TSH is abnormal or if there is clinical suspicion of an AE related to the endocrine system.",
+      "marker": "7",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "tests": [
+          "free_T3",
+          "free_T4"
+        ],
+        "condition": "if_TSH_abnormal_or_endocrine_AE_suspected"
+      },
+      "classificationReasoning": "Creates conditional requirement for additional lab tests based on TSH results or clinical suspicion."
+    },
+    {
+      "text": "For women of childbearing potential only. A urine or serum pregnancy test is acceptable.",
+      "marker": "8",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "subcategory": "population_subset",
+      "structuredRule": {
+        "tests": [
+          "pregnancy_test_urine_or_serum"
+        ],
+        "condition": "if_female_childbearing_potential"
+      },
+      "classificationReasoning": "Creates conditional requirement for specific population (women of childbearing potential)."
+    },
+    {
+      "text": "To be administered in line with local practice for patients with non-squamous tumors who will receive pemetrexed if randomized to SoC group.",
+      "marker": "9",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "subcategory": "population_subset",
+      "structuredRule": {
+        "condition": "if_non_squamous_and_SoC_group",
+        "medication": "folic_acid_vitamin_B12"
+      },
+      "classificationReasoning": "Creates conditional requirement for specific tumor type and treatment group."
+    },
+    {
+      "text": "Results for urea and electrolytes, full blood count, and liver function tests must be available before commencing an infusion (within 3 days).",
+      "marker": "10",
+      "category": "SCHEDULING",
+      "ruleType": "timing_modifier",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": false,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "tests": [
+          "urea_electrolytes",
+          "full_blood_count",
+          "liver_function"
+        ],
+        "timing": "before_infusion",
+        "withinDays": 3
+      },
+      "classificationReasoning": "Specifies timing requirement for lab results availability before infusion, affecting scheduling."
+    },
+    {
+      "text": "In instances where the PRO assessments coincide with a clinic visit, the research nurse or study coordinator should verify that the questionnaire was completed before the visit. If not, the patient should complete the questionnaire prior to any other study procedures and before discussion of disease progression to avoid biasing the patient's responses to the questions.",
+      "marker": "11",
+      "category": "OPERATIONAL",
+      "ruleType": "timing_modifier",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "subcategory": "site_instruction",
+      "structuredRule": {
+        "action": "complete_PRO_first",
+        "timing": "before_visit_procedures"
+      },
+      "classificationReasoning": "Provides detailed procedural instructions for PRO assessment timing to avoid bias, operational guidance."
+    },
+    {
+      "text": "Informed consent of study procedures and tumor biopsy sample may be obtained prior to the 28-day screening window, if necessary, in order to permit tumor biopsy sample acquisition and analysis prior to randomization.",
+      "marker": "12",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "timing": "prior_to_screening_window",
+        "condition": "if_biopsy_analysis_needed"
+      },
+      "classificationReasoning": "Creates conditional logic for when biopsy consent may be obtained earlier than typical screening window."
+    },
+    {
+      "text": "For patients with unknown status of ALK and/or EGFR NSCLC.",
+      "marker": "13",
+      "category": "CONDITIONAL",
+      "ruleType": "conditional",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "subcategory": "population_subset",
+      "structuredRule": {
+        "tests": [
+          "EGFR",
+          "ALK"
+        ],
+        "condition": "if_unknown_ALK_or_EGFR_status"
+      },
+      "classificationReasoning": "Creates conditional requirement for specific patient population with unknown biomarker status."
+    },
+    {
+      "text": "RECIST 1.1 assessments will be performed on CT/MRI images of the chest and abdomen (including liver and adrenal glands). Additional anatomy should be imaged based on signs and symptoms of individual patients at baseline and follow-up. Baseline assessments should be performed no more than 28 days before the date of randomization and, ideally, should be performed as close as possible to and prior to the start of study treatment. The radiological progression confirmatory scans should be performed no less than 4 weeks after the prior assessment of PD and preferably at the next scheduled visit (in the absence of clinically significant deterioration). If an unscheduled assessment was performed and the patient has not progressed, every attempt should be made to perform the subsequent assessments at their next scheduled visit. Treatment through confirmed radiologic PD for patients who may continue to benefit from the durvalumab at the discretion of investigator must be discussed on a case by case basis after consultation with the Sponsor",
+      "marker": "14",
+      "category": [
+        "SCHEDULING",
+        "CONDITIONAL"
+      ],
+      "ruleType": "reference",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "condition": "if_unscheduled_assessment_no_progression",
+        "baselineWindow": 28,
+        "anatomyRequired": [
+          "chest",
+          "abdomen",
+          "liver",
+          "adrenal_glands"
+        ],
+        "confirmationInterval": 4
+      },
+      "classificationReasoning": "Multi-label: Contains both timing constraints (28 days, 4 weeks) affecting scheduling AND conditional logic for progression assessments affecting branching."
+    },
+    {
+      "text": "Every effort should be made to minimize the time between randomization and starting treatment. (i.e., on the same day after randomization)",
+      "marker": "16",
+      "category": "SCHEDULING",
+      "ruleType": "timing_modifier",
+      "appliesTo": [
+        "ENC-003"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": false,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "timing": "same_day_as_randomization"
+      },
+      "classificationReasoning": "Specifies timing constraint to minimize time between randomization and treatment start, affecting scheduling."
+    },
+    {
+      "text": "Informed consent of study procedures and tumor biopsy sample may be obtained prior to the 28-day screening window, if necessary, in order to permit tumor biopsy sample acquisition and analysis prior to randomization",
+      "marker": "17",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "conditional",
+      "appliesTo": [
+        "ENC-002"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "timing": "prior_to_screening_window",
+        "condition": "if_necessary_for_biopsy"
+      },
+      "classificationReasoning": "Multi-label: Creates conditional logic (if necessary for biopsy) AND affects scheduling (prior to 28-day window). Both EDC branching and scheduling are affected."
+    },
+    {
+      "text": "Before every infusion or administration and as clinically indicated.",
+      "marker": "18",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "timing_modifier",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "timing": "pre_infusion",
+        "condition": "clinically_indicated"
+      },
+      "classificationReasoning": "Multi-label: Specifies timing (before infusion) AND conditional requirement (as clinically indicated). Both scheduling and branching logic are affected."
+    },
+    {
+      "text": "To be collected every 3 weeks prior to the start of infusion and as clinically indicated. If screening laboratory assessments are performed within 3 days prior to Day 1 (first infusion day), they do not need to be repeated at Day 1.",
+      "marker": "20",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "frequency",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "subcategory": "recurrence",
+      "structuredRule": {
+        "timing": "pre_infusion",
+        "condition": "if_within_3_days_no_repeat",
+        "frequency": "every_3_weeks"
+      },
+      "classificationReasoning": "Multi-label: Specifies frequency (every 3 weeks) AND conditional logic (if within 3 days, don't repeat). Both scheduling and branching are affected."
+    },
+    {
+      "text": "RECIST 1.1 assessments will be performed on CT/MRI images of the chest and abdomen (including liver and adrenal glands). Additional anatomy should be imaged based on signs and symptoms of individual patients at baseline and follow-up. Baseline assessments should be performed no more than 28 days before the date of randomization and, ideally, should be performed as close as possible to and prior to the start of study treatment. The radiological progression confirmatory scans should be performed no less than 4 weeks after the prior assessment of PD and preferably at the next scheduled visit (in the absence of clinically significant deterioration). If an unscheduled assessment was performed and the patient has not progressed, every attempt should be made to perform the subsequent assessments at their next scheduled visit.",
+      "marker": "28",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "visit_window",
+      "appliesTo": [],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-2",
+        "pageNumber": 82
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "condition": "additional_anatomy_if_indicated",
+        "baselineWindow": "within_28_days_pre_randomization",
+        "confirmationWindow": "minimum_4_weeks_after_pd"
+      },
+      "classificationReasoning": "Multi-label: Specifies multiple timing constraints (28 days before randomization, 4 weeks between scans) AND conditional logic (additional anatomy if indicated). Both scheduling and branching are affected."
+    },
+    {
+      "text": "Physical exams are described in Section 5.2.2.",
+      "marker": "1",
+      "category": "OPERATIONAL",
+      "ruleType": "reference",
+      "appliesTo": [
+        "ACT-001"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "documentation",
+      "structuredRule": {
+        "reference": "Section 5.2.2"
+      },
+      "classificationReasoning": "References protocol section for detailed procedures, providing documentation guidance without EDC logic impact."
+    },
+    {
+      "text": "The AE/SAE follow-up for SoC is only 30 days",
+      "marker": "3",
+      "category": "SCHEDULING",
+      "ruleType": "timing_modifier",
+      "appliesTo": [
+        "ACT-005"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": false,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "timing_constraint",
+      "structuredRule": {
+        "condition": "SoC_group",
+        "durationDays": 30
+      },
+      "classificationReasoning": "Specifies different timing constraint for Standard of Care group, affecting scheduling duration."
+    },
+    {
+      "text": "WHO/ECOG performance status should also be collected at other site visits that the patient attends, if appropriate site staff are available to collect such information. In addition, WHO performance status should be provided when information on subsequent anticancer therapy is provided, where possible.",
+      "marker": "4",
+      "category": "SCHEDULING",
+      "ruleType": "frequency",
+      "appliesTo": [
+        "ACT-007"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": false,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "recurrence",
+      "structuredRule": {
+        "additionalCollection": "other_visits_and_subsequent_therapy"
+      },
+      "classificationReasoning": "Specifies additional collection timepoints and frequency for WHO/ECOG performance status beyond scheduled visits."
+    },
+    {
+      "text": "Details of any treatment for NSCLC (including surgery) post the last dose of study treatment must be recorded in the eCRF.",
+      "marker": "5",
+      "category": "OPERATIONAL",
+      "ruleType": "timing_modifier",
+      "appliesTo": [
+        "ACT-008"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "documentation",
+      "structuredRule": {
+        "scope": "post_study_treatment_NSCLC",
+        "requirement": "record_in_eCRF"
+      },
+      "classificationReasoning": "Specifies documentation requirement for post-treatment NSCLC therapy in eCRF without creating conditional logic."
+    },
+    {
+      "text": "PFS2 assessment will be performed by the Investigator and defined according to local standard clinical practice and may involve any of the following: objective radiological imaging, symptomatic progression, or death. For patients who discontinue their assigned IP following confirmed progression, available readings of CT/MRI from local practice will be collected from the patients' medical charts while information on subsequent anticancer treatment and/or PFS2 is collected.",
+      "marker": "6",
+      "category": "OPERATIONAL",
+      "ruleType": "frequency",
+      "appliesTo": [
+        "ACT-008"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "site_instruction",
+      "structuredRule": {
+        "methods": [
+          "radiological_imaging",
+          "symptomatic_progression",
+          "death"
+        ],
+        "criteria": "local_standard_practice",
+        "assessmentBy": "investigator"
+      },
+      "classificationReasoning": "Describes PFS2 assessment procedures and data collection methods per local practice without creating EDC logic constraints."
+    },
+    {
+      "text": "Patients may be contacted in the week following data cut-offs to confirm survival status. Details of any treatment for NSCLC (including surgery) post the last dose of study treatment must be recorded in the eCRF.",
+      "marker": "7",
+      "category": "OPERATIONAL",
+      "ruleType": "frequency",
+      "appliesTo": [
+        "ACT-009"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "site_instruction",
+      "structuredRule": {
+        "contactTiming": "week_following_data_cutoffs",
+        "documentation": "eCRF_required"
+      },
+      "classificationReasoning": "Describes patient contact procedures for survival status confirmation and documentation requirements without EDC logic impact."
+    },
+    {
+      "text": "For patients in the durvalumab group only. Immunogenicity samples for durvalumab are collected 90 days (3 months) (+ 7 days) after treatment with the applicable drug ends. In addition a final immunogenicity sample is taken 6 months (+ 7 days) after treatment with the applicable drug ends.",
+      "marker": "9",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "conditional",
+      "appliesTo": [
+        "ACT-013"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "population_subset",
+      "structuredRule": {
+        "condition": "durvalumab_group_only",
+        "relativeTo": "end_of_treatment",
+        "timingPoints": [
+          "90_days_plus_7",
+          "6_months_plus_7"
+        ]
+      },
+      "classificationReasoning": "Multi-label: Creates conditional branch for durvalumab patients only AND specifies specific timing windows (90 days, 6 months)."
+    },
+    {
+      "text": "Patients will complete PROs using handheld devices at home.",
+      "marker": "10",
+      "category": "OPERATIONAL",
+      "ruleType": "timing_modifier",
+      "appliesTo": [
+        "ACT-014"
+      ],
+      "edcImpact": {
+        "isInformational": true,
+        "affectsBranching": false,
+        "affectsScheduling": false
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "site_instruction",
+      "structuredRule": {
+        "method": "handheld_devices",
+        "location": "home"
+      },
+      "classificationReasoning": "Describes PRO completion method and location without creating conditional logic or scheduling constraints."
+    },
+    {
+      "text": "Only for patients yet to progress, RECIST 1.1 assessments will be performed on CT/MRI images of the chest and abdomen (including liver and adrenal glands). Additional anatomy should be imaged based on signs and symptoms of individual patients. The radiological progression confirmatory scans should preferably be performed no less than 4 weeks after the prior assessment of PD and preferably at the next scheduled visit (in the absence of clinically significant deterioration). If an unscheduled assessment was performed and the patient has not progressed, every attempt should be made to perform the subsequent assessments at their scheduled visits (relative to the date of randomization). All confirmatory scans should be recorded on the database.",
+      "marker": "12",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "conditional",
+      "appliesTo": [
+        "ACT-016"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "anatomy": [
+          "chest",
+          "abdomen",
+          "liver",
+          "adrenal_glands"
+        ],
+        "criteria": "RECIST_1.1",
+        "condition": "patients_yet_to_progress",
+        "confirmationTiming": "minimum_4_weeks_after_PD"
+      },
+      "classificationReasoning": "Multi-label: Creates conditional branch for patients yet to progress AND specifies timing constraints (4 weeks minimum, scheduled visits)."
+    },
+    {
+      "text": "If the patient continues to derive benefit from study treatment, then scans should continue to be collected following the original schedule and analysed by RECIST1.1, even after confirmed radiographic progression.",
+      "marker": "13",
+      "category": [
+        "CONDITIONAL",
+        "SCHEDULING"
+      ],
+      "ruleType": "conditional",
+      "appliesTo": [
+        "ACT-016"
+      ],
+      "edcImpact": {
+        "isInformational": false,
+        "affectsBranching": true,
+        "affectsScheduling": true
+      },
+      "provenance": {
+        "tableId": "SOA-1",
+        "location": "table_footer",
+        "pageNumber": 83
+      },
+      "subcategory": "clinical_indication",
+      "structuredRule": {
+        "analysis": "RECIST1.1",
+        "schedule": "original_schedule",
+        "condition": "continues_to_derive_benefit",
+        "continuePastProgression": true
+      },
+      "classificationReasoning": "Multi-label: Creates conditional branch for patients deriving benefit AND specifies continued scheduling even after progression."
+    }
+  ],
+  "activities": [
+    {
+      "id": "ACT-001",
+      "name": "Informed consent",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 5,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "cdashDomain": "IC"
+    },
+    {
+      "id": "ACT-002",
+      "name": "Physical exam (full)",
+      "category": "PHYSICAL_EXAM",
+      "provenance": {
+        "rowIdx": 7,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "cdashDomain": "PE"
+    },
+    {
+      "id": "ACT-003",
+      "name": "Targeted physical exam (based on symptoms)",
+      "category": "PHYSICAL_EXAM",
+      "provenance": {
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "cdashDomain": "PE"
+    },
+    {
+      "id": "ACT-004",
+      "name": "Vital signs",
+      "category": "VITAL_SIGNS",
+      "provenance": {
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "cdashDomain": "VS"
+    },
+    {
+      "id": "ACT-005",
+      "name": "ECG",
+      "category": "ECG",
+      "provenance": {
+        "rowIdx": 10,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "EG"
+    },
+    {
+      "id": "ACT-006",
+      "name": "Concomitant medications",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 11,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "CM"
+    },
+    {
+      "id": "ACT-007",
+      "name": "Demography, including baseline characteristics and tobacco use",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 12,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "DM"
+    },
+    {
+      "id": "ACT-008",
+      "name": "Eligibility criteria",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 13,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "IE"
+    },
+    {
+      "id": "ACT-009",
+      "name": "Clinical chemistry",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-010",
+      "name": "Hematology",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-011",
+      "name": "APTT and INR",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 17,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-012",
+      "name": "TSH, free T3, and free T4",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-013",
+      "name": "Urinalysis",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 19,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-014",
+      "name": "Hepatitis B and C and HIV",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 20,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-015",
+      "name": "Pregnancy test",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-016",
+      "name": "WHO/ECOG performance status",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "PS"
+    },
+    {
+      "id": "ACT-017",
+      "name": "AE/SAE assessment",
+      "category": "SAFETY",
+      "provenance": {
+        "rowIdx": 24,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "cdashDomain": "AE"
+    },
+    {
+      "id": "ACT-018",
+      "name": "Drug accountability",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "cdashDomain": "DA"
+    },
+    {
+      "id": "ACT-019",
+      "name": "Folic acid",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 27,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "cdashDomain": "CM"
+    },
+    {
+      "id": "ACT-020",
+      "name": "IM Vitamin B12",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 28,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "cdashDomain": "CM"
+    },
+    {
+      "id": "ACT-021",
+      "name": "Durvalumab",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "cdashDomain": "EX"
+    },
+    {
+      "id": "ACT-022",
+      "name": "EORTC QLQ-C30, CCI",
+      "category": "QUESTIONNAIRE",
+      "provenance": {
+        "rowIdx": 32,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "cdashDomain": "QS"
+    },
+    {
+      "id": "ACT-023",
+      "name": "EORTC QLQ-LC13",
+      "category": "QUESTIONNAIRE",
+      "provenance": {
+        "rowIdx": 33,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "cdashDomain": "QS"
+    },
+    {
+      "id": "ACT-024",
+      "name": "Immunogenicity assessment (ADA sampling to identify ADA responses in patient circulation)",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 35,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "cdashDomain": "IS"
+    },
+    {
+      "id": "ACT-025",
+      "name": "Tumor biopsy (newly acquired or archived <3 months old)",
+      "category": "SPECIMEN_COLLECTION",
+      "provenance": {
+        "rowIdx": 36,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "cdashDomain": "MB"
+    },
+    {
+      "id": "ACT-026",
+      "name": "EGFR and ALK test",
+      "category": "LABORATORY",
+      "provenance": {
+        "rowIdx": 37,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-027",
+      "name": "Tumor evaluation (CT or MRI) (RECIST 1.1)",
+      "category": "IMAGING",
+      "provenance": {
+        "rowIdx": 38,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "cdashDomain": "TU"
+    },
+    {
+      "id": "ACT-028",
+      "name": "CCI",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 40,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "cdashDomain": "HE"
+    },
+    {
+      "id": "ACT-020",
+      "name": "Platinum-based chemotherapy",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 29,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "cdashDomain": "EX"
+    },
+    {
+      "id": "ACT-026",
+      "name": "CCI (red text)",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 38,
+        "tableId": "SOA-2",
+        "pageNumber": 82
+      },
+      "cdashDomain": "QS"
+    },
+    {
+      "id": "ACT-001",
+      "name": "Physical examination (full)",
+      "category": "PHYSICAL_EXAM",
+      "provenance": {
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "cdashDomain": "PE"
+    },
+    {
+      "id": "ACT-002",
+      "name": "Vital signs (temperature, respiratory rate, blood pressure, and pulse)",
+      "category": "VITAL_SIGNS",
+      "provenance": {
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "cdashDomain": "VS"
+    },
+    {
+      "id": "ACT-003",
+      "name": "Weight",
+      "category": "VITAL_SIGNS",
+      "provenance": {
+        "rowIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "cdashDomain": "VS"
+    },
+    {
+      "id": "ACT-008",
+      "name": "Subsequent anticancer therapy and second progression assessment",
+      "category": "EFFICACY",
+      "provenance": {
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "cdashDomain": "TU"
+    },
+    {
+      "id": "ACT-009",
+      "name": "Survival status",
+      "category": "OTHER",
+      "provenance": {
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "cdashDomain": "DS"
+    },
+    {
+      "id": "ACT-013",
+      "name": "Immunogenicity assessment (ADA sampling) to identify ADA responses in patient circulation (durvalumab group only)",
+      "category": "SPECIMEN_COLLECTION",
+      "provenance": {
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 85
+      },
+      "cdashDomain": "LB"
+    },
+    {
+      "id": "ACT-016",
+      "name": "Tumor assessment (CT or MRI)",
+      "category": "IMAGING",
+      "provenance": {
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 86
+      },
+      "cdashDomain": "TU"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "ENC-001",
+      "name": "PD-L1 Testing",
+      "timing": {
+        "unit": "days",
+        "value": -1,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "before",
+        "lateBound": null,
+        "earlyBound": null,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "Prior to Day 1"
+      },
+      "visitType": "screening",
+      "provenance": {
+        "colIdx": 1,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "PD-L1 Testing (Prior to Day 1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-002",
+      "name": "Screening",
+      "timing": {
+        "unit": "days",
+        "value": -28,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 1,
+        "earlyBound": 28,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "-28 to -1"
+      },
+      "visitType": "screening",
+      "provenance": {
+        "colIdx": 2,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Screening (-4 to -1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-003",
+      "name": "Cycle 1",
+      "timing": {
+        "unit": "days",
+        "value": 1,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "late_only",
+        "lateBound": 3,
+        "earlyBound": null,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "+3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 3,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C1 (0)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "2"
+      ]
+    },
+    {
+      "id": "ENC-004",
+      "name": "Cycle 2",
+      "timing": {
+        "unit": "days",
+        "value": 29,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 4,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C2 (4)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-005",
+      "name": "Cycle 3",
+      "timing": {
+        "unit": "days",
+        "value": 57,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 5,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C3 (8)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-006",
+      "name": "Cycle 4",
+      "timing": {
+        "unit": "days",
+        "value": 85,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 6,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C4 (12)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-007",
+      "name": "Cycle 5",
+      "timing": {
+        "unit": "days",
+        "value": 113,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 7,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C5 (16)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-008",
+      "name": "Cycle 6",
+      "timing": {
+        "unit": "days",
+        "value": 141,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C6 (20)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-009",
+      "name": "Cycle 7",
+      "timing": {
+        "unit": "days",
+        "value": 169,
+        "provenance": {
+          "colIdx": 9,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 9,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C7 (24)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-010",
+      "name": "Cycles 8 to 12",
+      "timing": {
+        "unit": "days",
+        "value": 197,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 10,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C8 to C12 (28, 32, 36, 40, 44)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-011",
+      "name": "Cycle 13 and beyond",
+      "timing": {
+        "unit": "days",
+        "value": 337,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "relativeTo": "first_dose"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 11,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "recurrence": {
+        "type": "cycle_based",
+        "pattern": "CYCLE:13+",
+        "interval": 4,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-1",
+          "pageNumber": 69
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C13¹ etc. (48 etc.)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "1"
+      ]
+    },
+    {
+      "id": "ENC-010",
+      "name": "Cycle 8",
+      "timing": {
+        "unit": "days",
+        "value": 148,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 10,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 10,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C8",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-011",
+      "name": "Cycle 9",
+      "timing": {
+        "unit": "days",
+        "value": 169,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 11,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 11,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "C9",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-012",
+      "name": "Cycles 10 to 17",
+      "timing": {
+        "unit": "days",
+        "value": 190,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 12,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P3W",
+        "interval": 3,
+        "provenance": {
+          "colIdx": 12,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C10 to C17",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-013",
+      "name": "Cycle 18 and Beyond",
+      "timing": {
+        "unit": "days",
+        "value": 358,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "relativeTo": "randomization"
+      },
+      "window": {
+        "type": "range",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "description": "±3"
+      },
+      "visitType": "treatment",
+      "provenance": {
+        "colIdx": 13,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P3W",
+        "interval": 3,
+        "provenance": {
+          "colIdx": 13,
+          "tableId": "SOA-2",
+          "pageNumber": 76
+        },
+        "intervalUnit": "weeks"
+      },
+      "parentVisit": null,
+      "originalName": "C18, C19, etc.",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-001",
+      "name": "Day 30",
+      "timing": {
+        "unit": "days",
+        "value": 30,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 3,
+        "earlyBound": 3,
+        "provenance": {
+          "colIdx": 1,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±3"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 1,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Day (±3) 30",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-002",
+      "name": "Month 2",
+      "timing": {
+        "unit": "months",
+        "value": 2,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 2,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 2,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 2",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-003",
+      "name": "Month 3",
+      "timing": {
+        "unit": "months",
+        "value": 3,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 3,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 3",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-004",
+      "name": "Month 4",
+      "timing": {
+        "unit": "months",
+        "value": 4,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 4,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-005",
+      "name": "Month 6",
+      "timing": {
+        "unit": "months",
+        "value": 6,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 5,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 6",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-006",
+      "name": "Month 8",
+      "timing": {
+        "unit": "months",
+        "value": 8,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 6,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 8",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-007",
+      "name": "Month 10",
+      "timing": {
+        "unit": "months",
+        "value": 10,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 7,
+        "earlyBound": 7,
+        "provenance": {
+          "colIdx": 7,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±1 week"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": null,
+      "parentVisit": null,
+      "originalName": "Months (±1 week) 10",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "ENC-008",
+      "name": "Long-term Follow-up",
+      "timing": {
+        "unit": "months",
+        "value": 12,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "relativeTo": "end_of_treatment"
+      },
+      "window": {
+        "type": "symmetric",
+        "lateBound": 14,
+        "earlyBound": 14,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "description": "±2 weeks"
+      },
+      "visitType": "follow_up",
+      "provenance": {
+        "colIdx": 8,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "recurrence": {
+        "type": "fixed_interval",
+        "pattern": "P2M",
+        "interval": 2,
+        "provenance": {
+          "colIdx": 8,
+          "tableId": "SOA-3",
+          "pageNumber": 83
+        },
+        "intervalUnit": "months"
+      },
+      "parentVisit": null,
+      "originalName": "12 months and every 2 months (±2 weeks)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    }
+  ],
+  "protocolId": "NCT03003962_Protocol",
+  "scheduledActivityInstances": [
+    {
+      "id": "SAI-001",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-001",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 5,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Informed consent",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "3"
+      ]
+    },
+    {
+      "id": "SAI-002",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-002",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 7,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Physical exam (full)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-003",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-004",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-005",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-006",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-007",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-008",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-009",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-010",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-011",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 8,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-012",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-013",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-014",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-015",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-016",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-017",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-018",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-019",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-020",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-021",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 9,
+        "tableId": "SOA-1",
+        "pageNumber": 69
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-022",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-005",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 10,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "ECG",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-023",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-007",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 12,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Demography, including baseline characteristics and tobacco use",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-024",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-007",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 12,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Demography, including baseline characteristics and tobacco use",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-025",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-008",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 13,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Eligibility criteria",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-026",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-008",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 13,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Eligibility criteria",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-027",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-028",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-029",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-030",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-031",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-032",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-033",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-034",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-035",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-036",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 15,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-037",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-038",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-039",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-040",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-041",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-042",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-043",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-044",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-045",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-046",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 16,
+        "tableId": "SOA-1",
+        "pageNumber": 70
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-047",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-048",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-049",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-050",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-051",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-052",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-053",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-054",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-055",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-056",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 18,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-057",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-014",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 20,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Hepatitis B and C and HIV",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-058",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-059",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-060",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-061",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-062",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-063",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-064",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-065",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-066",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-067",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 21,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-068",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-069",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-070",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-071",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-072",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-073",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-074",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-075",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-076",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-077",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 23,
+        "tableId": "SOA-1",
+        "pageNumber": 71
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-078",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-079",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-080",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-081",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-082",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-083",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-084",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-085",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-086",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 25,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Drug accountability",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-087",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-019",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 27,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Folic acid",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-088",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-020",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 28,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "IM Vitamin B12",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-089",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-090",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-091",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-092",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-093",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-094",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-095",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-096",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycles 8 to 12",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-097",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 13 and beyond",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 30,
+        "tableId": "SOA-1",
+        "pageNumber": 72
+      },
+      "parentVisit": null,
+      "activityName": "Durvalumab",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-098",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-022",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 32,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "EORTC QLQ-C30, CCI",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-099",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-023",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 33,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "EORTC QLQ-LC13",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-100",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-024",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 35,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "Immunogenicity assessment (ADA sampling to identify ADA responses in patient circulation)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-101",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-024",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 35,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "Immunogenicity assessment (ADA sampling to identify ADA responses in patient circulation)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-102",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-024",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 35,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "Immunogenicity assessment (ADA sampling to identify ADA responses in patient circulation)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-103",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-025",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 36,
+        "tableId": "SOA-1",
+        "pageNumber": 73
+      },
+      "parentVisit": null,
+      "activityName": "Tumor biopsy (newly acquired or archived <3 months old)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "12"
+      ]
+    },
+    {
+      "id": "SAI-104",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-026",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 37,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "parentVisit": null,
+      "activityName": "EGFR and ALK test",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "13"
+      ]
+    },
+    {
+      "id": "SAI-105",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-027",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 38,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "parentVisit": null,
+      "activityName": "Tumor evaluation (CT or MRI) (RECIST 1.1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-106",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-028",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 40,
+        "tableId": "SOA-1",
+        "pageNumber": 74
+      },
+      "parentVisit": null,
+      "activityName": "CCI",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-001",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-001",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 5,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Informed consent",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "17"
+      ]
+    },
+    {
+      "id": "SAI-002",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-002",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 7,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Physical exam (full)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-003",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-004",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-005",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-006",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-007",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-008",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-009",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-010",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycle 8",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-011",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-012",
+      "visitId": "ENC-012",
+      "condition": null,
+      "visitName": "Cycles 10 to 17",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 12,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-013",
+      "visitId": "ENC-013",
+      "condition": null,
+      "visitName": "Cycle 18 and Beyond",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 13,
+        "rowIdx": 8,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Targeted physical exam (based on symptoms)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-014",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-015",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-016",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-017",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-018",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-019",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-020",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-021",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-022",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycle 8",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-023",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-024",
+      "visitId": "ENC-012",
+      "condition": null,
+      "visitName": "Cycles 10 to 17",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 12,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-025",
+      "visitId": "ENC-013",
+      "condition": null,
+      "visitName": "Cycle 18 and Beyond",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 13,
+        "rowIdx": 9,
+        "tableId": "SOA-2",
+        "pageNumber": 76
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-026",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-005",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 10,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "ECG",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-027",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-007",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 12,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Demography, including baseline characteristics and tobacco use",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-028",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-007",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 12,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Demography, including baseline characteristics and tobacco use",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-029",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-008",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 13,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Eligibility criteria",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-030",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-008",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 13,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Eligibility criteria",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-031",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-032",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-033",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-034",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-035",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-036",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-037",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-038",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-039",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycle 8",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-040",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-041",
+      "visitId": "ENC-012",
+      "condition": null,
+      "visitName": "Cycles 10 to 17",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 12,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-042",
+      "visitId": "ENC-013",
+      "condition": null,
+      "visitName": "Cycle 18 and Beyond",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 13,
+        "rowIdx": 15,
+        "tableId": "SOA-2",
+        "pageNumber": 77
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-043",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-044",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-045",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-046",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-047",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-048",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-049",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-050",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-051",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycle 8",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-052",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-053",
+      "visitId": "ENC-012",
+      "condition": null,
+      "visitName": "Cycles 10 to 17",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 12,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-054",
+      "visitId": "ENC-013",
+      "condition": null,
+      "visitName": "Cycle 18 and Beyond",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 13,
+        "rowIdx": 16,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-055",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-011",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 17,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "APTT and INR",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-056",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 18,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-057",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 18,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-058",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 18,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-059",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-013",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 19,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Urinalysis",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-060",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-014",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 20,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Hepatitis B and C and HIV",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-061",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-015",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 21,
+        "tableId": "SOA-2",
+        "pageNumber": 78
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-062",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-063",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-064",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-065",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Cycle 3",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-066",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Cycle 4",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-067",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Cycle 5",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-068",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Cycle 6",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-069",
+      "visitId": "ENC-009",
+      "condition": null,
+      "visitName": "Cycle 7",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 9,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-070",
+      "visitId": "ENC-010",
+      "condition": null,
+      "visitName": "Cycle 8",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 10,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-071",
+      "visitId": "ENC-011",
+      "condition": null,
+      "visitName": "Cycle 9",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 11,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-072",
+      "visitId": "ENC-012",
+      "condition": null,
+      "visitName": "Cycles 10 to 17",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 12,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-073",
+      "visitId": "ENC-013",
+      "condition": null,
+      "visitName": "Cycle 18 and Beyond",
+      "activityId": "ACT-016",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 13,
+        "rowIdx": 23,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "WHO/ECOG performance status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-074",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-018",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 26,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "Folic acid",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-075",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-019",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 27,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "IM Vitamin B12",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-076",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Cycle 1",
+      "activityId": "ACT-020",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 29,
+        "tableId": "SOA-2",
+        "pageNumber": 79
+      },
+      "parentVisit": null,
+      "activityName": "Platinum-based chemotherapy",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-077",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-021",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 31,
+        "tableId": "SOA-2",
+        "pageNumber": 80
+      },
+      "parentVisit": null,
+      "activityName": "EORTC QLQ-C30, CCI",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-078",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-022",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 32,
+        "tableId": "SOA-2",
+        "pageNumber": 80
+      },
+      "parentVisit": null,
+      "activityName": "EORTC QLQ-LC13",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-079",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-023",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 34,
+        "tableId": "SOA-2",
+        "pageNumber": 81
+      },
+      "parentVisit": null,
+      "activityName": "Tumor biopsy (newly acquired or archived <3 months old)",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "26"
+      ]
+    },
+    {
+      "id": "SAI-080",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "PD-L1 Testing",
+      "activityId": "ACT-024",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 35,
+        "tableId": "SOA-2",
+        "pageNumber": 81
+      },
+      "parentVisit": null,
+      "activityName": "EGFR and ALK test",
+      "timingModifier": null,
+      "footnoteMarkers": [
+        "27"
+      ]
+    },
+    {
+      "id": "SAI-081",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Screening",
+      "activityId": "ACT-025",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 36,
+        "tableId": "SOA-2",
+        "pageNumber": 81
+      },
+      "parentVisit": null,
+      "activityName": "Tumor evaluation (CT or MRI) (RECIST 1.1)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-082",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Cycle 2",
+      "activityId": "ACT-026",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 38,
+        "tableId": "SOA-2",
+        "pageNumber": 82
+      },
+      "parentVisit": null,
+      "activityName": "CCI (red text)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-001",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-001",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Physical examination (full)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-002",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-002",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Vital signs (temperature, respiratory rate, blood pressure, and pulse)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-003",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-003",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Weight",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-004",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-004",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Pregnancy test",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-005",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-005",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "AE/SAE assessment",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-006",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Month 2",
+      "activityId": "ACT-005",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "AE/SAE assessment",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-007",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-005",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "AE/SAE assessment",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-008",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-006",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 8,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Concomitant medications",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-009",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Month 2",
+      "activityId": "ACT-006",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 8,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Concomitant medications",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-010",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-006",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 8,
+        "tableId": "SOA-3",
+        "pageNumber": 83
+      },
+      "parentVisit": null,
+      "activityName": "Concomitant medications",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-011",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Month 2",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-012",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-013",
+      "visitId": "ENC-004",
+      "condition": null,
+      "visitName": "Month 4",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 4,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-014",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Month 6",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-015",
+      "visitId": "ENC-006",
+      "condition": null,
+      "visitName": "Month 8",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 6,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-016",
+      "visitId": "ENC-007",
+      "condition": null,
+      "visitName": "Month 10",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 7,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-017",
+      "visitId": "ENC-008",
+      "condition": null,
+      "visitName": "Long-term Follow-up",
+      "activityId": "ACT-009",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 8,
+        "rowIdx": 4,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Survival status",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-018",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-019",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Month 2",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-020",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-010",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 5,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Hematology",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-021",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-011",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-022",
+      "visitId": "ENC-002",
+      "condition": null,
+      "visitName": "Month 2",
+      "activityId": "ACT-011",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 2,
+        "rowIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-023",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-011",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 6,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "Clinical chemistry",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-024",
+      "visitId": "ENC-001",
+      "condition": null,
+      "visitName": "Day 30",
+      "activityId": "ACT-012",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 1,
+        "rowIdx": 7,
+        "tableId": "SOA-3",
+        "pageNumber": 84
+      },
+      "parentVisit": null,
+      "activityName": "TSH, free T3, and free T4",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-025",
+      "visitId": "ENC-003",
+      "condition": null,
+      "visitName": "Month 3",
+      "activityId": "ACT-013",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 3,
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 85
+      },
+      "parentVisit": null,
+      "activityName": "Immunogenicity assessment (ADA sampling) to identify ADA responses in patient circulation (durvalumab group only)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    },
+    {
+      "id": "SAI-026",
+      "visitId": "ENC-005",
+      "condition": null,
+      "visitName": "Month 6",
+      "activityId": "ACT-013",
+      "isRequired": true,
+      "provenance": {
+        "colIdx": 5,
+        "rowIdx": 3,
+        "tableId": "SOA-3",
+        "pageNumber": 85
+      },
+      "parentVisit": null,
+      "activityName": "Immunogenicity assessment (ADA sampling) to identify ADA responses in patient circulation (durvalumab group only)",
+      "timingModifier": null,
+      "footnoteMarkers": []
+    }
+  ]
+}

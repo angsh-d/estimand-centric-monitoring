@@ -1,0 +1,3855 @@
+{
+  "protocolId": "PROTO-NSCLC-001",
+  "cdashVersion": "2.2",
+  "generatedAt": "2026-02-15T12:00:00Z",
+  "forms": [
+    {
+      "formId": "FORM-DS-IC",
+      "formName": "Informed Consent",
+      "domain": "DS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SITEID",
+          "label": "Study Site Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SITEID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SITEID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier for the Study",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DSSTDAT",
+          "label": "Disposition Event Start Date",
+          "questionText": "Date Informed Consent Signed",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DSSTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "DSSTDAT -> DSSTDTC",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DSTERM",
+          "label": "Reported Term for the Disposition Event",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DSTERM",
+          "sdtmMappingInstruction": "Hardcode to 'INFORMED CONSENT OBTAINED'",
+          "codelistName": null,
+          "annotationText": "DSTERM = 'INFORMED CONSENT OBTAINED'",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DSCAT",
+          "label": "Category for Disposition Event",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DSCAT",
+          "sdtmMappingInstruction": "Hardcode to 'PROTOCOL MILESTONE'",
+          "codelistName": null,
+          "annotationText": "DSCAT = 'PROTOCOL MILESTONE'",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-SOA-2:17",
+          "ruleType": "timing_modifier",
+          "expression": "ALWAYS",
+          "description": "Allow IC date to be outside standard 28-day screening window",
+          "affectedFields": [
+            "DSSTDAT"
+          ],
+          "sourceFootnote": "SOA-2:17"
+        }
+      ],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-IE",
+      "formName": "Eligibility Criteria",
+      "domain": "IE",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "IEYN",
+          "label": "Any Incl/Excl Criteria Findings",
+          "questionText": "Did the subject meet all eligibility criteria?",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": null,
+          "sdtmMappingInstruction": "Used to derive IE records if No",
+          "codelistName": "(NY)",
+          "annotationText": "IEYN",
+          "annotationColor": "BLUE",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "IEDAT",
+          "label": "Inclusion/Exclusion Collection Date",
+          "questionText": "Date of Eligibility Assessment",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "IEDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "IEDAT -> IEDTC",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "IETESTCD",
+          "label": "Inclusion/Exclusion Criterion Short Name",
+          "questionText": "Criterion Identifier not met",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "IETESTCD",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "IETESTCD",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": true,
+          "conditionDescription": "Populated only if IEYN is No"
+        },
+        {
+          "variableName": "IECAT",
+          "label": "Inclusion/Exclusion Category",
+          "questionText": "Criterion Category",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "IECAT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(IECAT)",
+          "annotationText": "IECAT",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": true,
+          "conditionDescription": "Populated only if IEYN is No"
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-DM",
+      "formName": "Demographics",
+      "domain": "DM",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "BRTHDAT",
+          "label": "Birth Date",
+          "questionText": "Date of Birth",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "BRTHDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "BRTHDAT -> BRTHDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SEX",
+          "label": "Sex",
+          "questionText": "Sex",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SEX",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(SEX)",
+          "annotationText": "SEX",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "RACE",
+          "label": "Race",
+          "questionText": "Race",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "RACE",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(RACE)",
+          "annotationText": "RACE",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "ETHNIC",
+          "label": "Ethnicity",
+          "questionText": "Ethnicity",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "ETHNIC",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(ETHNIC)",
+          "annotationText": "ETHNIC",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-PE",
+      "formName": "Physical Examination",
+      "domain": "PE",
+      "formType": "panel",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "PEDAT",
+          "label": "Physical Examination Date",
+          "questionText": "Date of Exam",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "PEDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "PEDAT -> PEDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "PEPERF",
+          "label": "Physical Examination Performed",
+          "questionText": "Was the exam performed?",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "PESTAT",
+          "sdtmMappingInstruction": "If No, map to 'NOT DONE'",
+          "codelistName": "(NY)",
+          "annotationText": "PEPERF -> PESTAT",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "PETEST",
+          "label": "Body System Examined",
+          "questionText": "Body System",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "PETEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "PETEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "PEORRES",
+          "label": "Physical Exam Verbatim Finding",
+          "questionText": "Result (Normal/Abnormal)",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "PEORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "PEORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "PEDESC",
+          "label": "Physical Exam Abnormal Findings",
+          "questionText": "Description of Abnormality",
+          "dataType": "Char",
+          "core": "C",
+          "sdtmTarget": "PEORRES",
+          "sdtmMappingInstruction": "Map to PEORRES if Abnormal",
+          "codelistName": null,
+          "annotationText": "PEDESC -> PEORRES",
+          "annotationColor": "GREY",
+          "order": 7,
+          "isConditional": true,
+          "conditionDescription": "Only if PEORRES is Abnormal"
+        },
+        {
+          "variableName": "PECLSIG",
+          "label": "Physical Exam Clinical Significance",
+          "questionText": "Clinically Significant?",
+          "dataType": "Char",
+          "core": "O",
+          "sdtmTarget": "SUPPPE.QVAL",
+          "sdtmMappingInstruction": "Map to SUPPPE",
+          "codelistName": "(NY)",
+          "annotationText": "PECLSIG -> SUPPPE",
+          "annotationColor": "GREY",
+          "order": 8,
+          "isConditional": true,
+          "conditionDescription": "Only if PEORRES is Abnormal"
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-001",
+          "visitName": "Day 30",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-VS",
+      "formName": "Vital Signs",
+      "domain": "VS",
+      "formType": "panel",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "VSDAT",
+          "label": "Vital Signs Date",
+          "questionText": "Date of Measurement",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "VSDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "VSDAT -> VSDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "VSTEST",
+          "label": "Vital Signs Test Name",
+          "questionText": "Test Name",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "VSTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(VSTEST)",
+          "annotationText": "VSTEST",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "VSORRES",
+          "label": "VS Result or Finding in Original Units",
+          "questionText": "Result",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "VSORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "VSORRES",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "VSORRESU",
+          "label": "VS Original Units",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "VSORRESU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "VSORRESU",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "VSSTAT",
+          "label": "Vital Signs Completion Status",
+          "questionText": "Not Done?",
+          "dataType": "Char",
+          "core": "C",
+          "sdtmTarget": "VSSTAT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(ND)",
+          "annotationText": "VSSTAT",
+          "annotationColor": "RED",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-001",
+          "visitName": "Day 30",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-EG",
+      "formName": "ECG",
+      "domain": "EG",
+      "formType": "panel",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EGDAT",
+          "label": "ECG Date",
+          "questionText": "Date of ECG",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EGDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EGDAT -> EGDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EGTIM",
+          "label": "ECG Time",
+          "questionText": "Time of ECG",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "EGDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EGTIM -> EGDTC",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EGTEST",
+          "label": "ECG Test or Examination Name",
+          "questionText": "Test Name",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EGTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(EGTEST)",
+          "annotationText": "EGTEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EGORRES",
+          "label": "ECG Result or Finding in Original Units",
+          "questionText": "Result",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EGORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "EGORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EGCLSIG",
+          "label": "ECG Clinical Significance",
+          "questionText": "Clinically Significant?",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "SUPPEG.QVAL",
+          "sdtmMappingInstruction": "Map to SUPPEG",
+          "codelistName": "(NY)",
+          "annotationText": "EGCLSIG -> SUPPEG",
+          "annotationColor": "GREY",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-LB",
+      "formName": "Laboratory",
+      "domain": "LB",
+      "formType": "panel",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBDAT",
+          "label": "Specimen Collection Date",
+          "questionText": "Date of Collection",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "LBDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "LBDAT -> LBDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBTIM",
+          "label": "Specimen Collection Time",
+          "questionText": "Time of Collection",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "LBDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "LBTIM -> LBDTC",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBCAT",
+          "label": "Category for Lab Test",
+          "questionText": "Lab Category",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "LBCAT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "LBCAT",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBTEST",
+          "label": "Lab Test or Examination Name",
+          "questionText": "Test Name",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "LBTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(LBTEST)",
+          "annotationText": "LBTEST",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBORRES",
+          "label": "Lab Result or Finding in Original Units",
+          "questionText": "Result",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "LBORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "LBORRES",
+          "annotationColor": "RED",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBORRESU",
+          "label": "Lab Original Units",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "LBORRESU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "LBORRESU",
+          "annotationColor": "RED",
+          "order": 8,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBORNRLO",
+          "label": "Lab Ref Range Lower Limit in Orig Unit",
+          "questionText": "Low Range",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "LBORNRLO",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "LBORNRLO",
+          "annotationColor": "RED",
+          "order": 9,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBORNRHI",
+          "label": "Lab Ref Range Upper Limit in Orig Unit",
+          "questionText": "High Range",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "LBORNRHI",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "LBORNRHI",
+          "annotationColor": "RED",
+          "order": 10,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "LBCLSIG",
+          "label": "Lab Clinical Significance",
+          "questionText": "Clinically Significant?",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "SUPPLB.QVAL",
+          "sdtmMappingInstruction": "Map to SUPPLB",
+          "codelistName": "(NY)",
+          "annotationText": "LBCLSIG -> SUPPLB",
+          "annotationColor": "GREY",
+          "order": 11,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": true,
+          "conditionNote": "Skip Day 1 labs if Screening labs were within 3 days",
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-001",
+          "visitName": "Day 30",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-002",
+          "visitName": "Month 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-003",
+          "visitName": "Month 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-005",
+          "visitName": "Month 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-002",
+          "ruleType": "conditional_display",
+          "expression": "DM.SEX == 'F' AND DM.CHILDBEARING_POTENTIAL == 'Y'",
+          "description": "Show pregnancy test only for women of childbearing potential",
+          "affectedFields": [
+            "LBORRES"
+          ],
+          "sourceFootnote": "SOA-1:8"
+        },
+        {
+          "ruleId": "RULE-003",
+          "ruleType": "conditional_display",
+          "expression": "ARM == 'Durvalumab'",
+          "description": "Show ADA sampling only for Durvalumab arm",
+          "affectedFields": [
+            "LBORRES"
+          ],
+          "sourceFootnote": "SOA-1:9"
+        },
+        {
+          "ruleId": "RULE-006",
+          "ruleType": "skip_logic",
+          "expression": "DAYS_BETWEEN(SCREENING_LAB_DATE, C1D1_DATE) <= 3",
+          "description": "Skip Day 1 labs if Screening labs were within 3 days",
+          "affectedFields": [
+            "LBORRES"
+          ],
+          "sourceFootnote": "SOA-2:20"
+        }
+      ],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-QS-PS",
+      "formName": "Performance Status",
+      "domain": "QS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSDAT",
+          "label": "Assessment Date",
+          "questionText": "Date of Assessment",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "QSDAT -> QSDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSCAT",
+          "label": "Category of Questionnaire",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSCAT",
+          "sdtmMappingInstruction": "Hardcode to 'ECOG'",
+          "codelistName": null,
+          "annotationText": "QSCAT = 'ECOG'",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSTEST",
+          "label": "Test Name",
+          "questionText": "ECOG Performance Status",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSTEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSORRES",
+          "label": "Result",
+          "questionText": "Score (0-5)",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-001",
+          "ruleType": "conditional_display",
+          "expression": "SUBSEQUENT_ANTICANCER_THERAPY == 'Yes'",
+          "description": "Enable ECOG collection when subsequent anticancer therapy is reported",
+          "affectedFields": [
+            "QSORRES"
+          ],
+          "sourceFootnote": "SOA-1:4"
+        }
+      ],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-AE",
+      "formName": "Adverse Events",
+      "domain": "AE",
+      "formType": "log",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AETERM",
+          "label": "Reported Term for the Adverse Event",
+          "questionText": "Adverse Event Term",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "AETERM",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "AETERM",
+          "annotationColor": "RED",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AESTDAT",
+          "label": "Adverse Event Start Date",
+          "questionText": "Start Date",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "AESTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "AESTDAT -> AESTDTC",
+          "annotationColor": "GREY",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AEENDAT",
+          "label": "Adverse Event End Date",
+          "questionText": "End Date",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "AEENDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "AEENDAT -> AEENDTC",
+          "annotationColor": "GREY",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AEONGO",
+          "label": "Ongoing Adverse Event",
+          "questionText": "Ongoing?",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "AEENRF",
+          "sdtmMappingInstruction": "Map to AEENRF",
+          "codelistName": "(NY)",
+          "annotationText": "AEONGO -> AEENRF",
+          "annotationColor": "GREY",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AESEV",
+          "label": "AE Severity/Intensity",
+          "questionText": "Severity",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "AESEV",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(AESEV)",
+          "annotationText": "AESEV",
+          "annotationColor": "RED",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AESER",
+          "label": "AE Serious Event",
+          "questionText": "Serious?",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "AESER",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(NY)",
+          "annotationText": "AESER",
+          "annotationColor": "RED",
+          "order": 8,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AEREL",
+          "label": "AE Causality",
+          "questionText": "Related to Study Drug?",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "AEREL",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "AEREL",
+          "annotationColor": "RED",
+          "order": 9,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AEACN",
+          "label": "Action Taken with Study Treatment",
+          "questionText": "Action Taken",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "AEACN",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(ACN)",
+          "annotationText": "AEACN",
+          "annotationColor": "RED",
+          "order": 10,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "AEOUT",
+          "label": "Outcome of Adverse Event",
+          "questionText": "Outcome",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "AEOUT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(OUT)",
+          "annotationText": "AEOUT",
+          "annotationColor": "RED",
+          "order": 11,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": "Log form activation",
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-001",
+          "visitName": "Day 30",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-002",
+          "visitName": "Month 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-003",
+          "visitName": "Month 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-004",
+          "visitName": "Month 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-005",
+          "visitName": "Month 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-006",
+          "visitName": "Month 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-007",
+          "visitName": "Month 10",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-008",
+          "visitName": "Long-term Follow-up",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-SOA-1:3",
+          "ruleType": "timing_modifier",
+          "expression": "VISIT_TYPE == 'Follow-up'",
+          "description": "Limit follow-up period to 30 days",
+          "affectedFields": [
+            "AESTDAT"
+          ],
+          "sourceFootnote": "SOA-1:3"
+        }
+      ],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-DA",
+      "formName": "Drug Accountability",
+      "domain": "DA",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DADAT",
+          "label": "Drug Accountability Date",
+          "questionText": "Date",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DADTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "DADAT -> DADTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DATEST",
+          "label": "Name of Accountability Assessment",
+          "questionText": "Assessment (Dispensed/Returned)",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DATEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(DATEST)",
+          "annotationText": "DATEST",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DAORRES",
+          "label": "DA Assessment Result in Original Units",
+          "questionText": "Amount",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DAORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "DAORRES",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DAORRESU",
+          "label": "DA Original Units",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DAORRESU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "DAORRESU",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-CM",
+      "formName": "Concomitant Medications",
+      "domain": "CM",
+      "formType": "log",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMTRT",
+          "label": "Reported Name of Drug, Med, or Therapy",
+          "questionText": "Medication Name",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "CMTRT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "CMTRT",
+          "annotationColor": "RED",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMINDC",
+          "label": "CM Indication",
+          "questionText": "Indication",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMINDC",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "CMINDC",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMSTDAT",
+          "label": "Concomitant Meds Start Date",
+          "questionText": "Start Date",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMSTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "CMSTDAT -> CMSTDTC",
+          "annotationColor": "GREY",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMENDAT",
+          "label": "Concomitant Meds End Date",
+          "questionText": "End Date",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMENDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "CMENDAT -> CMENDTC",
+          "annotationColor": "GREY",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMONGO",
+          "label": "Ongoing Concomitant Meds",
+          "questionText": "Ongoing?",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMENRF",
+          "sdtmMappingInstruction": "Map to CMENRF",
+          "codelistName": "(NY)",
+          "annotationText": "CMONGO -> CMENRF",
+          "annotationColor": "GREY",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMDOSE",
+          "label": "CM Dose per Administration",
+          "questionText": "Dose",
+          "dataType": "Num",
+          "core": "O",
+          "sdtmTarget": "CMDOSE",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "CMDOSE",
+          "annotationColor": "RED",
+          "order": 8,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMDOSU",
+          "label": "CM Dose Units",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMDOSU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "CMDOSU",
+          "annotationColor": "RED",
+          "order": 9,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMDOSFRQ",
+          "label": "CM Dosing Frequency per Interval",
+          "questionText": "Frequency",
+          "dataType": "Char",
+          "core": "O",
+          "sdtmTarget": "CMDOSFRQ",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(FREQ)",
+          "annotationText": "CMDOSFRQ",
+          "annotationColor": "RED",
+          "order": 10,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "CMROUTE",
+          "label": "CM Route of Administration",
+          "questionText": "Route",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "CMROUTE",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(ROUTE)",
+          "annotationText": "CMROUTE",
+          "annotationColor": "RED",
+          "order": 11,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-001",
+          "visitName": "PD-L1 Testing",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": "Log form activation",
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-010",
+          "visitName": "Cycle 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-011",
+          "visitName": "Cycle 9",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-012",
+          "visitName": "Cycles 10 to 17",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "ENC-013",
+          "visitName": "Cycle 18 and Beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-001",
+          "visitName": "Day 30",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-002",
+          "visitName": "Month 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-003",
+          "visitName": "Month 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-004",
+          "visitName": "Month 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-005",
+          "visitName": "Month 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-006",
+          "visitName": "Month 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-007",
+          "visitName": "Month 10",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-008",
+          "visitName": "Long-term Follow-up",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-EX-DURVA",
+      "formName": "Exposure - Durvalumab",
+      "domain": "EX",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXTRT",
+          "label": "Name of Treatment",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXTRT",
+          "sdtmMappingInstruction": "Hardcode to 'DURVALUMAB'",
+          "codelistName": null,
+          "annotationText": "EXTRT = 'DURVALUMAB'",
+          "annotationColor": "RED",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXDOSE",
+          "label": "Exposure Dose",
+          "questionText": "Dose Administered",
+          "dataType": "Num",
+          "core": "HR",
+          "sdtmTarget": "EXDOSE",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "EXDOSE",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXDOSU",
+          "label": "Exposure Dose Unit",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXDOSU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "EXDOSU",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXSTDAT",
+          "label": "Exposure Start Date",
+          "questionText": "Start Date",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXSTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EXSTDAT -> EXSTDTC",
+          "annotationColor": "GREY",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXENDAT",
+          "label": "Exposure End Date",
+          "questionText": "End Date",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "EXENDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EXENDAT -> EXENDTC",
+          "annotationColor": "GREY",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-005",
+          "visitName": "Cycle 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-006",
+          "visitName": "Cycle 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-007",
+          "visitName": "Cycle 5",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-008",
+          "visitName": "Cycle 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "ENC-009",
+          "visitName": "Cycle 7",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-010",
+          "visitName": "Cycles 8 to 12",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        },
+        {
+          "visitId": "SOA-1:ENC-011",
+          "visitName": "Cycle 13 and beyond",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Durvalumab arm"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-SOA-1:2",
+          "ruleType": "timing_modifier",
+          "expression": "VISIT == 'Cycle 1 Day 1'",
+          "description": "Warn if treatment start date is not same day as randomization",
+          "affectedFields": [
+            "EXSTDAT"
+          ],
+          "sourceFootnote": "SOA-1:2"
+        }
+      ],
+      "armScope": "arm_specific: Durvalumab arm",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-QS-C30",
+      "formName": "EORTC QLQ-C30",
+      "domain": "QS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSDAT",
+          "label": "Assessment Date",
+          "questionText": "Date of Assessment",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "QSDAT -> QSDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSCAT",
+          "label": "Category of Questionnaire",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSCAT",
+          "sdtmMappingInstruction": "Hardcode to 'EORTC QLQ-C30'",
+          "codelistName": null,
+          "annotationText": "QSCAT = 'EORTC QLQ-C30'",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSTEST",
+          "label": "Test Name",
+          "questionText": "Question Text",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSTEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSORRES",
+          "label": "Result",
+          "questionText": "Response",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-QS-LC13",
+      "formName": "EORTC QLQ-LC13",
+      "domain": "QS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSDAT",
+          "label": "Assessment Date",
+          "questionText": "Date of Assessment",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "QSDAT -> QSDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSCAT",
+          "label": "Category of Questionnaire",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSCAT",
+          "sdtmMappingInstruction": "Hardcode to 'EORTC QLQ-LC13'",
+          "codelistName": null,
+          "annotationText": "QSCAT = 'EORTC QLQ-LC13'",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSTEST",
+          "label": "Test Name",
+          "questionText": "Question Text",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSTEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSORRES",
+          "label": "Result",
+          "questionText": "Response",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-TU",
+      "formName": "Tumor Assessment",
+      "domain": "TU",
+      "formType": "panel",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "TUDAT",
+          "label": "Tumor/Lesion Identification Date",
+          "questionText": "Date of Scan/Exam",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "TUDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "TUDAT -> TUDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "TULNKID",
+          "label": "Tumor/Lesion Identification Link ID",
+          "questionText": "Lesion ID",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "TULNKID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "TULNKID",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "TULOC",
+          "label": "Location of the Tumor/Lesion",
+          "questionText": "Anatomical Location",
+          "dataType": "Char",
+          "core": "O",
+          "sdtmTarget": "TULOC",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(LOC)",
+          "annotationText": "TULOC",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "TUMETHOD",
+          "label": "Tumor/Lesion Method of Identification",
+          "questionText": "Method (CT/MRI)",
+          "dataType": "Char",
+          "core": "O",
+          "sdtmTarget": "TUMETHOD",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(METHOD)",
+          "annotationText": "TUMETHOD",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "TUORRES",
+          "label": "Tumor/Lesion Identification Result",
+          "questionText": "Result (Target/Non-Target)",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "TUORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "TUORRES",
+          "annotationColor": "RED",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [
+        {
+          "ruleId": "RULE-004",
+          "ruleType": "conditional_display",
+          "expression": "PROGRESSION_STATUS != 'CONFIRMED_PROGRESSION'",
+          "description": "Collect RECIST assessments only if patient has not yet progressed",
+          "affectedFields": [
+            "TUORRES"
+          ],
+          "sourceFootnote": "SOA-1:12"
+        },
+        {
+          "ruleId": "RULE-005",
+          "ruleType": "override",
+          "expression": "CLINICAL_BENEFIT_CONTINUES == 'Yes'",
+          "description": "Override stop-rule for RECIST if patient continues to derive clinical benefit",
+          "affectedFields": [
+            "TUORRES"
+          ],
+          "sourceFootnote": "SOA-1:13"
+        }
+      ],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-QS-CCI",
+      "formName": "CCI Questionnaire",
+      "domain": "QS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSDAT",
+          "label": "Assessment Date",
+          "questionText": "Date of Assessment",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "QSDAT -> QSDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSCAT",
+          "label": "Category of Questionnaire",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSCAT",
+          "sdtmMappingInstruction": "Hardcode to 'CCI'",
+          "codelistName": null,
+          "annotationText": "QSCAT = 'CCI'",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSTEST",
+          "label": "Test Name",
+          "questionText": "Comorbidity Item",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSTEST",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSTEST",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "QSORRES",
+          "label": "Result",
+          "questionText": "Score",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "QSORRES",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "QSORRES",
+          "annotationColor": "RED",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-1:ENC-002",
+          "visitName": "Screening",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-2:ENC-004",
+          "visitName": "Cycle 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-EX-PLATINUM",
+      "formName": "Exposure - Platinum Chemotherapy",
+      "domain": "EX",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXTRT",
+          "label": "Name of Treatment",
+          "questionText": "Platinum Agent Name",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXTRT",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "EXTRT",
+          "annotationColor": "RED",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXDOSE",
+          "label": "Exposure Dose",
+          "questionText": "Dose Administered",
+          "dataType": "Num",
+          "core": "HR",
+          "sdtmTarget": "EXDOSE",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "EXDOSE",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXDOSU",
+          "label": "Exposure Dose Unit",
+          "questionText": "Unit",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXDOSU",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": "(UNIT)",
+          "annotationText": "EXDOSU",
+          "annotationColor": "RED",
+          "order": 5,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXSTDAT",
+          "label": "Exposure Start Date",
+          "questionText": "Start Date",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "EXSTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EXSTDAT -> EXSTDTC",
+          "annotationColor": "GREY",
+          "order": 6,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "EXENDAT",
+          "label": "Exposure End Date",
+          "questionText": "End Date",
+          "dataType": "Char",
+          "core": "R",
+          "sdtmTarget": "EXENDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "EXENDAT -> EXENDTC",
+          "annotationColor": "GREY",
+          "order": 7,
+          "isConditional": false,
+          "conditionDescription": null
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-2:ENC-003",
+          "visitName": "Cycle 1",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "arm_specific: Platinum-based chemotherapy arm"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "arm_specific: Platinum-based chemotherapy arm",
+      "subPanelFields": {}
+    },
+    {
+      "formId": "FORM-DS-SURVIVAL",
+      "formName": "Disposition - Survival",
+      "domain": "DS",
+      "formType": "scheduled",
+      "version": "1.0",
+      "fields": [
+        {
+          "variableName": "STUDYID",
+          "label": "Study Identifier",
+          "questionText": null,
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "STUDYID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "STUDYID",
+          "annotationColor": "RED",
+          "order": 1,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "SUBJID",
+          "label": "Subject Identifier",
+          "questionText": "Subject Identifier",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "SUBJID",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "SUBJID",
+          "annotationColor": "RED",
+          "order": 2,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DSSTDAT",
+          "label": "Disposition Event Start Date",
+          "questionText": "Date of Contact/Assessment",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DSSTDTC",
+          "sdtmMappingInstruction": "Map to ISO 8601 format",
+          "codelistName": null,
+          "annotationText": "DSSTDAT -> DSSTDTC",
+          "annotationColor": "GREY",
+          "order": 3,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DSTERM",
+          "label": "Reported Term for the Disposition Event",
+          "questionText": "Survival Status (Alive/Dead)",
+          "dataType": "Char",
+          "core": "HR",
+          "sdtmTarget": "DSTERM",
+          "sdtmMappingInstruction": "Direct mapping",
+          "codelistName": null,
+          "annotationText": "DSTERM",
+          "annotationColor": "RED",
+          "order": 4,
+          "isConditional": false,
+          "conditionDescription": null
+        },
+        {
+          "variableName": "DTHDAT",
+          "label": "Death Date",
+          "questionText": "Date of Death",
+          "dataType": "Char",
+          "core": "C",
+          "sdtmTarget": "DM.DTHDTC",
+          "sdtmMappingInstruction": "Map to DM.DTHDTC",
+          "codelistName": null,
+          "annotationText": "DTHDAT -> DM.DTHDTC",
+          "annotationColor": "GREY",
+          "order": 5,
+          "isConditional": true,
+          "conditionDescription": "Only if DSTERM is 'DEAD'"
+        }
+      ],
+      "collectionSchedule": [
+        {
+          "visitId": "SOA-3:ENC-002",
+          "visitName": "Month 2",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-003",
+          "visitName": "Month 3",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-004",
+          "visitName": "Month 4",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-005",
+          "visitName": "Month 6",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-006",
+          "visitName": "Month 8",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-007",
+          "visitName": "Month 10",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        },
+        {
+          "visitId": "SOA-3:ENC-008",
+          "visitName": "Long-term Follow-up",
+          "isCollected": true,
+          "isConditional": false,
+          "conditionNote": null,
+          "armScope": "all_arms"
+        }
+      ],
+      "edcRules": [],
+      "armScope": "all_arms",
+      "subPanelFields": {}
+    }
+  ],
+  "lineageValidation": {
+    "totalActivities": 106,
+    "mappedActivities": 106,
+    "unmappedActivities": [],
+    "totalForms": 18,
+    "formsWithSchedule": 18,
+    "unscheduledForms": [],
+    "totalFootnotes": 20,
+    "appliedFootnotes": 18,
+    "unappliedFootnotes": [],
+    "informationalFootnotes": 2
+  },
+  "warnings": []
+}
