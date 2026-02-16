@@ -91,10 +91,10 @@ const useCriticalityData = () => {
 
 const NARRATIVES = {
   "src-E1": {
-    title: "ConMed Date Mismatch (Primary Endpoint)",
-    synthesis: "Subject 109-004 has a date discrepancy for 'Dexamethasone' start date between EDC and Safety Narrative.",
-    impact: "Potential impact on DLT window assessment and AE attribution for Cycle 1.",
-    recommendation: "Query site 109 to reconcile ConMed dates.",
+    title: "Multiple Data Quality Issues (Primary Endpoint)",
+    synthesis: "Two independent issues detected: 1) Date discrepancy for 'Dexamethasone' in Subject 109-004. 2) Stratification error for Subject 109-007. Both at Site 109.",
+    impact: "Combined impact on DLT window assessment and randomization validity for Primary Analysis Set.",
+    recommendation: "Urgent site audit recommended for Site 109 to address data entry quality.",
     signals: ["SIG-2026-042", "SIG-2026-045"],
     criticalDataContext: "ConMed Start Date (CMSTDTC) vs Narrative"
   },
@@ -453,7 +453,11 @@ export default function SignalDashboard() {
                  {loading ? (
                     <div className="p-8 text-center text-sm text-black/40">Loading signals...</div>
                  ) : (
-                    SIGNAL_QUEUE.map((signal, i) => (
+                    SIGNAL_QUEUE.filter(signal => {
+                        if (!activeNarrative) return true; // Show all if no selection
+                        // If there is a selection, only show signals related to the active narrative (estimand)
+                        return activeNarrative.signals.includes(signal.id);
+                    }).map((signal, i) => (
                        <motion.div 
                           key={signal.id}
                           initial={{ opacity: 0, y: 5 }}
