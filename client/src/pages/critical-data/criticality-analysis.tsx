@@ -55,31 +55,57 @@ export default function CriticalityAnalysis() {
   };
 
   return (
-    <div className="h-[calc(100vh-140px)] flex flex-col font-sans antialiased text-[#1d1d1f]">
-      
-      {/* Persona Switcher */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-white/80 backdrop-blur-xl p-1.5 rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-black/5 flex items-center gap-1 transition-transform hover:scale-105">
-            <button 
+    <div className="flex h-[calc(100vh-140px)] flex-col bg-slate-50/50 rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      {/* Header - Aligned with MVR Copilot style */}
+      <header className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-white shrink-0">
+        <div>
+          <h1 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+            Criticality Analysis
+            <span className="text-[10px] font-medium bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full border border-emerald-100">
+              {validationStatus === "approved" ? "Validated" : "Draft Model"}
+            </span>
+          </h1>
+          <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-1 font-medium">
+            <span>Mapping Review</span>
+            <span className="h-0.5 w-0.5 rounded-full bg-slate-300" />
+            <span>SAP Traceability</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-3">
+           <div className="bg-slate-100 p-1 rounded-lg flex text-[11px] font-medium text-slate-600">
+              <button 
                 onClick={() => setCurrentUser("study-director")}
                 className={cn(
-                    "px-4 py-2 rounded-full text-[11px] font-semibold transition-all flex items-center gap-2",
-                    currentUser === "study-director" ? "bg-black text-white shadow-md" : "text-black/60 hover:text-black hover:bg-black/5"
+                  "px-3 py-1 rounded-md transition-all flex items-center gap-2",
+                  currentUser === "study-director" ? "bg-white text-slate-900 shadow-sm" : "hover:text-slate-900"
                 )}
-            >
-                <User className="h-3.5 w-3.5" /> Study Director
-            </button>
-            <button 
+              >
+                <User className="h-3 w-3" /> Study Director
+              </button>
+              <button 
                 onClick={() => setCurrentUser("sme")}
                 className={cn(
-                    "px-4 py-2 rounded-full text-[11px] font-semibold transition-all flex items-center gap-2",
-                    currentUser === "sme" ? "bg-[#34C759] text-white shadow-md" : "text-black/60 hover:text-black hover:bg-black/5"
+                  "px-3 py-1 rounded-md transition-all flex items-center gap-2",
+                  currentUser === "sme" ? "bg-white text-slate-900 shadow-sm" : "hover:text-slate-900"
                 )}
-            >
-                <UserCheck className="h-3.5 w-3.5" /> SME View
-            </button>
+              >
+                <UserCheck className="h-3 w-3" /> SME View
+              </button>
+           </div>
+           
+           <div className="h-4 w-px bg-slate-200" />
+           
+           <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8 text-xs border-slate-200 text-slate-700 hover:bg-slate-50"
+              onClick={() => setStep("complete")}
+           >
+              Finalize Model
+           </Button>
         </div>
-      </div>
+      </header>
 
       {/* SME Banner */}
       <AnimatePresence>
@@ -88,30 +114,28 @@ export default function CriticalityAnalysis() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="bg-white border-b border-black/[0.06] px-6 py-3 flex justify-between items-center z-40"
+              className="bg-blue-50/50 border-b border-blue-100 px-6 py-2 flex justify-between items-center z-40 text-xs"
             >
-                <div className="flex items-center gap-4">
-                    <div className="h-9 w-9 bg-gray-100 rounded-full flex items-center justify-center font-semibold text-xs text-gray-600">JS</div>
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-sm">John Smith</span>
-                        <span className="text-[11px] text-gray-500">Lead Statistician • Validation Mode</span>
+                <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                       <div className="h-6 w-6 rounded-full bg-white border-2 border-blue-50 flex items-center justify-center text-[10px] font-bold text-blue-700">JS</div>
                     </div>
+                    <span className="text-blue-900 font-medium">John Smith (Lead Statistician) is validating this model.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <AppleBadge active color="green">Action Required</AppleBadge>
+                    <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                    <span className="text-blue-700 font-medium">Active Session</span>
                 </div>
             </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="flex-1 px-8 pb-8 overflow-hidden flex flex-col">
-        {/* Header */}
-        <div className="pt-6 pb-2 shrink-0 flex items-center justify-between">
-            <h1 className="text-2xl font-semibold">Criticality Analysis</h1>
-        </div>
-
-        <div className="flex-1 overflow-y-auto scroll-smooth py-4">
-          <AnimatePresence mode="wait">
+      <div className="flex-1 flex overflow-hidden">
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col overflow-hidden relative">
+           <div className="flex-1 overflow-y-auto p-6 md:p-8">
+             <div className="max-w-6xl mx-auto">
+                <AnimatePresence mode="wait">
 
             {/* --- SME Validation View --- */}
             {currentUser === "sme" && (
@@ -193,25 +217,20 @@ export default function CriticalityAnalysis() {
 
             {/* --- STEP 9: Criticality Review (Updated with JSON Data) --- */}
             {step === "review-criticality" && currentUser !== "sme" && (
-               <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
-                  <div className="flex justify-between items-center mb-6">
-                     <div>
-                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Mapping</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Linking Lineage (SAP) to Data Collection (aCRF).</p>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <Button onClick={() => setStep("complete")} className="bg-[#34C759] hover:bg-[#34C759]/90 text-white gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
-                           Finalize Model <CheckCircle2 className="h-3.5 w-3.5" />
-                        </Button>
-                     </div>
-                  </div>
-
+               <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
+                  {/* Removing local header to use unified top header */}
+                  
                   <div className="grid grid-cols-12 gap-6 pb-8">
                       {/* Left Col: Mapped Items */}
                       <div className="col-span-8 space-y-4">
-                          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Mapped Critical Data Points</h3>
+                          <div className="flex items-center justify-between mb-2">
+                             <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Mapped Critical Data Points</h3>
+                             <span className="text-[10px] text-slate-400 bg-white px-2 py-0.5 rounded-full border border-slate-200">
+                                {mappedItems.length} Items
+                             </span>
+                          </div>
                           {mappedItems.map((item: any, i: number) => (
-                              <AppleCard key={i} className="p-5 hover:shadow-md transition-all group">
+                              <AppleCard key={i} className="p-5 hover:shadow-md transition-all group border-slate-200 shadow-sm">
                                   <div className="flex justify-between items-start">
                                       <div className="flex gap-4 w-full">
                                           <div className={cn(
@@ -442,6 +461,8 @@ export default function CriticalityAnalysis() {
             )}
 
           </AnimatePresence>
+             </div>
+           </div>
         </div>
       </div>
     </div>
