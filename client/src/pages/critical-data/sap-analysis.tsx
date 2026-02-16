@@ -4,11 +4,13 @@ import {
   CheckCircle2, 
   ArrowRight, 
   ShieldCheck, 
-  FileText
+  FileText,
+  GitBranch
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { AppleCard, SkeletonLine } from "@/components/criticality/shared";
+import { LineageGraphView } from "@/components/criticality/lineage-graph-view";
 import { LINEAGE_GRAPH } from "@/data/mock-sap-data";
 
 // Helper to extract estimands from lineage graph (duplicated here for now or should be shared)
@@ -124,6 +126,12 @@ export default function SapAnalysis() {
                         <h2 className="text-2xl font-semibold text-[#1d1d1f]">Review Estimands</h2>
                         <p className="text-[#86868b] text-sm mt-1">Extracted from SAP. Defines primary objectives.</p>
                      </div>
+                     <Button 
+                       onClick={() => setStep("traceability")} 
+                       className="bg-[#1d1d1f] text-white hover:bg-black/90 gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md"
+                     >
+                       View Lineage <ArrowRight className="h-3.5 w-3.5" />
+                     </Button>
                   </div>
 
                   <div className="space-y-6 overflow-auto pb-4">
@@ -167,6 +175,20 @@ export default function SapAnalysis() {
                         </AppleCard>
                      ))}
                   </div>
+               </motion.div>
+            )}
+
+            {/* --- STEP 8: Lineage Graph (Moved from Criticality) --- */}
+            {step === "traceability" && (
+               <motion.div key="traceability" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
+                  <div className="flex justify-between items-center mb-6">
+                     <div>
+                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Data Traceability</h2>
+                        <p className="text-[#86868b] text-sm mt-1">Source Data → Analysis Variables → Estimands.</p>
+                     </div>
+                  </div>
+
+                  <LineageGraphView graph={LINEAGE_GRAPH} />
                </motion.div>
             )}
 

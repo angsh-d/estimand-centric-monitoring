@@ -1,0 +1,161 @@
+{
+  "protocol_id": "PROTO-NSCLC-001",
+  "generated_at": "2026-02-15T22:28:02.793720+00:00",
+  "inputs": {
+    "criticality_items_count": 6,
+    "source_hints_count": 3,
+    "acrf_fields_count": 129,
+    "acrf_forms_count": 18
+  },
+  "mappings": [
+    {
+      "source_hint_id": "SH_DTHDT",
+      "criticality_description": "Date of Death (from DM/DS/AE)",
+      "criticality_tier": 1,
+      "mapped_crf_fields": [
+        {
+          "formId": "FORM-DS-SURVIVAL",
+          "formName": "Disposition - Survival",
+          "domain": "DS",
+          "variableName": "DTHDAT",
+          "label": "Death Date",
+          "sdtmTarget": "DM.DTHDTC",
+          "mapping_rationale": "The `DTHDAT` field on the 'Disposition - Survival' CRF directly collects the Date of Death, mapping to `DM.DTHDTC`.",
+          "mapping_confidence": "HIGH"
+        }
+      ],
+      "estimands_impacted": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "missingness_sensitivity": "HIGH",
+      "risk_if_erroneous": "Primary endpoint status changes from Event to Censor, or time is incorrect.",
+      "lineage_path": [
+        "V2 (DTHDT)",
+        "\u2192 V4 (AVAL_OS)",
+        "\u2192 M1 (Log-rank)",
+        "\u2192 E1 (Primary OS)"
+      ],
+      "data_collection_guidance": "Ensure `DTHDAT` is accurately captured for all subjects, especially for those who have died, as it directly impacts the primary endpoint (OS) calculation. Verify consistency with other sources (e.g., AE dates, last contact dates)."
+    },
+    {
+      "source_hint_id": "SH_LAB_NEUT",
+      "criticality_description": "Baseline Neutrophil Count (Central Lab)",
+      "criticality_tier": 1,
+      "mapped_crf_fields": [
+        {
+          "formId": "FORM-LB",
+          "formName": "Laboratory",
+          "domain": "LB",
+          "variableName": "LBORRES",
+          "label": "Lab Result or Finding in Original Units",
+          "sdtmTarget": "LBORRES",
+          "mapping_rationale": "The `LBORRES` field on the 'Laboratory' CRF collects the result for various lab tests. When the corresponding `LBTEST` is 'Neutrophils', this field captures the Neutrophil Count.",
+          "mapping_confidence": "MEDIUM"
+        }
+      ],
+      "estimands_impacted": [
+        "E2",
+        "E4"
+      ],
+      "missingness_sensitivity": "HIGH",
+      "risk_if_erroneous": "Subject erroneously included/excluded from Co-Primary analysis population.",
+      "lineage_path": [
+        "V16 (Neutrophils)",
+        "\u2192 V22 (NLR)",
+        "\u2192 V23 (Risk Score)",
+        "\u2192 V24 (Risk Flag)",
+        "\u2192 POP2 (Low Risk Analysis Set)",
+        "\u2192 M2 (Primary Analysis Low Risk)",
+        "\u2192 E2 (Co-Primary OS)"
+      ],
+      "data_collection_guidance": "For baseline visits, verify the presence and accuracy of Neutrophil Count. Missing or erroneous values can lead to exclusion from the Co-Primary analysis population (POP2). Ensure the correct test name ('Neutrophils') is recorded in `LBTEST`."
+    },
+    {
+      "source_hint_id": "SH_LAB_ALB",
+      "criticality_description": "Baseline Albumin (Central Lab)",
+      "criticality_tier": 1,
+      "mapped_crf_fields": [
+        {
+          "formId": "FORM-LB",
+          "formName": "Laboratory",
+          "domain": "LB",
+          "variableName": "LBORRES",
+          "label": "Lab Result or Finding in Original Units",
+          "sdtmTarget": "LBORRES",
+          "mapping_rationale": "The `LBORRES` field on the 'Laboratory' CRF collects the result for various lab tests. When the corresponding `LBTEST` is 'Albumin', this field captures the Albumin value.",
+          "mapping_confidence": "MEDIUM"
+        }
+      ],
+      "estimands_impacted": [
+        "E2"
+      ],
+      "missingness_sensitivity": "HIGH",
+      "risk_if_erroneous": "Population assignment error.",
+      "lineage_path": [
+        "V18 (Albumin)",
+        "\u2192 V23 (Risk Score)",
+        "\u2192 POP2",
+        "\u2192 E2"
+      ],
+      "data_collection_guidance": "For baseline visits, verify the presence and accuracy of Albumin. Missing or erroneous values can lead to exclusion from the Co-Primary analysis population (POP2). Ensure the correct test name ('Albumin') is recorded in `LBTEST`."
+    },
+    {
+      "source_hint_id": "SH_RECIST_DATE",
+      "criticality_description": "Tumor Assessment Date (Scan Date)",
+      "criticality_tier": 2,
+      "mapped_crf_fields": [
+        {
+          "formId": "FORM-TU",
+          "formName": "Tumor Assessment",
+          "domain": "TU",
+          "variableName": "TUDAT",
+          "label": "Tumor/Lesion Identification Date",
+          "sdtmTarget": "TUDTC",
+          "mapping_rationale": "The `TUDAT` field on the 'Tumor Assessment' CRF collects the date of scan/exam, which is the primary source for the Tumor Assessment Date used in RECIST evaluations and PFS calculations.",
+          "mapping_confidence": "MEDIUM"
+        }
+      ],
+      "estimands_impacted": [
+        "E5",
+        "E3",
+        "E4"
+      ],
+      "missingness_sensitivity": "MODERATE",
+      "risk_if_erroneous": "Incorrect PFS event time or censoring.",
+      "lineage_path": [
+        "V6/V7 (Scan Dates)",
+        "\u2192 V9 (AVAL_PFS)",
+        "\u2192 M9 (PFS Analysis)",
+        "\u2192 E5 (Secondary PFS)"
+      ],
+      "data_collection_guidance": "Accurate collection of `TUDAT` is crucial for all tumor assessments, as it directly determines event and censoring times for the secondary PFS endpoint. Pay close attention to visit windows and potential missed visits."
+    }
+  ],
+  "unmapped_criticality_items": [
+    {
+      "source_hint_id": "SH_RNDDT",
+      "criticality_description": "Date of Randomization (IVRS)",
+      "criticality_tier": 1,
+      "reason": "Data is indicated as coming from IVRS, suggesting it's an integrated data point rather than a direct CRF collection."
+    },
+    {
+      "source_hint_id": "SH_PDL1_IVRS",
+      "criticality_description": "PD-L1 Stratification Factor (IVRS)",
+      "criticality_tier": 1,
+      "reason": "Data is indicated as coming from IVRS, suggesting it's an integrated data point rather than a direct CRF collection."
+    }
+  ],
+  "mapping_summary": {
+    "total_criticality_items": 6,
+    "mapped_items": 4,
+    "unmapped_items": 2,
+    "total_crf_fields_linked": 4,
+    "tier_1_fields": 3,
+    "tier_2_fields": 1,
+    "tier_3_fields": 0,
+    "coverage_percentage": 66.67
+  },
+  "elapsed_seconds": 27.95
+}

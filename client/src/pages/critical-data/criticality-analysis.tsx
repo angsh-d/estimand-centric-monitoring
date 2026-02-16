@@ -7,7 +7,10 @@ import {
   AlertCircle,
   FileCheck,
   ShieldCheck,
-  User
+  User,
+  AlertTriangle,
+  ArrowRight,
+  Database
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,14 +30,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AppleCard, AppleBadge } from "@/components/criticality/shared";
-import { LineageGraphView } from "@/components/criticality/lineage-graph-view";
-import { LINEAGE_GRAPH } from "@/data/mock-sap-data";
+
+// Import the new JSON
+import CRF_CRITICALITY_REPORT from "@/data/crf_criticality.json";
 
 export default function CriticalityAnalysis() {
   const [step, setStep] = useState("review-criticality");
   const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
   const [validationStatus, setValidationStatus] = useState("pending");
   const [smeAssigned, setSmeAssigned] = useState(false);
+  
+  // Use data from JSON
+  const mappedItems = CRF_CRITICALITY_REPORT.mappings;
+  const unmappedItems = CRF_CRITICALITY_REPORT.unmapped_criticality_items;
 
   const handleRouteToSME = () => {
     setSmeAssigned(true);
@@ -120,14 +128,37 @@ export default function CriticalityAnalysis() {
 
                     <div className="grid grid-cols-12 gap-8">
                         <div className="col-span-8 space-y-6">
-                            <AppleCard className="p-6">
-                                <h3 className="text-sm font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                                    <ShieldCheck className="h-4 w-4 text-gray-400" />
-                                    Review Data Lineage & Criticality
-                                </h3>
-                                {/* Graph View for SME */}
-                                <LineageGraphView graph={LINEAGE_GRAPH} />
-                            </AppleCard>
+                            {/* Review Mapped Items */}
+                            {mappedItems.map((item: any, i: number) => (
+                                <AppleCard key={i} className="p-6">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex gap-3">
+                                            <div className="h-8 w-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-bold text-xs shrink-0">
+                                                T{item.criticality_tier}
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h3>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded font-mono">{item.source_hint_id}</span>
+                                                    <span className="text-[10px] text-gray-400">→</span>
+                                                    {item.mapped_crf_fields.map((f: any) => (
+                                                        <span key={f.variableName} className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 px-1.5 py-0.5 rounded font-mono">
+                                                            {f.domain}.{f.variableName}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                                            <ShieldCheck className="h-3 w-3" />
+                                            Validated Match
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50/50 rounded-lg p-3 text-xs text-gray-600 leading-relaxed border border-black/[0.03]">
+                                        <span className="font-semibold text-gray-900">Rationale:</span> {item.mapped_crf_fields[0].mapping_rationale}
+                                    </div>
+                                </AppleCard>
+                            ))}
                         </div>
 
                         <div className="col-span-4">
@@ -160,13 +191,13 @@ export default function CriticalityAnalysis() {
                 </motion.div>
             )}
 
-            {/* --- STEP 9: Criticality Review (Replaced with Graph) --- */}
+            {/* --- STEP 9: Criticality Review (Updated with JSON Data) --- */}
             {step === "review-criticality" && currentUser !== "sme" && (
                <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
                   <div className="flex justify-between items-center mb-6">
                      <div>
-                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Review</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Traceability: Source Data → Analysis Variables → Estimands.</p>
+                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Mapping</h2>
+                        <p className="text-[#86868b] text-sm mt-1">Linking Lineage (SAP) to Data Collection (aCRF).</p>
                      </div>
                      <div className="flex items-center gap-3">
                         <Button onClick={() => setStep("complete")} className="bg-[#34C759] hover:bg-[#34C759]/90 text-white gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
@@ -175,7 +206,91 @@ export default function CriticalityAnalysis() {
                      </div>
                   </div>
 
-                  <LineageGraphView graph={LINEAGE_GRAPH} />
+                  <div className="grid grid-cols-12 gap-6 pb-8">
+                      {/* Left Col: Mapped Items */}
+                      <div className="col-span-8 space-y-4">
+                          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Mapped Critical Data Points</h3>
+                          {mappedItems.map((item: any, i: number) => (
+                              <AppleCard key={i} className="p-5 hover:shadow-md transition-all group">
+                                  <div className="flex justify-between items-start">
+                                      <div className="flex gap-4">
+                                          <div className={cn(
+                                              "h-10 w-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0",
+                                              item.criticality_tier === 1 ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-600"
+                                          )}>
+                                              T{item.criticality_tier}
+                                          </div>
+                                          <div>
+                                              <h4 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h4>
+                                              <div className="flex flex-wrap gap-2 mt-2">
+                                                  {item.estimands_impacted.map((est: string) => (
+                                                      <span key={est} className="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded font-medium">
+                                                          Impacts {est}
+                                                      </span>
+                                                  ))}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="text-right">
+                                         <div className="flex items-center justify-end gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full mb-2">
+                                             <ShieldCheck className="h-3 w-3" /> Auto-Mapped
+                                         </div>
+                                      </div>
+                                  </div>
+                                  
+                                  <div className="mt-4 pt-4 border-t border-black/5 flex items-center gap-4">
+                                      <div className="text-[10px] text-gray-500 font-medium">Source Hint: <span className="font-mono text-gray-800">{item.source_hint_id}</span></div>
+                                      <ArrowRight className="h-3 w-3 text-gray-300" />
+                                      <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center justify-between border border-black/[0.03]">
+                                          <div className="flex items-center gap-2">
+                                              <Database className="h-3.5 w-3.5 text-blue-500" />
+                                              <span className="text-xs font-medium text-gray-900">{item.mapped_crf_fields[0].formName}</span>
+                                              <span className="text-[10px] text-gray-400">/</span>
+                                              <span className="text-xs font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">{item.mapped_crf_fields[0].domain}.{item.mapped_crf_fields[0].variableName}</span>
+                                          </div>
+                                          <div className="text-[10px] text-gray-500">{item.mapped_crf_fields[0].mapping_confidence} Confidence</div>
+                                      </div>
+                                  </div>
+                              </AppleCard>
+                          ))}
+                      </div>
+
+                      {/* Right Col: Unmapped / Issues */}
+                      <div className="col-span-4 space-y-4">
+                          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Review Required</h3>
+                          {unmappedItems.map((item: any, i: number) => (
+                              <AppleCard key={i} className="p-5 border-amber-200 bg-amber-50/30">
+                                  <div className="flex items-start gap-3">
+                                      <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                                      <div>
+                                          <h4 className="font-semibold text-sm text-[#1d1d1f] mb-1">{item.criticality_description}</h4>
+                                          <div className="flex items-center gap-2 mb-2">
+                                               <span className="text-[10px] font-bold text-red-600 bg-red-100 px-1.5 py-0.5 rounded">Tier {item.criticality_tier}</span>
+                                               <span className="text-[10px] font-mono text-gray-500">{item.source_hint_id}</span>
+                                          </div>
+                                          <p className="text-xs text-amber-800/80 leading-relaxed mb-3">
+                                              {item.reason}
+                                          </p>
+                                          <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-white border-amber-200 text-amber-800 hover:bg-amber-100 hover:text-amber-900">
+                                              Manual Map
+                                          </Button>
+                                      </div>
+                                  </div>
+                              </AppleCard>
+                          ))}
+
+                          <AppleCard className="p-5 bg-blue-50/50 border-blue-100 mt-6">
+                              <h4 className="font-semibold text-sm text-blue-900 mb-2">Mapping Coverage</h4>
+                              <div className="flex items-end gap-2 mb-1">
+                                  <span className="text-3xl font-bold text-blue-900">{CRF_CRITICALITY_REPORT.mapping_summary.coverage_percentage.toFixed(0)}%</span>
+                                  <span className="text-xs text-blue-700 mb-1.5">of critical data points mapped</span>
+                              </div>
+                              <div className="w-full bg-blue-200 rounded-full h-1.5 overflow-hidden">
+                                  <div className="bg-blue-600 h-full rounded-full" style={{ width: `${CRF_CRITICALITY_REPORT.mapping_summary.coverage_percentage}%` }} />
+                              </div>
+                          </AppleCard>
+                      </div>
+                  </div>
                </motion.div>
             )}
 
