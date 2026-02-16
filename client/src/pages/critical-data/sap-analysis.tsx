@@ -399,7 +399,7 @@ export default function SapAnalysis() {
                            selectedLineage === "E1" || selectedLineage === "E3" ? ["Randomization Date", "Death Date", "Last Known Alive"] :
                            selectedLineage === "E2" || selectedLineage === "E4" ? ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] :
                            selectedLineage === "E5" ? ["Progression Date", "Last Assessment", "Death Date"] :
-                           ["Item 29", "Item 30"]
+                           ["Q29: Overall Health (1-7)", "Q30: Quality of Life (1-7)"]
                          ).map((label, i) => (
                              <motion.div 
                                 key={i}
