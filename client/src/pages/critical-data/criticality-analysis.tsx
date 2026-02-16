@@ -575,54 +575,6 @@ export default function CriticalityAnalysis() {
                              </div>
                            ))}
                         </div>
-                     </div>                                <FileCheck className={cn("h-4 w-4", activeForm === form.id ? "text-white/60" : "text-gray-400")} />
-                                <span className="font-medium">{form.label}</span>
-                             </div>
-                             {form.criticalCount > 0 && (
-                               <span className={cn(
-                                 "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
-                                 activeForm === form.id ? "bg-white/20 text-white" : "bg-red-100 text-red-600"
-                               )}>
-                                 {form.criticalCount}
-                               </span>
-                             )}
-                           </button>
-                        ))}
-                     </nav>
-
-                     {/* NON-CRF FACTORS SECTION (NEW) */}
-                     <div className="mt-8 pt-6 border-t border-gray-200">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Non-CRF Data Sources</h3>
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
-                              </TooltipTrigger>
-                              <TooltipContent><p>Data not collected on CRF but critical for analysis</p></TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
-                        
-                        <div className="space-y-3">
-                           {unmappedItems.map((item: any, i: number) => (
-                             <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3 relative group">
-                                <div className="absolute top-2 right-2">
-                                   <div className="h-1.5 w-1.5 rounded-full bg-purple-500" />
-                                </div>
-                                <div className="flex items-center gap-2 mb-1.5">
-                                   <Database className="h-3.5 w-3.5 text-purple-600" />
-                                   <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded uppercase">{item.source_hint_id.includes("IVRS") ? "IVRS" : "External"}</span>
-                                </div>
-                                <p className="text-xs font-medium text-slate-900 leading-tight mb-2">
-                                  {item.criticality_description}
-                                </p>
-                                <p className="text-[10px] text-slate-500 leading-normal">
-                                  {item.reason}
-                                </p>
-                             </div>
-                           ))}
-                        </div>
                      </div>
                   </div>
 
