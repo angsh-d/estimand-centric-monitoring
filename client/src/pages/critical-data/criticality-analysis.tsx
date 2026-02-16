@@ -122,7 +122,12 @@ const CRFField = ({
 };
 
 const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
-  const deathDateMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.variableName === "DTHDAT"));
+  const deathDateMapping = {
+    criticality_tier: 1,
+    criticality_description: "Date of Death",
+    risk_if_erroneous: "Incorrect date alters Overall Survival duration.",
+    estimands_impacted: ["E1", "E2"]
+  };
 
   return (
     <div className="space-y-6">
@@ -515,7 +520,62 @@ export default function CriticalityAnalysis() {
                              )}
                            >
                              <div className="flex items-center gap-2">
-                                <FileCheck className={cn("h-4 w-4", activeForm === form.id ? "text-white/60" : "text-gray-400")} />
+                               <FileText className="h-4 w-4 opacity-70" />
+                               {form.label}
+                             </div>
+                             {form.criticalCount > 0 && (
+                               <span className={cn(
+                                 "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
+                                 activeForm === form.id ? "bg-white/20 text-white" : "bg-red-100 text-red-600"
+                               )}>
+                                 {form.criticalCount}
+                               </span>
+                             )}
+                           </button>
+                        ))}
+                     </nav>
+
+                     {/* NON-CRF DATA SOURCES Section */}
+                     <div className="pt-6 border-t border-gray-200">
+                        <div className="flex items-center justify-between mb-3">
+                           <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Non-CRF Data Sources</h3>
+                           <TooltipProvider>
+                             <Tooltip>
+                               <TooltipTrigger>
+                                 <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
+                               </TooltipTrigger>
+                               <TooltipContent>External data sources integrated via IxRS or transfers</TooltipContent>
+                             </Tooltip>
+                           </TooltipProvider>
+                        </div>
+                        
+                        <div className="space-y-3">
+                           {[
+                             { label: "Date of Randomization (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
+                             { label: "PD-L1 Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
+                             { label: "Histology Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
+                             { label: "Smoking Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
+                             { label: "Date of Disease Progression (RECIST)", type: "EXTERNAL", desc: "RECIST assessment data (RS domain) is typically derived or collected on a dedicated form not provided in the aCRF.", tier: 2 }
+                           ].map((source, i) => (
+                             <div key={i} className="group relative pl-3 border-l-2 border-purple-200 hover:border-purple-400 transition-colors py-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                   <Database className="h-3 w-3 text-purple-600" />
+                                   <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider">{source.type}</span>
+                                   <div className={cn(
+                                     "h-1.5 w-1.5 rounded-full ml-auto", 
+                                     source.tier === 1 ? "bg-red-500" : "bg-amber-500"
+                                   )} />
+                                </div>
+                                <div className="text-xs font-medium text-slate-900 group-hover:text-purple-700 transition-colors">
+                                  {source.label}
+                                </div>
+                                <p className="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                                  {source.desc}
+                                </p>
+                             </div>
+                           ))}
+                        </div>
+                     </div>                                <FileCheck className={cn("h-4 w-4", activeForm === form.id ? "text-white/60" : "text-gray-400")} />
                                 <span className="font-medium">{form.label}</span>
                              </div>
                              {form.criticalCount > 0 && (
