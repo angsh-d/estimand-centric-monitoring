@@ -176,7 +176,8 @@ const AppleCard = ({ children, className, onClick }: { children: React.ReactNode
 
 export default function SignalDashboard() {
   const estimands = useCriticalityData();
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
+  // Set initial state to 'src-E1' to show Layer 2 by default, matching the screenshot
+  const [selectedComponent, setSelectedComponent] = useState<string | null>("src-E1");
   const [loading, setLoading] = useState(true);
 
   // Simulate initial load
