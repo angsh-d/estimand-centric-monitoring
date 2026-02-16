@@ -349,7 +349,7 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
 // Helper to extract estimands from lineage graph
 const getEstimandsFromGraph = (graph: typeof LINEAGE_GRAPH) => {
   return graph.nodes
-    .filter(n => n.type === "ESTIMAND")
+    .filter(n => n.type === "ESTIMAND" && ["PRIMARY", "SECONDARY", "KEY_SECONDARY"].includes(n.attributes.objective_type || ""))
     .map(n => {
       // Find method targeting this estimand
       const methodEdge = graph.edges.find(e => e.from === n.id && e.relationship === "targeted_by");
@@ -367,10 +367,14 @@ const getEstimandsFromGraph = (graph: typeof LINEAGE_GRAPH) => {
       const iceEdges = graph.edges.filter(e => e.from === n.id && e.relationship === "handles");
       const iceNodes = iceEdges.map(e => graph.nodes.find(in_ => in_.id === e.to)).filter(Boolean);
 
+      let objectiveLabel = "Secondary Endpoint";
+      if (n.attributes.objective_type === "PRIMARY") objectiveLabel = "Primary Endpoint";
+      if (n.attributes.objective_type === "KEY_SECONDARY") objectiveLabel = "Key Secondary Endpoint";
+
       return {
         id: n.id,
         label: n.label,
-        var: n.attributes.objective_type === "PRIMARY" ? "Primary Endpoint" : "Secondary Endpoint", // Simplification as description isn't in attributes
+        var: objectiveLabel, 
         pop: popNode ? popNode.label : (n.attributes.population || "ITT"),
         trt: "Durvalumab vs SoC", // Hardcoded context from user prompt
         algo: methodNode ? `${methodNode.label} (${methodNode.attributes.test_statistic || 'Statistical Model'})` : "Standard Analysis",
