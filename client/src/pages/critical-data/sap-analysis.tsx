@@ -41,7 +41,15 @@ const LINEAGE_PATH_E1 = [
   { id: "V1", label: "Rand Date", type: "source" }
 ];
 
-const LREM_CHAIN = [
+const COMPLEX_DERIVATION_E1 = [
+  { stage: "Source Data", items: ["Date of Randomization", "Date of Death", "Date Last Known Alive"] },
+  { stage: "Derived", items: ["V9: Overall Survival Duration (Days)"] },
+  { stage: "Censoring", items: ["Censor Flag (0=Event, 1=Censored)"] },
+  { stage: "Population", items: ["POP1: ITT Population"] },
+  { stage: "Estimand", items: ["E1: Primary OS in ITT"] }
+];
+
+const COMPLEX_DERIVATION_E2 = [
   { stage: "Source Data", items: ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] },
   { stage: "Derived", items: ["V17: Early Mortality Risk Score"] },
   { stage: "Flag", items: ["V18: LREM Flag (Y/N)"] },
@@ -333,7 +341,7 @@ export default function SapAnalysis() {
               </motion.div>
             )}
 
-            {/* STEP 3: LREM DERIVATION */}
+            {/* STEP 3: COMPLEX DERIVATION */}
             {step === 3 && (
               <motion.div 
                 key="lrem"
@@ -341,14 +349,35 @@ export default function SapAnalysis() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
               >
-                <div className="mb-8">
-                   <h2 className="text-2xl font-semibold text-[#1d1d1f]">Complex Derivation Chain</h2>
-                   <p className="text-[#86868b] text-sm mt-1">E2 (Co-Primary) relies on a 4-level derivation chain (LREM Score).</p>
+                <div className="mb-8 flex justify-between items-end">
+                   <div>
+                      <h2 className="text-2xl font-semibold text-[#1d1d1f]">Complex Derivation Chain</h2>
+                      <p className="text-[#86868b] text-sm mt-1">
+                        {selectedLineage === "E1" 
+                          ? "E1 (Primary) relies on standard time-to-event derivation (Survival Days)." 
+                          : "E2 (Co-Primary) relies on a 4-level derivation chain (LREM Score)."
+                        }
+                      </p>
+                   </div>
+                   <div className="flex bg-gray-100 p-1 rounded-lg">
+                      <button 
+                        onClick={() => setSelectedLineage("E1")}
+                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E1" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
+                      >
+                        Primary (E1)
+                      </button>
+                      <button 
+                        onClick={() => setSelectedLineage("E2")}
+                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E2" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
+                      >
+                        Co-Primary (E2)
+                      </button>
+                   </div>
                 </div>
 
                 <div className="bg-[#F9F9FA] rounded-3xl p-8 border border-black/[0.04]">
                    <div className="flex flex-col gap-2">
-                      {LREM_CHAIN.map((layer, i) => (
+                      {(selectedLineage === "E1" ? COMPLEX_DERIVATION_E1 : COMPLEX_DERIVATION_E2).map((layer, i) => (
                          <div key={i} className="flex items-center">
                             <div className="w-32 text-right pr-6 py-4">
                                <span className="text-xs font-bold text-black/40 uppercase tracking-wider">{layer.stage}</span>
@@ -379,8 +408,16 @@ export default function SapAnalysis() {
                 <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-100 flex items-start gap-3 text-blue-800 text-sm">
                    <Lightbulb className="h-5 w-5 shrink-0" />
                    <p className="leading-relaxed">
-                      <strong>Insight:</strong> If any single baseline lab value (Neutrophils, Lymphocytes, etc.) is missing, 
-                      the Risk Score cannot be calculated, excluding the patient from the Co-Primary analysis.
+                      {selectedLineage === "E1" ? (
+                        <>
+                          <strong>Insight:</strong> Censor Date derivation logic varies based on outcome: Lost to Follow-up (Last Known Alive) vs. Study End (Cutoff Date) vs. Withdrawal (Withdrawal Date).
+                        </>
+                      ) : (
+                        <>
+                          <strong>Insight:</strong> If any single baseline lab value (Neutrophils, Lymphocytes, etc.) is missing, 
+                          the Risk Score cannot be calculated, excluding the patient from the Co-Primary analysis.
+                        </>
+                      )}
                    </p>
                 </div>
               </motion.div>
