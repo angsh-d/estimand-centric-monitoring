@@ -1,0 +1,171 @@
+  
+
+---
+  lineage_graph.json — "How does data flow from collection to estimand?"
+
+  Audience: Biostatisticians, data managers, regulatory affairs.
+
+  This is a directed acyclic graph (DAG) with two sections:
+
+  nodes[] — the entities:
+  - Estimands (E1, E2, E5): The clinical questions — e.g., "Primary OS in bTMB >= 20 population"
+  - Methods (M1, M9): Statistical procedures — e.g., "Cox PH (Unstratified)"
+  - Variables (V1-V48): Derived analysis variables — e.g., "AVAL (OS)" in ADTTE, "bTMB Value" in ADLB
+  - Populations (POP1, POP2): Analysis sets — e.g., "FAS (Randomized)", "bTMB >= 20 Set"
+  - ICEs (ICE1, ICE3): Intercurrent events — e.g., "Subsequent Therapy"
+  - Deviations (DEV1): Protocol deviations that affect analysis — e.g., "Wrong Treatment"
+
+  edges[] — the relationships, read as a chain:
+  E1 (Primary OS) ←targeted_by← M1 (Cox PH)
+      M1 ←uses_as_response← V1 (AVAL OS)
+          V1 ←derived_from_event← V4 (Death Date)
+          V1 ←derived_from_start← V3 (Randomization Date)
+          V1 ←derived_from_censor← V5 (Last Known Alive)
+      M1 ←analyzed_on← POP2 (bTMB >= 20 Set)
+          POP2 ←defined_by← V18 (bTMB Flag) ←derived_from← V17 (bTMB Value)
+
+  Stakeholder talking point: "The lineage graph shows that the primary OS endpoint depends on 3 source data fields (death date, randomization date, last-known-alive date), one
+  population flag (bTMB >= 20), and handles one intercurrent event (subsequent therapy). If any of these are wrong, the primary analysis is compromised."
+
+  ---
+  criticality_assignments.json — "Which source data fields matter most?"
+
+  Audience: Clinical operations, data management, risk-based monitoring teams.
+
+  Each entry assigns a criticality tier to a source data field:
+
+  ┌────────┬──────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────┐
+  │  Tier  │                                   Meaning                                    │                         Action                          │
+  ├────────┼──────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ Tier 1 │ Directly impacts primary estimand. Errors change the primary endpoint result │ Mandatory SDV, stringent edit checks, immediate queries │
+  ├────────┼──────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ Tier 2 │ Impacts secondary endpoints or sensitivity analyses                          │ Standard monitoring, edit checks                        │
+  ├────────┼──────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ Tier 3 │ Supportive/safety — doesn't affect key statistical conclusions               │ Reduced monitoring acceptable                           │
+  └────────┴──────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────────────────────┘
+
+  Key fields per entry:
+  - lineage_path: Shows the chain from raw data to estimand — this is the "proof" of why it's critical
+  - missingness_sensitivity: HIGH means missing data directly degrades analysis power
+  - risk_if_erroneous: Plain-language consequence — e.g., "Missing death date converts Event to Censor (major impact)"
+  - query_trigger: Whether errors should auto-generate data queries
+
+  Stakeholder talking point: "Of hundreds of collected data points, only 6 carry criticality for this trial's statistical analysis. Three are Tier 1: death date, randomization date,
+  and last-known-alive date — errors in any of these directly alter the primary OS result."
+
+  ---
+  source_data_hint_registry.json — "Where does each critical field live in SDTM?"
+
+  Audience: Data standards, SDTM mapping teams, CDISC specialists.
+
+  Bridges criticality to CDISC standards:
+  - sdtm_domain_hint / sdtm_variable_hint: Where this data maps in SDTM (e.g., DM.DTHDTC, LB.LBORRES)
+  - measurement_context: How the data is collected — instrument name, collection method, value type
+  - mapping_confidence: STANDARD_CDISC (certain) vs REQUIRES_DOWNSTREAM_MAPPING (needs review)
+
+  Stakeholder talking point: "The TMB value maps to LB.LBORRES via Central Lab, but since LBORRES is generic, downstream mapping teams must ensure only the Blood TMB Assay result is
+  flagged — not other lab values sharing the same variable."
+
+  ---
+  6. crf_field_criticality_report.json — "Which CRF fields should monitors focus on?"
+
+  Audience: Clinical operations, site monitors, data management, EDC designers.
+
+  This bridges everything to the physical data collection forms:
+  - mappings[]: Each critical data point → exact CRF form + field + rationale
+  - data_collection_guidance: Ready-made instructions for monitoring plans
+  - mapping_confidence: HIGH (direct SDTM match) vs MEDIUM (semantic reasoning needed)
+  - unmapped_criticality_items[]: Critical data that comes from outside CRFs (IVRS, BIRC, central lab systems)
+
+  Stakeholder talking point: "Of 92 CRF fields across 22 forms, only 7 fields on 4 forms carry criticality. Site monitors should prioritize: Death Date on the Survival form, TMB
+  results on the Lab form, and tumor measurements on the Tumor Assessment form. Randomization date comes from IVRS — not collected on CRFs — so its quality depends on system
+  integration."
+
+  ---
+  How to Present to Different Audiences
+
+  ┌────────────────────┬─────────────────────────────────┬───────────────────────────────────────────────────────┬───────────────────────┐
+  │      Audience      │           Start with            │                       Focus on                        │         Skip          │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ Sponsor leadership │ Scorecard → Criticality summary │ Tier 1 count, gap count, coverage %                   │ Lineage graph details │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ Biostatisticians   │ Lineage graph → Gaps/conflicts  │ DAG structure, unresolved references, ambiguities     │ CRF report            │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ Data management    │ Criticality → CRF report        │ Tier 1 fields, edit check priorities, query triggers  │ Lineage graph         │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ Site monitors      │ CRF report only                 │ data_collection_guidance per Tier 1 field             │ Everything else       │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ Regulatory/QA      │ Scorecard → Gaps/conflicts      │ Citation coverage, conflict details, resolution rates │ CRF report            │
+  ├────────────────────┼─────────────────────────────────┼───────────────────────────────────────────────────────┼───────────────────────┤
+  │ CDISC/Standards    │ Source data hints → Lineage     │ SDTM mapping confidence, cross-domain patterns        │ Gaps report           │
+  └────────────────────┴─────────────────────────────────┴───────────────────────────────────────────────────────┴───────────────────────┘
+
+
+  HOW DO THE INDIVIDUAL JSONs COMBINE TO CREATE THE FINAL OUTPUT (along with aCRF):
+
+
+  ⏺ Two artifacts are used as inputs, plus the external aCRF:
+
+  Inputs to crf_field_criticality_report.json
+
+  1. criticality_assignments.json — the "what matters and why"
+
+  Provides for each critical data field:
+  - source_hint_id — the identifier (SH_DTHDTC, SH_LB_TMB, etc.)
+  - criticality_tier — 1, 2, or 3
+  - lineage_path — chain from variable to estimand
+  - estimands_impacted, methods_impacted
+  - missingness_sensitivity, risk_if_erroneous
+
+  This is the demand side — "these are the data fields that matter for the statistical analysis."
+
+  2. source_data_hint_registry.json — the "where it lives in SDTM"
+
+  Provides for each source hint:
+  - sdtm_domain_hint / sdtm_variable_hint — e.g., DM.DTHDTC, LB.LBORRES
+  - measurement_context — instrument name, collection method, value type
+  - mapping_confidence
+
+  This is the bridge — tells the LLM what SDTM variables to look for when scanning CRF fields. Without it, the LLM can't distinguish which
+  LBORRES is TMB vs which is Neutrophils.
+
+  3. aCRF JSON (external, from SOA pipeline) — the "supply side"
+
+  Provides the physical CRF fields:
+  - formId, formName, domain
+  - variableName, label, questionText
+  - sdtmTarget, sdtmMappingInstruction
+
+  This is stripped down by _build_acrf_summary() from ~93KB to ~15KB before being sent to the LLM (removing collectionSchedule, edcRules,
+  annotationColor, order, etc.).
+
+  How they combine
+
+  criticality_assignments.json          source_data_hint_registry.json
+          |                                       |
+          |  "SH_DTHDTC is Tier 1,                |  "SH_DTHDTC maps to
+          |   impacts E1, lineage:                |   DM.DTHDTC, collected
+          |   V4→V1→M1→E1"                        |   via Death Report eCRF"
+          |                                       |
+          +-------------------+-------------------+
+                              |
+                       LLM semantic matching
+                              |
+                      "Find CRF fields where
+                       sdtmTarget matches DM.DTHDTC
+                       or semantically relates to
+                       Death Date collection"
+                              |
+                aCRF JSON (stripped)
+                "FORM-DS-02/DTHDAT has
+                 sdtmTarget=DM.DTHDTC,
+                 label=Death Date"
+                              |
+                              v
+                crf_field_criticality_report.json
+                mapping: SH_DTHDTC → FORM-DS-02/DTHDAT
+                + tier, lineage, guidance carried forward
+
+  The LLM does the semantic matching because a simple join fails — sdtmTarget formats vary ("DM.DTHDTC" vs bare "DSSTDTC"), cross-domain
+  collection exists (TU forms → TR domain), and generic variables like LBORRES need measurement_context to disambiguate.
+

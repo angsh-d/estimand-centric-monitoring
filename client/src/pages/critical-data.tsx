@@ -50,6 +50,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import { CRITICALITY_ASSIGNMENTS, LINEAGE_GRAPH } from "@/data/mock-sap-data";
+
 // --- Mock Data ---
 
 const SOA_INIT = {
@@ -200,6 +202,86 @@ const ProvenanceTooltip = ({ source, conf = "high", children }: { source: string
   </TooltipProvider>
 );
 
+// --- Graph Visualization ---
+
+const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
+  // Simple layout logic: Assign columns based on node type
+  const getColumn = (node: any) => {
+    if (node.type === "ESTIMAND") return 4;
+    if (node.type === "METHOD") return 3;
+    if (node.type === "POPULATION") return 2;
+    if (node.type === "VARIABLE") {
+      if (node.attributes.variable_role === "BASELINE" || node.attributes.variable_role === "COMPONENT") return 1;
+      return 2; // Derived/Intermediate
+    }
+    if (node.type === "ICE" || node.type === "DEVIATION") return 0; // Events/Deviations
+    return 0;
+  };
+
+  const columns = [[], [], [], [], []]; // 0: Events, 1: Source Vars, 2: Derived/Pop, 3: Methods, 4: Estimands
+  
+  graph.nodes.forEach(node => {
+    const colIndex = getColumn(node);
+    // @ts-ignore
+    columns[colIndex].push(node);
+  });
+
+  return (
+    <div className="h-[600px] bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden relative flex">
+       {/* Background Grid */}
+       <div className="absolute inset-0 grid grid-cols-5 divide-x divide-slate-200/50 pointer-events-none">
+          <div className="bg-slate-50/50" />
+          <div className="bg-white/50" />
+          <div className="bg-slate-50/50" />
+          <div className="bg-white/50" />
+          <div className="bg-slate-50/50" />
+       </div>
+       
+       {/* Columns */}
+       {columns.map((col, colIndex) => (
+         <div key={colIndex} className="flex-1 flex flex-col justify-center gap-4 p-4 relative z-10">
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-4 absolute top-4 left-0 right-0">
+               {colIndex === 0 ? "Events / Deviations" :
+                colIndex === 1 ? "Source Variables" :
+                colIndex === 2 ? "Derived / Populations" :
+                colIndex === 3 ? "Analysis Methods" :
+                "Estimands"}
+            </div>
+            <div className="flex flex-col gap-3 mt-8 overflow-y-auto max-h-full py-2">
+               {col.map((node: any) => (
+                 <div key={node.id} className={cn(
+                    "p-3 rounded-xl border shadow-sm text-xs transition-all hover:scale-105 cursor-default relative group",
+                    node.type === "ESTIMAND" ? "bg-slate-900 text-white border-slate-900" :
+                    node.type === "METHOD" ? "bg-white border-blue-200 text-slate-900" :
+                    node.type === "POPULATION" ? "bg-emerald-50 border-emerald-100 text-emerald-800" :
+                    "bg-white border-slate-200 text-slate-600"
+                 )}>
+                    <div className="font-bold mb-0.5">{node.id}</div>
+                    <div className="leading-tight opacity-90">{node.label}</div>
+                    
+                    {/* Tooltip for attributes */}
+                    <div className="absolute left-full top-0 ml-2 w-48 bg-slate-800 text-white p-2 rounded-lg text-[10px] opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl transition-opacity">
+                       {Object.entries(node.attributes).map(([k, v]) => (
+                          <div key={k} className="mb-0.5"><span className="text-slate-400">{k}:</span> <span className="font-mono">{String(v)}</span></div>
+                       ))}
+                    </div>
+                 </div>
+               ))}
+            </div>
+         </div>
+       ))}
+       
+       {/* Edges - SVG Overlay (Simplified: just decorative connections for mockup) */}
+       <svg className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Note: In a real implementation, we'd calculate coordinates. 
+              Here we just hint at connections with a background pattern or we skip complex edge drawing 
+              for this rapid mockup as precise coordinate calculation without a library is verbose. 
+          */}
+       </svg>
+    </div>
+  );
+};
+
 // --- Main Page ---
 
 export default function CriticalData() {
@@ -207,7 +289,15 @@ export default function CriticalData() {
   const [soaData, setSoaData] = useState(SOA_INIT);
   const [acrfData, setAcrfData] = useState(ACRF_INIT);
   const [estimands, setEstimands] = useState(ESTS_INIT);
-  const [derivationData, setDerivationData] = useState(DMAP_INIT);
+  
+  // Transform CRITICALITY_ASSIGNMENTS to match derivationData structure if needed, or use directly
+  // We'll use a new state for the new data structure
+  const [criticalityData, setCriticalityData] = useState(CRITICALITY_ASSIGNMENTS);
+  
+  // Keep old derivationData for now to avoid breaking existing code immediately, 
+  // but we will replace its usage in the UI
+  const [derivationData, setDerivationData] = useState(DMAP_INIT); 
+
   
   // Validation State
   const [smeAssigned, setSmeAssigned] = useState(false);
@@ -774,51 +864,20 @@ export default function CriticalData() {
                </motion.div>
             )}
 
-            {/* --- STEP 8: Derivation Map --- */}
+            {/* --- STEP 8: Lineage Graph (was Derivation Map) --- */}
             {step === "review-derivation" && currentUser !== "sme" && (
                <motion.div key="rev-map" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
                   <div className="flex justify-between items-center mb-6">
                      <div>
-                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Derivation Map</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Traceability: Source (aCRF) → Analysis (SAP) → Estimand.</p>
+                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Lineage Graph</h2>
+                        <p className="text-[#86868b] text-sm mt-1">Traceability: Source Data → Analysis Variables → Estimands.</p>
                      </div>
                      <Button onClick={() => setStep("review-criticality")} className="bg-[#1d1d1f] text-white hover:bg-black/90 gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
                         Review Criticality <ArrowRight className="h-3.5 w-3.5" />
                      </Button>
                   </div>
 
-                  <AppleCard className="flex-1 overflow-auto">
-                     <table className="w-full text-sm text-left">
-                        <thead className="bg-gray-50/50 text-[#86868b] font-medium text-[11px] uppercase tracking-wider sticky top-0 backdrop-blur-md">
-                           <tr>
-                              <th className="p-4 pl-6">Domain</th>
-                              <th className="p-4">Source Field</th>
-                              <th className="p-4">SAP Variable</th>
-                              <th className="p-4">Derivation Logic</th>
-                              <th className="p-4">Estimand Link</th>
-                           </tr>
-                        </thead>
-                        <tbody className="divide-y divide-black/[0.03]">
-                           {derivationData.map((row, i) => (
-                              <tr key={i} className="hover:bg-black/[0.01] group">
-                                 <td className="p-3 pl-6">
-                                    <div className="inline-block bg-white border border-black/10 rounded px-2 py-0.5 text-[10px] font-bold text-black/70">{row.dom}</div>
-                                 </td>
-                                 <td className="p-3 text-[#1d1d1f] font-mono text-xs">{row.field}</td>
-                                 <td className="p-3 text-[#1d1d1f] font-mono text-xs font-semibold">{row.sap}</td>
-                                 <td className="p-3 relative">
-                                    <div className="text-[#86868b] text-xs max-w-xs">{row.deriv}</div>
-                                 </td>
-                                 <td className="p-3">
-                                    <div className="flex flex-col gap-1">
-                                       <span className="text-xs font-medium text-[#1d1d1f]">{row.link}</span>
-                                    </div>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                  </AppleCard>
+                  <LineageGraphView graph={LINEAGE_GRAPH} />
                </motion.div>
             )}
 
@@ -828,26 +887,9 @@ export default function CriticalData() {
                   <div className="flex justify-between items-center mb-6">
                      <div>
                         <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Review</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Validate risk-based tier assignments.</p>
+                        <p className="text-[#86868b] text-sm mt-1">Validate risk-based tier assignments from SAP.</p>
                      </div>
                      <div className="flex items-center gap-3">
-                        <div className="flex bg-white p-1 rounded-full border border-black/5 shadow-sm">
-                           {["1", "2", "3"].map(t => (
-                              <button 
-                                 key={t}
-                                 onClick={() => setTierFilter(tierFilter === t ? null : t)}
-                                 className={cn(
-                                    "px-4 py-1.5 text-xs font-medium rounded-full transition-all",
-                                    tierFilter === t ? "bg-black text-white shadow-sm" : "text-black/50 hover:text-black"
-                                 )}
-                              >
-                                 Tier {t}
-                              </button>
-                           ))}
-                           {tierFilter && (
-                              <button onClick={() => setTierFilter(null)} className="px-3 text-black/40 hover:text-black"><X className="h-3 w-3" /></button>
-                           )}
-                        </div>
                         <Button onClick={() => setStep("complete")} className="bg-[#34C759] hover:bg-[#34C759]/90 text-white gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
                            Finalize Model <CheckCircle2 className="h-3.5 w-3.5" />
                         </Button>
@@ -856,39 +898,56 @@ export default function CriticalData() {
 
                   <AppleCard className="flex-1 overflow-auto">
                      <table className="w-full text-sm text-left">
-                        <thead className="bg-gray-50/50 text-[#86868b] font-medium text-[11px] uppercase tracking-wider sticky top-0 backdrop-blur-md">
+                        <thead className="bg-gray-50/50 text-[#86868b] font-medium text-[11px] uppercase tracking-wider sticky top-0 backdrop-blur-md z-10">
                            <tr>
-                              <th className="p-4 pl-6">Analysis Variable</th>
-                              <th className="p-4">Impact Reasoning</th>
-                              <th className="p-4 text-center">Assigned Tier</th>
+                              <th className="p-4 pl-6">Source Data Hint</th>
+                              <th className="p-4">Lineage Path</th>
+                              <th className="p-4">Risk Rationale</th>
+                              <th className="p-4 text-center">Tier</th>
                            </tr>
                         </thead>
                         <tbody className="divide-y divide-black/[0.03]">
-                           {filteredDerivations.map((row) => (
-                              <tr key={row.id} className="hover:bg-black/[0.01]">
-                                 <td className="p-4 pl-6">
-                                    <div className="font-semibold text-[#1d1d1f]">{row.sap}</div>
-                                    <div className="text-[10px] text-[#86868b] font-mono mt-0.5">Source: {row.field}</div>
-                                 </td>
-                                 <td className="p-4">
-                                    <div className="text-sm text-[#1d1d1f] mb-1">{row.link}</div>
-                                    <div className="flex items-center gap-2 text-[10px] text-[#86868b]">
-                                       <Info className="h-3 w-3" />
-                                       Required for primary analysis model (SAP Sec 4.1)
+                           {criticalityData.map((row, i) => (
+                              <tr key={i} className="hover:bg-black/[0.01]">
+                                 <td className="p-4 pl-6 align-top w-1/4">
+                                    <div className="font-semibold text-[#1d1d1f]">{row.description}</div>
+                                    <div className="text-[10px] text-[#86868b] font-mono mt-0.5 bg-black/[0.03] px-1.5 py-0.5 rounded w-fit">{row.source_hint_id}</div>
+                                    <div className="mt-2 flex flex-wrap gap-1">
+                                       {row.estimands_impacted.map(est => (
+                                          <span key={est} className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">{est}</span>
+                                       ))}
                                     </div>
                                  </td>
-                                 <td className="p-4 text-center">
-                                    <button 
-                                       onClick={() => toggleTier(row.id)}
-                                       className={cn(
-                                          "px-4 py-1.5 rounded-full text-[11px] font-semibold transition-all hover:scale-105 shadow-sm uppercase tracking-wide min-w-[70px]",
-                                          row.tier === "1" ? "bg-black text-white" :
-                                          row.tier === "2" ? "bg-white text-black border border-black/10" :
-                                          "bg-gray-100 text-gray-400"
-                                       )}
-                                    >
-                                       Tier {row.tier}
-                                    </button>
+                                 <td className="p-4 align-top w-1/3">
+                                    <div className="space-y-1">
+                                       {row.lineage_path.map((step, j) => (
+                                          <div key={j} className="text-xs text-[#1d1d1f] font-mono flex items-center gap-2">
+                                             {j > 0 && <span className="text-black/20">↳</span>}
+                                             {step}
+                                          </div>
+                                       ))}
+                                    </div>
+                                 </td>
+                                 <td className="p-4 align-top">
+                                    <div className="text-xs text-[#1d1d1f] mb-1.5 font-medium">{row.risk_if_erroneous}</div>
+                                    <div className="text-[11px] text-[#86868b] italic leading-snug">
+                                       "{row.tier_justification}"
+                                    </div>
+                                    {row.missingness_sensitivity === "HIGH" && (
+                                       <div className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">
+                                          <AlertTriangle className="h-3 w-3" /> High Sensitivity
+                                       </div>
+                                    )}
+                                 </td>
+                                 <td className="p-4 text-center align-top">
+                                    <div className={cn(
+                                       "inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold border",
+                                       row.criticality_tier_primary_timepoint === 1 ? "bg-black text-white border-black" :
+                                       row.criticality_tier_primary_timepoint === 2 ? "bg-white text-black border-black/20" :
+                                       "bg-gray-100 text-gray-500 border-transparent"
+                                    )}>
+                                       Tier {row.criticality_tier_primary_timepoint}
+                                    </div>
                                  </td>
                               </tr>
                            ))}
