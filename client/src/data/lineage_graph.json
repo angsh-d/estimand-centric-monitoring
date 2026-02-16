@@ -1,0 +1,288 @@
+{
+  "nodes": [
+    {
+      "id": "E1",
+      "type": "ESTIMAND",
+      "label": "Primary OS Estimand (ITT)",
+      "attributes": {
+        "objective_type": "PRIMARY",
+        "population": "FAS"
+      }
+    },
+    {
+      "id": "E2",
+      "type": "ESTIMAND",
+      "label": "Primary OS Estimand (Low Risk)",
+      "attributes": {
+        "objective_type": "PRIMARY",
+        "population": "FAS_LOW_RISK"
+      }
+    },
+    {
+      "id": "E5",
+      "type": "ESTIMAND",
+      "label": "Secondary PFS Estimand (ITT)",
+      "attributes": {
+        "objective_type": "SECONDARY"
+      }
+    },
+    {
+      "id": "E9",
+      "type": "ESTIMAND",
+      "label": "Sensitivity OS Estimand (COVID-19)",
+      "attributes": {
+        "objective_type": "SENSITIVITY"
+      }
+    },
+    {
+      "id": "M1",
+      "type": "METHOD",
+      "label": "Primary Analysis of OS (ITT)",
+      "attributes": {
+        "method_role": "PRIMARY",
+        "test_statistic": "Log-rank"
+      }
+    },
+    {
+      "id": "M2",
+      "type": "METHOD",
+      "label": "Primary Analysis of OS (Low Risk)",
+      "attributes": {
+        "method_role": "PRIMARY"
+      }
+    },
+    {
+      "id": "M9",
+      "type": "METHOD",
+      "label": "Analysis of PFS",
+      "attributes": {
+        "method_role": "PRIMARY_FOR_SECONDARY_ESTIMAND"
+      }
+    },
+    {
+      "id": "POP1",
+      "type": "POPULATION",
+      "label": "Full Analysis Set (ITT)",
+      "attributes": {
+        "abbreviation": "FAS"
+      }
+    },
+    {
+      "id": "POP2",
+      "type": "POPULATION",
+      "label": "Low Risk Analysis Set",
+      "attributes": {
+        "abbreviation": "FAS_LOW_RISK"
+      }
+    },
+    {
+      "id": "V1",
+      "type": "VARIABLE",
+      "label": "Date of Randomization",
+      "attributes": {
+        "variable_role": "BASELINE"
+      }
+    },
+    {
+      "id": "V4",
+      "type": "VARIABLE",
+      "label": "Overall Survival Time",
+      "attributes": {
+        "variable_role": "TIME_TO_EVENT"
+      }
+    },
+    {
+      "id": "V23",
+      "type": "VARIABLE",
+      "label": "Early Mortality Risk Score",
+      "attributes": {
+        "variable_role": "DERIVED_INTERMEDIATE"
+      }
+    },
+    {
+      "id": "V16",
+      "type": "VARIABLE",
+      "label": "Neutrophils (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V17",
+      "type": "VARIABLE",
+      "label": "Lymphocytes (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V18",
+      "type": "VARIABLE",
+      "label": "Albumin (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V19",
+      "type": "VARIABLE",
+      "label": "LDH (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V20",
+      "type": "VARIABLE",
+      "label": "GGT (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V21",
+      "type": "VARIABLE",
+      "label": "AST (Baseline)",
+      "attributes": {
+        "variable_role": "COMPONENT"
+      }
+    },
+    {
+      "id": "V13",
+      "type": "VARIABLE",
+      "label": "PD-L1 Expression (IVRS)",
+      "attributes": {
+        "variable_role": "STRATIFICATION"
+      }
+    },
+    {
+      "id": "ICE1",
+      "type": "ICE",
+      "label": "Discontinuation of study treatment",
+      "attributes": {
+        "strategy": "TREATMENT_POLICY"
+      }
+    },
+    {
+      "id": "ICE3",
+      "type": "ICE",
+      "label": "Death due to COVID-19",
+      "attributes": {
+        "strategy": "HYPOTHETICAL"
+      }
+    },
+    {
+      "id": "DEV7",
+      "type": "DEVIATION",
+      "label": "COVID-19 Death",
+      "attributes": {
+        "consequence": "DATA_MODIFICATION"
+      }
+    },
+    {
+      "id": "MT4",
+      "type": "MISSINGNESS_TOLERANCE",
+      "label": "Primary Power Assumption",
+      "attributes": {
+        "power_target": "86%"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "E1",
+      "to": "M1",
+      "relationship": "targeted_by"
+    },
+    {
+      "from": "E2",
+      "to": "M2",
+      "relationship": "targeted_by"
+    },
+    {
+      "from": "M1",
+      "to": "V4",
+      "relationship": "uses_as_response"
+    },
+    {
+      "from": "M1",
+      "to": "POP1",
+      "relationship": "analyzed_on"
+    },
+    {
+      "from": "M1",
+      "to": "V13",
+      "relationship": "uses_as_covariate"
+    },
+    {
+      "from": "M2",
+      "to": "POP2",
+      "relationship": "analyzed_on"
+    },
+    {
+      "from": "V4",
+      "to": "V1",
+      "relationship": "derived_from_start_date"
+    },
+    {
+      "from": "V4",
+      "to": "V2",
+      "relationship": "derived_from_event_date"
+    },
+    {
+      "from": "V4",
+      "to": "V3",
+      "relationship": "derived_from_censor_date"
+    },
+    {
+      "from": "POP2",
+      "to": "V23",
+      "relationship": "defined_by_score"
+    },
+    {
+      "from": "V23",
+      "to": "V16",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "V23",
+      "to": "V17",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "V23",
+      "to": "V18",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "V23",
+      "to": "V19",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "V23",
+      "to": "V20",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "V23",
+      "to": "V21",
+      "relationship": "derived_from"
+    },
+    {
+      "from": "E9",
+      "to": "ICE3",
+      "relationship": "handles"
+    },
+    {
+      "from": "ICE3",
+      "to": "DEV7",
+      "relationship": "triggered_by"
+    },
+    {
+      "from": "E1",
+      "to": "MT4",
+      "relationship": "monitored_by"
+    }
+  ]
+}

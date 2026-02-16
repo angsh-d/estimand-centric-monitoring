@@ -1,0 +1,172 @@
+[
+  {
+    "source_hint_id": "SH_RNDDT",
+    "description": "Date of Randomization (IVRS)",
+    "criticality_tier_primary_timepoint": 1,
+    "criticality_tier_other_timepoints": 1,
+    "tier_justification": "Baseline reference date for ALL Time-to-Event endpoints (Primary E1, Co-Primary E2, Sec E5). Errors here shift all survival times.",
+    "lineage_path": [
+      "V1 (RNDDT)",
+      "\u2192 V4 (AVAL_OS = DTHDT - RNDDT)",
+      "\u2192 M1 (Log-rank)",
+      "\u2192 E1 (Primary OS)"
+    ],
+    "estimands_impacted": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5"
+    ],
+    "methods_impacted": [
+      "M1",
+      "M2",
+      "M9"
+    ],
+    "deviation_relevance": [
+      "DEV1"
+    ],
+    "query_trigger": false,
+    "missingness_sensitivity": "HIGH",
+    "missingness_rationale": "Missing randomization date invalidates ITT membership confirmation and survival calculation.",
+    "risk_if_erroneous": "Incorrect start time invalidates calculated survival duration."
+  },
+  {
+    "source_hint_id": "SH_DTHDT",
+    "description": "Date of Death (from DM/DS/AE)",
+    "criticality_tier_primary_timepoint": 1,
+    "criticality_tier_other_timepoints": 1,
+    "tier_justification": "Determines the event time for the Primary Endpoint (OS). Direct component of analysis variable.",
+    "lineage_path": [
+      "V2 (DTHDT)",
+      "\u2192 V4 (AVAL_OS)",
+      "\u2192 M1 (Log-rank)",
+      "\u2192 E1 (Primary OS)"
+    ],
+    "estimands_impacted": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "methods_impacted": [
+      "M1",
+      "M2"
+    ],
+    "deviation_relevance": [
+      "DEV7"
+    ],
+    "query_trigger": true,
+    "missingness_sensitivity": "HIGH",
+    "missingness_rationale": "Missing death date when death occurred turns an Event into a Censor (or missing data), biasing the Hazard Ratio.",
+    "risk_if_erroneous": "Primary endpoint status changes from Event to Censor, or time is incorrect."
+  },
+  {
+    "source_hint_id": "SH_LAB_NEUT",
+    "description": "Baseline Neutrophil Count (Central Lab)",
+    "criticality_tier_primary_timepoint": 1,
+    "criticality_tier_other_timepoints": 3,
+    "tier_justification": "Although a lab value, it is a direct component of V23 (Risk Score), which defines POP2. POP2 is the analysis set for E2 (Co-Primary Estimand). Missing/wrong neutrophil count excludes subject from Co-Primary analysis.",
+    "lineage_path": [
+      "V16 (Neutrophils)",
+      "\u2192 V22 (NLR)",
+      "\u2192 V23 (Risk Score)",
+      "\u2192 V24 (Risk Flag)",
+      "\u2192 POP2 (Low Risk Analysis Set)",
+      "\u2192 M2 (Primary Analysis Low Risk)",
+      "\u2192 E2 (Co-Primary OS)"
+    ],
+    "estimands_impacted": [
+      "E2",
+      "E4"
+    ],
+    "methods_impacted": [
+      "M2"
+    ],
+    "deviation_relevance": [],
+    "query_trigger": false,
+    "missingness_sensitivity": "HIGH",
+    "missingness_rationale": "MT rules imply high sensitivity for population-defining variables. If missing, subject is excluded from Primary Analysis (POP2).",
+    "risk_if_erroneous": "Subject erroneously included/excluded from Co-Primary analysis population."
+  },
+  {
+    "source_hint_id": "SH_LAB_ALB",
+    "description": "Baseline Albumin (Central Lab)",
+    "criticality_tier_primary_timepoint": 1,
+    "criticality_tier_other_timepoints": 3,
+    "tier_justification": "Direct component of V23 (Risk Score) -> POP2 (Co-Primary Population).",
+    "lineage_path": [
+      "V18 (Albumin)",
+      "\u2192 V23 (Risk Score)",
+      "\u2192 POP2",
+      "\u2192 E2"
+    ],
+    "estimands_impacted": [
+      "E2"
+    ],
+    "methods_impacted": [
+      "M2"
+    ],
+    "deviation_relevance": [],
+    "query_trigger": false,
+    "missingness_sensitivity": "HIGH",
+    "missingness_rationale": "Missing value leads to exclusion from Co-Primary population.",
+    "risk_if_erroneous": "Population assignment error."
+  },
+  {
+    "source_hint_id": "SH_PDL1_IVRS",
+    "description": "PD-L1 Stratification Factor (IVRS)",
+    "criticality_tier_primary_timepoint": 1,
+    "criticality_tier_other_timepoints": 1,
+    "tier_justification": "Used in Randomization AND as a covariate in the Primary Analysis Model (M1). Error affects treatment allocation and model adjustment.",
+    "lineage_path": [
+      "V13 (PDL1 IVRS)",
+      "\u2192 M1 (Stratified Log-rank)",
+      "\u2192 E1 (Primary OS)"
+    ],
+    "estimands_impacted": [
+      "E1",
+      "E2",
+      "E5"
+    ],
+    "methods_impacted": [
+      "M1",
+      "M2",
+      "M9"
+    ],
+    "deviation_relevance": [],
+    "query_trigger": false,
+    "missingness_sensitivity": "MODERATE",
+    "missingness_rationale": "Usually mandatory for randomization, so missingness is rare, but impact is high.",
+    "risk_if_erroneous": "Incorrect stratification stratum in primary model."
+  },
+  {
+    "source_hint_id": "SH_RECIST_DATE",
+    "description": "Tumor Assessment Date (Scan Date)",
+    "criticality_tier_primary_timepoint": 2,
+    "criticality_tier_other_timepoints": 2,
+    "tier_justification": "Timing variable for Secondary Endpoint (PFS). Determines event date and censoring date. Not Tier 1 because PFS is Secondary (E5).",
+    "lineage_path": [
+      "V6/V7 (Scan Dates)",
+      "\u2192 V9 (AVAL_PFS)",
+      "\u2192 M9 (PFS Analysis)",
+      "\u2192 E5 (Secondary PFS)"
+    ],
+    "estimands_impacted": [
+      "E5",
+      "E3",
+      "E4"
+    ],
+    "methods_impacted": [
+      "M9",
+      "M3"
+    ],
+    "deviation_relevance": [
+      "DEV3",
+      "DEV4"
+    ],
+    "query_trigger": false,
+    "missingness_sensitivity": "MODERATE",
+    "missingness_rationale": "Missing visits affect PFS censoring logic (2+ missed visits rule).",
+    "risk_if_erroneous": "Incorrect PFS event time or censoring."
+  }
+]
