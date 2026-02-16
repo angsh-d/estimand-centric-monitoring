@@ -104,6 +104,38 @@ const NARRATIVES = {
     recommendation: "Check for unscheduled visits or local lab data availability.",
     signals: ["SIG-801", "SIG-802"],
     criticalDataContext: "Neutrophils (LBORRES) determines LREM Population."
+  },
+  "method-E1": {
+    title: "Analysis Method Risk (Primary)",
+    synthesis: "Potential bias in Cox Proportional Hazards model due to violation of proportional hazards assumption.",
+    impact: "May underestimate the treatment effect if the hazard ratio is not constant over time.",
+    recommendation: "Perform sensitivity analysis using Restricted Mean Survival Time (RMST).",
+    signals: [],
+    criticalDataContext: "Statistical Analysis Plan (SAP) Section 4.2"
+  },
+  "pop-E1": {
+    title: "Population Attrition Risk",
+    synthesis: "Higher than expected exclusion rate from ITT population due to consent withdrawals.",
+    impact: "Reduces statistical power for the Primary Estimand analysis.",
+    recommendation: "Review consent withdrawal reasons at top recruiting sites.",
+    signals: [],
+    criticalDataContext: "ITT Population Definition"
+  },
+  "method-E2": {
+    title: "Method Deviation (Secondary)",
+    synthesis: "Inconsistency in censoring rules applied for PD-L1 subgroup analysis.",
+    impact: "Could lead to directional bias in the secondary endpoint results.",
+    recommendation: "Re-validate ADaM datasets against SAP censoring rules.",
+    signals: [],
+    criticalDataContext: "Censoring Rules (SAP Section 5.1)"
+  },
+  "pop-E2": {
+    title: "Subgroup Enrollment Alert",
+    synthesis: "Enrollment for PD-L1 >= 50% subgroup is lagging behind projection.",
+    impact: "Risk of insufficient power for key secondary estimand.",
+    recommendation: "Open new sites with high prevalence of PD-L1 high patients.",
+    signals: [],
+    criticalDataContext: "PD-L1 Subgroup Criteria"
   }
 };
 
