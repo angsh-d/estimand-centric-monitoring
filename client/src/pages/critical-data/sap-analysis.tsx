@@ -163,7 +163,10 @@ const COMPLEX_DERIVATION_E13 = [
   { stage: "Estimand", items: ["E13: PRO Global Health Status"] }
 ];
 
+import { useLocation } from "wouter";
+
 export default function SapAnalysis() {
+  const [_, setLocation] = useLocation();
   const [view, setView] = useState<"upload" | "processing" | "analysis">("upload");
   const [step, setStep] = useState(0);
   const [processingStage, setProcessingStage] = useState(0);
@@ -803,7 +806,10 @@ export default function SapAnalysis() {
                Next Step <ArrowRight className="ml-2 h-4 w-4" />
              </Button>
           ) : (
-             <Button className="bg-[#34C759] text-white hover:bg-[#34C759]/90 px-8 rounded-full shadow-lg shadow-[#34C759]/20">
+             <Button 
+               onClick={() => setLocation("/study/critical-data/criticality")}
+               className="bg-[#1d1d1f] text-white hover:bg-[#1d1d1f]/90 px-8 rounded-full shadow-lg"
+             >
                Finalize Analysis <CheckCircle2 className="ml-2 h-4 w-4" />
              </Button>
           )}
