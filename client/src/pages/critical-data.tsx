@@ -336,7 +336,7 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
            <div key={colIndex} className="flex-1 flex flex-col justify-start gap-4 p-4 relative z-10 pt-16">
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-4 absolute top-4 left-0 right-0 h-8 flex items-center justify-center bg-slate-50/80 backdrop-blur-sm z-20 border-b border-slate-100">
                  {colIndex === 0 ? "Events / Deviations" :
-                  colIndex === 1 ? "Source Variables" :
+                  colIndex === 1 ? "Source Vars" :
                   colIndex === 2 ? "Derived / Populations" :
                   colIndex === 3 ? "Analysis Methods" :
                   "Estimands"}
@@ -997,7 +997,7 @@ export default function CriticalData() {
                         <h2 className="text-2xl font-semibold text-[#1d1d1f]">Review Estimands</h2>
                         <p className="text-[#86868b] text-sm mt-1">Extracted from SAP. Defines primary objectives.</p>
                      </div>
-                     <Button onClick={() => setStep("review-derivation")} className="bg-[#1d1d1f] text-white hover:bg-black/90 gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
+                     <Button onClick={() => setStep("review-criticality")} className="bg-[#1d1d1f] text-white hover:bg-black/90 gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
                         Confirm <ArrowRight className="h-3.5 w-3.5" />
                      </Button>
                   </div>
@@ -1046,30 +1046,13 @@ export default function CriticalData() {
                </motion.div>
             )}
 
-            {/* --- STEP 8: Lineage Graph (was Derivation Map) --- */}
-            {step === "review-derivation" && currentUser !== "sme" && (
-               <motion.div key="rev-map" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
-                  <div className="flex justify-between items-center mb-6">
-                     <div>
-                        <h2 className="text-2xl font-semibold text-[#1d1d1f]">Lineage Graph</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Traceability: Source Data → Analysis Variables → Estimands.</p>
-                     </div>
-                     <Button onClick={() => setStep("review-criticality")} className="bg-[#1d1d1f] text-white hover:bg-black/90 gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
-                        Review Criticality <ArrowRight className="h-3.5 w-3.5" />
-                     </Button>
-                  </div>
-
-                  <LineageGraphView graph={LINEAGE_GRAPH} />
-               </motion.div>
-            )}
-
-            {/* --- STEP 9: Criticality Review --- */}
+            {/* --- STEP 9: Criticality Review (Replaced with Graph) --- */}
             {step === "review-criticality" && currentUser !== "sme" && (
                <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col max-w-[1200px] mx-auto">
                   <div className="flex justify-between items-center mb-6">
                      <div>
                         <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Review</h2>
-                        <p className="text-[#86868b] text-sm mt-1">Validate risk-based tier assignments from SAP.</p>
+                        <p className="text-[#86868b] text-sm mt-1">Traceability: Source Data → Analysis Variables → Estimands.</p>
                      </div>
                      <div className="flex items-center gap-3">
                         <Button onClick={() => setStep("complete")} className="bg-[#34C759] hover:bg-[#34C759]/90 text-white gap-2 rounded-full h-9 px-5 text-xs font-medium shadow-md">
@@ -1078,64 +1061,7 @@ export default function CriticalData() {
                      </div>
                   </div>
 
-                  <AppleCard className="flex-1 overflow-auto">
-                     <table className="w-full text-sm text-left">
-                        <thead className="bg-gray-50/50 text-[#86868b] font-medium text-[11px] uppercase tracking-wider sticky top-0 backdrop-blur-md z-10">
-                           <tr>
-                              <th className="p-4 pl-6">Source Data Hint</th>
-                              <th className="p-4">Lineage Path</th>
-                              <th className="p-4">Risk Rationale</th>
-                              <th className="p-4 text-center">Tier</th>
-                           </tr>
-                        </thead>
-                        <tbody className="divide-y divide-black/[0.03]">
-                           {criticalityData.map((row, i) => (
-                              <tr key={i} className="hover:bg-black/[0.01]">
-                                 <td className="p-4 pl-6 align-top w-1/4">
-                                    <div className="font-semibold text-[#1d1d1f]">{row.description}</div>
-                                    <div className="text-[10px] text-[#86868b] font-mono mt-0.5 bg-black/[0.03] px-1.5 py-0.5 rounded w-fit">{row.source_hint_id}</div>
-                                    <div className="mt-2 flex flex-wrap gap-1">
-                                       {row.estimands_impacted.map(est => (
-                                          <span key={est} className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">{est}</span>
-                                       ))}
-                                    </div>
-                                 </td>
-                                 <td className="p-4 align-top w-1/3">
-                                    <div className="space-y-1">
-                                       {row.lineage_path.map((step, j) => (
-                                          <div key={j} className="text-xs text-[#1d1d1f] font-mono flex items-center gap-2">
-                                             {j > 0 && <span className="text-black/20">↳</span>}
-                                             {step}
-                                          </div>
-                                       ))}
-                                    </div>
-                                 </td>
-                                 <td className="p-4 align-top">
-                                    <div className="text-xs text-[#1d1d1f] mb-1.5 font-medium">{row.risk_if_erroneous}</div>
-                                    <div className="text-[11px] text-[#86868b] italic leading-snug">
-                                       "{row.tier_justification}"
-                                    </div>
-                                    {row.missingness_sensitivity === "HIGH" && (
-                                       <div className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">
-                                          <AlertTriangle className="h-3 w-3" /> High Sensitivity
-                                       </div>
-                                    )}
-                                 </td>
-                                 <td className="p-4 text-center align-top">
-                                    <div className={cn(
-                                       "inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold border",
-                                       row.criticality_tier_primary_timepoint === 1 ? "bg-black text-white border-black" :
-                                       row.criticality_tier_primary_timepoint === 2 ? "bg-white text-black border-black/20" :
-                                       "bg-gray-100 text-gray-500 border-transparent"
-                                    )}>
-                                       Tier {row.criticality_tier_primary_timepoint}
-                                    </div>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                  </AppleCard>
+                  <LineageGraphView graph={LINEAGE_GRAPH} />
                </motion.div>
             )}
 
