@@ -239,13 +239,13 @@ export default function SapAnalysis() {
                         key={est.id} 
                         className={cn(
                           "p-6 flex items-center justify-between transition-all",
-                          est.tier.includes("Primary") ? "border-l-4 border-l-black shadow-md bg-white" : "opacity-60 grayscale hover:grayscale-0 hover:opacity-100 bg-[#F9F9FA]"
+                          (est.tier.includes("Primary") || est.tier.includes("Secondary")) ? "border-l-4 border-l-black shadow-md bg-white" : "opacity-60 grayscale hover:grayscale-0 hover:opacity-100 bg-[#F9F9FA]"
                         )}
                       >
                          <div className="flex items-center gap-6">
                             <div className={cn(
                               "h-12 w-12 rounded-xl flex items-center justify-center font-bold text-sm",
-                              est.tier.includes("Primary") ? "bg-black text-white" : "bg-gray-200 text-gray-500"
+                              est.tier.includes("Primary") ? "bg-black text-white" : "bg-gray-200 text-gray-700"
                             )}>
                                {est.id}
                             </div>
@@ -254,6 +254,11 @@ export default function SapAnalysis() {
                                   <h3 className="font-semibold text-base text-[#1d1d1f]">{est.label}</h3>
                                   {est.tier.includes("Primary") && (
                                     <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                      {est.tier}
+                                    </span>
+                                  )}
+                                  {est.tier.includes("Secondary") && (
+                                    <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
                                       {est.tier}
                                     </span>
                                   )}
