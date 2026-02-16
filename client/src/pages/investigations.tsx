@@ -128,19 +128,19 @@ export default function Investigations() {
         {/* Left: Related Threads (Sidebar) */}
         <div className="w-64 border-r border-slate-100 bg-slate-50/50 flex flex-col hidden xl:flex">
            <div className="p-4 font-semibold text-[11px] text-slate-400 uppercase tracking-wider">
-             Related
+             Linked Signals
            </div>
            <div className="px-2 space-y-1">
-             <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm cursor-pointer">
+             <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm cursor-pointer border-l-2 border-l-black">
                <div className="text-[11px] font-bold text-slate-900 mb-0.5">{activeThread.id}</div>
                <div className="text-[11px] text-slate-500 line-clamp-2 leading-snug">{activeThread.title}</div>
                <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-400 font-medium">
-                 <Clock className="h-3 w-3" /> 5m ago
+                 <Clock className="h-3 w-3" /> Active Now
                </div>
              </div>
              <div className="p-3 hover:bg-slate-100 rounded-xl cursor-pointer transition-colors opacity-70 hover:opacity-100">
-               <div className="text-[11px] font-bold text-slate-900 mb-0.5">SIG-2026-039</div>
-               <div className="text-[11px] text-slate-500 line-clamp-2 leading-snug">Potential SAE Under-reporting (Subject 402-011)</div>
+               <div className="text-[11px] font-bold text-slate-900 mb-0.5">SIG-2026-045</div>
+               <div className="text-[11px] text-slate-500 line-clamp-2 leading-snug">Incorrect Randomization Stratification (Subject 109-007)</div>
              </div>
            </div>
         </div>

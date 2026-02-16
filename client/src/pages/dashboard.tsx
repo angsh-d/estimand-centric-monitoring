@@ -418,8 +418,11 @@ export default function SignalDashboard() {
                            </div>
                         )
                      })}
-                     <Button variant="outline" className="mt-auto w-full bg-white border-black/10 text-xs font-medium">
-                        View Full Evidence Package
+                     <Button 
+                        onClick={() => setLocation("/study/investigations")} 
+                        className="mt-auto w-full bg-black text-white hover:bg-black/80 text-xs font-medium shadow-sm transition-transform active:scale-95"
+                     >
+                        Investigate Risk <ArrowRight className="ml-2 h-3 w-3" />
                      </Button>
                   </div>
                </div>
