@@ -95,7 +95,7 @@ const NARRATIVES = {
     synthesis: "Subject 109-004 has a date discrepancy for 'Dexamethasone' start date between EDC and Safety Narrative.",
     impact: "Potential impact on DLT window assessment and AE attribution for Cycle 1.",
     recommendation: "Query site 109 to reconcile ConMed dates.",
-    signals: ["SIG-2026-042"],
+    signals: ["SIG-2026-042", "SIG-2026-045"],
     criticalDataContext: "ConMed Start Date (CMSTDTC) vs Narrative"
   },
   "src-E2": {
@@ -149,6 +149,17 @@ const SIGNAL_QUEUE = [
     subject: "109-004",
     severity: "critical",
     age: "5m",
+    status: "Open",
+    isCriticalData: true
+  },
+  {
+    id: "SIG-2026-045",
+    category: "Primary Estimand Threat",
+    title: "Incorrect Randomization Stratification",
+    site: "109 - Charité Berlin",
+    subject: "109-007",
+    severity: "warning",
+    age: "10m",
     status: "Open",
     isCriticalData: true
   },
