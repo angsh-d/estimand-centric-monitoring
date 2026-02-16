@@ -10,7 +10,12 @@ import {
   User,
   AlertTriangle,
   ArrowRight,
-  Database
+  Database,
+  Layout,
+  List,
+  Eye,
+  MousePointer2,
+  Table
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,8 +39,189 @@ import { AppleCard, AppleBadge } from "@/components/criticality/shared";
 // Import the new JSON
 import CRF_CRITICALITY_REPORT from "@/data/crf_criticality.json";
 
+// Mock CRF Form Components
+const CRFField = ({ 
+  label, 
+  variable, 
+  value = "", 
+  mappedInfo = null 
+}: { 
+  label: string; 
+  variable: string; 
+  value?: string; 
+  mappedInfo?: any 
+}) => {
+  return (
+    <div className={cn(
+      "relative p-3 rounded-lg border transition-all",
+      mappedInfo 
+        ? "bg-red-50/30 border-red-200 ring-2 ring-red-100" 
+        : "bg-white border-gray-200 hover:border-gray-300"
+    )}>
+      <div className="flex justify-between items-start mb-1.5">
+        <label className="text-[11px] font-bold text-gray-700 uppercase tracking-wide block">
+          {label}
+        </label>
+        <span className="text-[10px] font-mono text-gray-400">{variable}</span>
+      </div>
+      
+      <div className="h-8 bg-gray-50 border border-gray-200 rounded px-2 flex items-center text-sm text-gray-600 font-mono">
+        {value}
+      </div>
+
+      {mappedInfo && (
+        <div className="absolute -top-3 -right-3 z-10">
+          <TooltipProvider>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <div className={cn(
+                  "h-6 px-2 rounded-full flex items-center gap-1 shadow-sm cursor-help transition-transform hover:scale-105",
+                  mappedInfo.criticality_tier === 1 ? "bg-red-600 text-white" : "bg-amber-500 text-white"
+                )}>
+                  <ShieldCheck className="h-3 w-3" />
+                  <span className="text-[10px] font-bold">T{mappedInfo.criticality_tier}</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="w-80 p-4 bg-white border-gray-200 shadow-xl text-gray-900">
+                <div className="space-y-3">
+                  <div>
+                     <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Critical Data Point</span>
+                        <span className={cn(
+                          "text-[10px] font-bold px-1.5 py-0.5 rounded",
+                          mappedInfo.criticality_tier === 1 ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"
+                        )}>
+                          TIER {mappedInfo.criticality_tier}
+                        </span>
+                     </div>
+                     <h4 className="font-semibold text-sm">{mappedInfo.criticality_description}</h4>
+                  </div>
+                  
+                  <div className="text-xs bg-gray-50 p-2 rounded border border-gray-100">
+                    <span className="font-semibold text-gray-700">Risk:</span> {mappedInfo.risk_if_erroneous}
+                  </div>
+
+                  <div>
+                     <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1">Impacted Estimands</span>
+                     <div className="flex flex-wrap gap-1">
+                        {mappedInfo.estimands_impacted.map((est: string) => (
+                           <span key={est} className="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-medium border border-slate-200">
+                              {est}
+                           </span>
+                        ))}
+                     </div>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
+  const deathDateMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.variableName === "DTHDAT"));
+
+  return (
+    <div className="space-y-6">
+      <div className="border-b border-gray-200 pb-2 mb-4">
+         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">DS - Disposition (Survival)</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <CRFField label="Subject ID" variable="USUBJID" value="001-1001" />
+        <CRFField label="Visit Date" variable="VISITDAT" value="2024-02-15" />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4">
+        <CRFField label="Did the subject die?" variable="DTHFL" value="Yes" />
+        <CRFField 
+          label="Date of Death" 
+          variable="DTHDAT" 
+          value="2024-02-14" 
+          mappedInfo={deathDateMapping}
+        />
+        <CRFField label="Primary Cause of Death" variable="DTHCAUS" value="Disease Progression" />
+      </div>
+    </div>
+  );
+};
+
+const MockLabForm = ({ mappings }: { mappings: any[] }) => {
+  const neutMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Neutrophils")));
+  const albMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Albumin")));
+
+  return (
+    <div className="space-y-6">
+      <div className="border-b border-gray-200 pb-2 mb-4">
+         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">LB - Laboratory Results</h3>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 1
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="Neutrophils" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="4.5" 
+            mappedInfo={neutMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="10^9/L" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 2
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="Albumin" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="38" 
+            mappedInfo={albMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="g/L" />
+      </div>
+    </div>
+  );
+};
+
+const MockTumorForm = ({ mappings }: { mappings: any[] }) => {
+  const scanDateMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.variableName === "TUDAT"));
+
+  return (
+    <div className="space-y-6">
+      <div className="border-b border-gray-200 pb-2 mb-4">
+         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">TU - Tumor Assessment</h3>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <CRFField label="Visit Name" variable="VISIT" value="Week 12" />
+        <CRFField 
+          label="Date of Scan" 
+          variable="TUDAT" 
+          value="2024-05-20" 
+          mappedInfo={scanDateMapping}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4">
+         <CRFField label="Target Lesions Identified?" variable="TUTARG" value="Yes" />
+         <CRFField label="Method of Assessment" variable="TUMETHOD" value="CT Scan" />
+      </div>
+    </div>
+  );
+};
+
+
 export default function CriticalityAnalysis() {
   const [step, setStep] = useState("review-criticality");
+  const [viewMode, setViewMode] = useState<"list" | "annotated">("annotated");
+  const [activeForm, setActiveForm] = useState<"DS" | "LB" | "TU">("DS");
   const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
   const [validationStatus, setValidationStatus] = useState("pending");
   const [smeAssigned, setSmeAssigned] = useState(false);
@@ -73,6 +259,28 @@ export default function CriticalityAnalysis() {
         </div>
         
         <div className="flex items-center gap-3">
+           {/* View Toggle */}
+           <div className="bg-slate-100 p-1 rounded-lg flex text-[11px] font-medium text-slate-600 mr-4">
+              <button 
+                onClick={() => setViewMode("annotated")}
+                className={cn(
+                  "px-3 py-1 rounded-md transition-all flex items-center gap-2",
+                  viewMode === "annotated" ? "bg-white text-slate-900 shadow-sm" : "hover:text-slate-900"
+                )}
+              >
+                <Layout className="h-3 w-3" /> Annotated CRF
+              </button>
+              <button 
+                onClick={() => setViewMode("list")}
+                className={cn(
+                  "px-3 py-1 rounded-md transition-all flex items-center gap-2",
+                  viewMode === "list" ? "bg-white text-slate-900 shadow-sm" : "hover:text-slate-900"
+                )}
+              >
+                <List className="h-3 w-3" /> List View
+              </button>
+           </div>
+
            <div className="bg-slate-100 p-1 rounded-lg flex text-[11px] font-medium text-slate-600">
               <button 
                 onClick={() => setCurrentUser("study-director")}
@@ -137,88 +345,162 @@ export default function CriticalityAnalysis() {
              <div className="max-w-6xl mx-auto">
                 <AnimatePresence mode="wait">
 
-            {/* --- SME Validation View --- */}
-            {currentUser === "sme" && (
-                <motion.div 
-                    key="sme-view"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="max-w-4xl mx-auto pt-8"
-                >
-                    <div className="mb-10 text-center">
-                        <h1 className="text-3xl font-semibold tracking-tight text-black mb-2">Model Validation</h1>
-                        <p className="text-gray-500">Review and approve criticality definitions for XYZ-301.</p>
-                    </div>
+            {/* --- ANNOTATED CRF VIEW (NEW) --- */}
+            {viewMode === "annotated" && step !== "complete" && (
+               <motion.div 
+                 key="annotated-view"
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1 }}
+                 className="h-full flex gap-8"
+               >
+                  {/* Left: Form Navigator */}
+                  <div className="w-64 shrink-0 space-y-4">
+                     <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">CRF Forms</h3>
+                        <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">3 Forms</span>
+                     </div>
+                     <nav className="space-y-1">
+                        {[
+                          { id: "DS", label: "Disposition (Survival)", criticalCount: 1 },
+                          { id: "LB", label: "Laboratory", criticalCount: 2 },
+                          { id: "TU", label: "Tumor Assessment", criticalCount: 1 }
+                        ].map((form) => (
+                           <button
+                             key={form.id}
+                             onClick={() => setActiveForm(form.id as any)}
+                             className={cn(
+                               "w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all text-left",
+                               activeForm === form.id 
+                                 ? "bg-black text-white shadow-md" 
+                                 : "text-gray-600 hover:bg-gray-100"
+                             )}
+                           >
+                             <div className="flex items-center gap-2">
+                                <FileCheck className={cn("h-4 w-4", activeForm === form.id ? "text-white/60" : "text-gray-400")} />
+                                <span className="font-medium">{form.label}</span>
+                             </div>
+                             {form.criticalCount > 0 && (
+                               <span className={cn(
+                                 "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
+                                 activeForm === form.id ? "bg-white/20 text-white" : "bg-red-100 text-red-600"
+                               )}>
+                                 {form.criticalCount}
+                               </span>
+                             )}
+                           </button>
+                        ))}
+                     </nav>
 
-                    <div className="grid grid-cols-12 gap-8">
-                        <div className="col-span-8 space-y-6">
-                            {/* Review Mapped Items */}
-                            {mappedItems.map((item: any, i: number) => (
-                                <AppleCard key={i} className="p-6">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="flex gap-3">
-                                            <div className="h-8 w-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-bold text-xs shrink-0">
-                                                T{item.criticality_tier}
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h3>
-                                                <div className="flex items-center gap-2 mt-1">
-                                                    <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded font-mono">{item.source_hint_id}</span>
-                                                    <span className="text-[10px] text-gray-400">→</span>
-                                                    {item.mapped_crf_fields.map((f: any) => (
-                                                        <span key={f.variableName} className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 px-1.5 py-0.5 rounded font-mono">
-                                                            {f.domain}.{f.variableName}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
-                                            <ShieldCheck className="h-3 w-3" />
-                                            Validated Match
-                                        </div>
-                                    </div>
-                                    <div className="bg-gray-50/50 rounded-lg p-3 text-xs text-gray-600 leading-relaxed border border-black/[0.03]">
-                                        <span className="font-semibold text-gray-900">Rationale:</span> {item.mapped_crf_fields[0].mapping_rationale}
-                                    </div>
-                                </AppleCard>
-                            ))}
+                     {/* NON-CRF FACTORS SECTION (NEW) */}
+                     <div className="mt-8 pt-6 border-t border-gray-200">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Non-CRF Data Sources</h3>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <AlertCircle className="h-3.5 w-3.5 text-slate-400" />
+                              </TooltipTrigger>
+                              <TooltipContent><p>Data not collected on CRF but critical for analysis</p></TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
                         </div>
-
-                        <div className="col-span-4">
-                             <AppleCard className="p-6 h-full flex flex-col sticky top-4">
-                                <h3 className="text-sm font-semibold text-gray-900 mb-2">Approval Action</h3>
-                                <p className="text-xs text-gray-500 mb-8 leading-relaxed">
-                                    Certify alignment with SAP and Protocol.
-                                </p>
-                                
-                                <div className="mt-auto space-y-3">
-                                    {validationStatus === "approved" ? (
-                                        <div className="p-4 bg-[#34C759]/10 text-[#34C759] rounded-xl text-center font-medium text-sm flex flex-col items-center gap-2">
-                                            <CheckCircle2 className="h-6 w-6" />
-                                            Model Approved
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <Button className="w-full bg-[#1d1d1f] hover:bg-[#1d1d1f]/90 text-white shadow-lg rounded-xl h-11 text-sm font-medium" onClick={handleSMEApprove}>
-                                                Approve Model
-                                            </Button>
-                                            <Button variant="ghost" className="w-full text-gray-500 hover:text-gray-900 rounded-xl h-11 text-sm">
-                                                Request Changes
-                                            </Button>
-                                        </>
-                                    )}
+                        
+                        <div className="space-y-3">
+                           {unmappedItems.map((item: any, i: number) => (
+                             <div key={i} className="bg-slate-50 border border-slate-200 rounded-lg p-3 relative group">
+                                <div className="absolute top-2 right-2">
+                                   <div className="h-1.5 w-1.5 rounded-full bg-purple-500" />
                                 </div>
-                             </AppleCard>
+                                <div className="flex items-center gap-2 mb-1.5">
+                                   <Database className="h-3.5 w-3.5 text-purple-600" />
+                                   <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded uppercase">{item.source_hint_id.includes("IVRS") ? "IVRS" : "External"}</span>
+                                </div>
+                                <p className="text-xs font-medium text-slate-900 leading-tight mb-2">
+                                  {item.criticality_description}
+                                </p>
+                                <p className="text-[10px] text-slate-500 leading-normal">
+                                  {item.reason}
+                                </p>
+                             </div>
+                           ))}
                         </div>
-                    </div>
-                </motion.div>
+                     </div>
+                  </div>
+
+                  {/* Center: Interactive Form Mockup */}
+                  <div className="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col">
+                     <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                        <div className="flex items-center gap-2">
+                           <Layout className="h-4 w-4 text-gray-500" />
+                           <span className="text-xs font-mono text-gray-500">FORM-{activeForm}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[10px] text-gray-400">
+                           <MousePointer2 className="h-3 w-3" />
+                           Hover over highlighted fields to view criticality
+                        </div>
+                     </div>
+                     
+                     <div className="p-8 bg-white min-h-[500px]">
+                        {activeForm === "DS" && <MockDispositionForm mappings={mappedItems} />}
+                        {activeForm === "LB" && <MockLabForm mappings={mappedItems} />}
+                        {activeForm === "TU" && <MockTumorForm mappings={mappedItems} />}
+                     </div>
+                  </div>
+
+                  {/* Right: Insights Panel */}
+                  <div className="w-72 shrink-0">
+                     <AppleCard className="p-5 h-full bg-blue-50/30 border-blue-100 sticky top-0">
+                        <div className="flex items-center gap-2 mb-4">
+                           <Eye className="h-4 w-4 text-blue-600" />
+                           <h3 className="text-sm font-semibold text-blue-900">Criticality Insights</h3>
+                        </div>
+                        
+                        <div className="space-y-6">
+                           <div>
+                              <div className="text-3xl font-bold text-slate-900 mb-1">
+                                {activeForm === "DS" ? "33%" : activeForm === "LB" ? "100%" : "50%"}
+                              </div>
+                              <p className="text-xs text-slate-500">of fields on this form are critical</p>
+                           </div>
+
+                           <div className="space-y-3">
+                              <h4 className="text-xs font-semibold text-slate-900">Why are these critical?</h4>
+                              {activeForm === "DS" && (
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                  The <span className="font-semibold text-slate-900">Death Date</span> is the primary event anchor for Overall Survival (OS). Even a 1-day error can affect the Hazard Ratio in the Cox model.
+                                </p>
+                              )}
+                              {activeForm === "LB" && (
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                  <span className="font-semibold text-slate-900">Neutrophils</span> and <span className="font-semibold text-slate-900">Albumin</span> are inputs to the LREM Risk Score. Missing values here exclude patients from the Co-Primary analysis set.
+                                </p>
+                              )}
+                              {activeForm === "TU" && (
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                  <span className="font-semibold text-slate-900">Scan Date</span> determines the Progression-Free Survival (PFS) event time. It's a key secondary endpoint derived directly from this date.
+                                </p>
+                              )}
+                           </div>
+                           
+                           {/* Validation Status for SME */}
+                           {currentUser === "sme" && (
+                              <div className="pt-6 mt-6 border-t border-blue-100">
+                                 <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
+                                    <CheckCircle2 className="h-3.5 w-3.5 mr-2" />
+                                    Validate Form Mapping
+                                 </Button>
+                              </div>
+                           )}
+                        </div>
+                     </AppleCard>
+                  </div>
+               </motion.div>
             )}
 
-            {/* --- STEP 9: Criticality Review (Updated with JSON Data) --- */}
-            {step === "review-criticality" && currentUser !== "sme" && (
-               <motion.div key="rev-crit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
-                  {/* Removing local header to use unified top header */}
+            {/* --- LIST VIEW (Original) --- */}
+            {viewMode === "list" && step !== "complete" && (
+               <motion.div key="list-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
+                  {/* ... (Existing List View Content) ... */}
                   
                   <div className="grid grid-cols-12 gap-6 pb-8">
                       {/* Left Col: Mapped Items */}
@@ -390,81 +672,42 @@ export default function CriticalityAnalysis() {
                      </AppleCard>
 
                      <div className="flex gap-4">
-                        {validationStatus === "pending" ? (
-                           <Dialog>
-                             <DialogTrigger asChild>
-                               <Button className="flex-1 h-14 bg-[#1d1d1f] text-white hover:bg-black/90 text-base font-medium shadow-lg rounded-2xl">
-                                 <UserCheck className="h-5 w-5 mr-2" /> Route to SME for Validation
-                               </Button>
-                             </DialogTrigger>
-                             <DialogContent className="rounded-2xl border-black/5 shadow-2xl bg-white/90 backdrop-blur-xl">
-                               <DialogHeader>
-                                 <DialogTitle>Assign Validator</DialogTitle>
-                                 <DialogDescription>
-                                   Select a subject matter expert to review this model.
-                                 </DialogDescription>
-                               </DialogHeader>
-                               <div className="grid gap-4 py-4">
-                                  <div className="flex items-center justify-between p-4 border border-black/5 rounded-xl cursor-pointer hover:bg-black/[0.02] transition-colors">
-                                     <div className="flex items-center gap-4">
-                                        <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center font-semibold text-gray-600">JS</div>
-                                        <div>
-                                           <div className="font-semibold text-sm text-[#1d1d1f]">John Smith</div>
-                                           <div className="text-xs text-[#86868b]">Lead Statistician</div>
-                                        </div>
-                                     </div>
-                                     <Button size="sm" variant="secondary" onClick={handleRouteToSME}>Assign</Button>
-                                  </div>
-                               </div>
-                             </DialogContent>
-                           </Dialog>
-                        ) : (
-                           <div className="flex-1 h-14 bg-[#34C759]/10 border border-[#34C759]/20 rounded-2xl flex items-center justify-center text-[#34C759] font-semibold gap-2">
-                              <CheckCircle2 className="h-5 w-5" /> 
-                              {validationStatus === "approved" ? "Validated by John Smith" : "Routed to John Smith for Review"}
-                           </div>
-                        )}
-                        
-                        <TooltipProvider>
-                           <Tooltip>
-                              <TooltipTrigger asChild>
-                                 <span className="inline-block">
-                                    <Button 
-                                       variant="outline" 
-                                       className={cn(
-                                          "h-14 px-8 border-black/10 rounded-2xl text-[#1d1d1f] transition-all",
-                                          validationStatus === "approved" ? "bg-[#1d1d1f] text-white hover:bg-black shadow-lg border-transparent" : "opacity-60"
-                                       )}
-                                       disabled={validationStatus !== "approved"} 
-                                    >
-                                       <Lock className={cn("h-4 w-4 mr-2", validationStatus === "approved" && "hidden")} /> 
-                                       {validationStatus === "approved" && <Download className="h-4 w-4 mr-2" />}
-                                       Generate RBQM Package
-                                    </Button>
-                                 </span>
-                              </TooltipTrigger>
-                              <TooltipContent className="bg-[#1d1d1f] text-white border-transparent">
-                                 {validationStatus !== "approved" ? "Requires SME sign-off before generating package" : "Ready to generate"}
-                              </TooltipContent>
-                           </Tooltip>
-                        </TooltipProvider>
+                        <Button className="flex-1 h-12 text-base bg-[#1d1d1f] hover:bg-[#1d1d1f]/90 text-white rounded-xl shadow-lg shadow-black/10" onClick={handleRouteToSME}>
+                           <UserCheck className="mr-2 h-5 w-5" /> Route to SME
+                        </Button>
+                        <Button variant="outline" className="flex-1 h-12 text-base border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl">
+                           <Download className="mr-2 h-5 w-5" /> Export Specs
+                        </Button>
                      </div>
-                     
-                     {validationStatus !== "approved" && (
-                        <p className="text-center text-xs text-[#86868b] mt-6 flex items-center justify-center gap-2">
-                           <AlertCircle className="h-3 w-3" />
-                           Package generation is locked until SME validation is complete.
-                        </p>
-                     )}
                   </div>
                </motion.div>
             )}
 
-          </AnimatePresence>
+                </AnimatePresence>
              </div>
            </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={validationStatus === "assigned"} onOpenChange={(open) => !open && setValidationStatus("pending")}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+               <CheckCircle2 className="h-5 w-5 text-green-600" />
+               Validation Request Sent
+            </DialogTitle>
+            <DialogDescription>
+              John Smith (SME) has been notified to review the Criticality Model.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end">
+            <Button onClick={() => setValidationStatus("pending")} className="bg-[#1d1d1f] text-white">
+               Back to Dashboard
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
