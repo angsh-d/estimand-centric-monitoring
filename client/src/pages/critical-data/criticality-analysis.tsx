@@ -265,7 +265,7 @@ export default function CriticalityAnalysis() {
                                                       </div>
                                                       <div className="text-xs text-gray-600">
                                                           <div className="font-semibold text-gray-900 mb-1">Collection Guidance</div>
-                                                          <div className="leading-relaxed bg-blue-50/50 px-2 py-1.5 rounded border border-blue-100/50 text-blue-900/80">
+                                                          <div className="leading-relaxed bg-gray-50 px-2 py-1.5 rounded border border-gray-200 text-gray-700">
                                                               {item.data_collection_guidance}
                                                           </div>
                                                       </div>
@@ -304,10 +304,10 @@ export default function CriticalityAnalysis() {
                                       <ArrowRight className="h-3 w-3 text-gray-300" />
                                       <div className="flex-1 flex items-center justify-between">
                                           <div className="flex items-center gap-2">
-                                              <Database className="h-3.5 w-3.5 text-blue-500" />
+                                              <Database className="h-3.5 w-3.5 text-gray-400" />
                                               <span className="text-xs font-medium text-gray-900">{item.mapped_crf_fields[0].formName}</span>
                                               <span className="text-[10px] text-gray-400">/</span>
-                                              <span className="text-xs font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">{item.mapped_crf_fields[0].domain}.{item.mapped_crf_fields[0].variableName}</span>
+                                              <span className="text-xs font-mono text-gray-700 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-200">{item.mapped_crf_fields[0].domain}.{item.mapped_crf_fields[0].variableName}</span>
                                           </div>
                                           <div className="text-[10px] text-gray-500 uppercase tracking-wide font-medium">{item.mapped_crf_fields[0].mapping_confidence} Confidence</div>
                                       </div>
