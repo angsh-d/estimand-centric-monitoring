@@ -74,8 +74,7 @@ export default function SapAnalysis() {
     { id: "estimands", title: "Estimand Framework" },
     { id: "lineage", title: "Lineage Trace" },
     { id: "lrem", title: "Complex Derivation" },
-    { id: "criticality", title: "Criticality Tiers" },
-    { id: "quality", title: "Quality Check" }
+    { id: "criticality", title: "Criticality Tiers" }
   ];
 
   return (
@@ -386,60 +385,6 @@ export default function SapAnalysis() {
                             </div>
                          </div>
                       </motion.div>
-                   ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 5: QUALITY CHECK */}
-            {step === 5 && (
-              <motion.div 
-                key="quality"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-              >
-                <div className="mb-8">
-                   <h2 className="text-2xl font-semibold text-[#1d1d1f]">Quality Scorecard</h2>
-                   <p className="text-[#86868b] text-sm mt-1">Gaps and conflicts identified during extraction.</p>
-                </div>
-
-                <div className="grid grid-cols-3 gap-6 mb-8">
-                   <AppleCard className="p-6 bg-white text-center">
-                      <div className="text-3xl font-bold text-[#1d1d1f] mb-1">0.95</div>
-                      <div className="text-xs font-bold text-black/40 uppercase tracking-wider">Completeness</div>
-                   </AppleCard>
-                   <AppleCard className="p-6 bg-white text-center">
-                      <div className="text-3xl font-bold text-[#1d1d1f] mb-1">100%</div>
-                      <div className="text-xs font-bold text-black/40 uppercase tracking-wider">Resolution</div>
-                   </AppleCard>
-                   <AppleCard className="p-6 bg-white text-center">
-                      <div className="text-3xl font-bold text-[#1d1d1f] mb-1">7/7</div>
-                      <div className="text-xs font-bold text-black/40 uppercase tracking-wider">Source Hints</div>
-                   </AppleCard>
-                </div>
-
-                <div className="space-y-4">
-                   {GAPS_CONFLICTS.map((issue, i) => (
-                      <div key={i} className="bg-amber-50 border border-amber-100 rounded-xl p-5 flex items-start gap-4">
-                         <div className="mt-1">
-                            <AlertTriangle className="h-5 w-5 text-amber-600" />
-                         </div>
-                         <div>
-                            <div className="flex items-center gap-2 mb-1">
-                               <h3 className="font-semibold text-amber-900">{issue.title}</h3>
-                               <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded uppercase tracking-wider">
-                                 {issue.type}
-                               </span>
-                            </div>
-                            <p className="text-sm text-amber-800/80 leading-relaxed">
-                               {issue.desc}
-                            </p>
-                         </div>
-                         <Button variant="outline" size="sm" className="ml-auto bg-white border-amber-200 text-amber-800 hover:bg-amber-100 hover:text-amber-900">
-                            Review
-                         </Button>
-                      </div>
                    ))}
                 </div>
               </motion.div>
