@@ -15,29 +15,35 @@ import DataStatus from "@/pages/data-status";
 import Configuration from "@/pages/configuration";
 import MySites from "@/pages/my-sites";
 import { AppShell } from "@/components/layout/app-shell";
+import { GlobalNavbar } from "@/components/layout/global-navbar";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Landing} />
-      <Route>
-        <AppShell>
-          <Switch>
-            <Route path="/study/overview" component={StudyOverview} />
-            <Route path="/study/dashboard" component={Dashboard} />
-            <Route path="/study/critical-data" component={CriticalData} />
-            <Route path="/study/dossier" component={Dossier} />
-            <Route path="/study/mvr" component={MVRCopilot} />
-            <Route path="/study/data-status" component={DataStatus} />
-            <Route path="/study/config" component={Configuration} />
-            <Route path="/study/investigations" component={Investigations} />
-            <Route path="/sites/my-sites" component={MySites} />
-            <Route path="/sites/schedule" component={MySites} />
-            <Route component={NotFound} />
-          </Switch>
-        </AppShell>
-      </Route>
-    </Switch>
+    <div className="flex flex-col h-screen overflow-hidden">
+      <GlobalNavbar />
+      <div className="flex-1 overflow-hidden relative">
+        <Switch>
+          <Route path="/" component={Landing} />
+          <Route>
+            <AppShell>
+              <Switch>
+                <Route path="/study/overview" component={StudyOverview} />
+                <Route path="/study/dashboard" component={Dashboard} />
+                <Route path="/study/critical-data" component={CriticalData} />
+                <Route path="/study/dossier" component={Dossier} />
+                <Route path="/study/mvr" component={MVRCopilot} />
+                <Route path="/study/data-status" component={DataStatus} />
+                <Route path="/study/config" component={Configuration} />
+                <Route path="/study/investigations" component={Investigations} />
+                <Route path="/sites/my-sites" component={MySites} />
+                <Route path="/sites/schedule" component={MySites} />
+                <Route component={NotFound} />
+              </Switch>
+            </AppShell>
+          </Route>
+        </Switch>
+      </div>
+    </div>
   );
 }
 

@@ -59,43 +59,7 @@ export default function Landing() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-[#1d1d1f] flex flex-col">
-      {/* Top Navbar */}
-      <header className="h-[60px] border-b border-[#e5e5e5] flex items-center justify-between px-6 bg-white sticky top-0 z-50">
-        <div className="flex items-center h-full">
-          <img 
-            src="https://www.saama.com/wp-content/uploads/saama_logo.svg" 
-            alt="Saama" 
-            className="h-6 w-auto"
-          />
-          <div className="h-6 w-[1px] bg-[#e5e5e5] mx-4" />
-          <span className="text-[13px] font-medium text-[#6e6e73]">
-            Clinical Trial Intelligence
-          </span>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <div className="relative hidden md:block group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#86868b] group-focus-within:text-[#1d1d1f] transition-colors" />
-            <input 
-              type="text" 
-              placeholder="Search sites, protocols, or investigators..." 
-              className="h-9 w-[320px] rounded-full bg-[#f5f5f7] border-none pl-9 pr-4 text-[13px] text-[#1d1d1f] placeholder:text-[#86868b] focus:ring-0 focus:bg-white focus:shadow-[0_0_0_4px_rgba(0,125,250,0.1)] transition-all outline-none"
-            />
-          </div>
-          
-          <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-            <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">
-              AD
-            </div>
-            <div className="hidden sm:flex items-center gap-1">
-              <span className="text-[13px] font-medium text-[#1d1d1f]">Angshuman Deb</span>
-              <ChevronDown className="h-3 w-3 text-[#86868b]" />
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-full bg-white font-sans text-[#1d1d1f] flex flex-col">
       <div className="flex-1 overflow-y-auto">
         {/* Hero Section */}
         <section className="pt-24 pb-20 px-6 text-center max-w-4xl mx-auto">

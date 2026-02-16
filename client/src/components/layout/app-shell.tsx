@@ -173,14 +173,22 @@ function ShellContent({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen w-full bg-[#F5F5F7] overflow-hidden font-sans text-slate-900">
-      {/* Desktop Sidebar */}
-      <aside className="w-64 border-r border-slate-200/60 bg-white/70 backdrop-blur-xl z-20 hidden md:flex flex-col h-full">
+      {/* Global Navbar Integration in Layout Structure could be done outside, but let's keep consistent */}
+      
+      {/* Desktop Sidebar - Moved down slightly to accommodate global nav if we wrapp outside? 
+          Actually, the global nav should probably be OUTSIDE this flex container in App.tsx 
+          OR we restructure this to include it. 
+          Let's assume Global Nav is rendered OUTSIDE AppShell in App.tsx for cleanliness.
+          But wait, AppShell has the sidebar.
+      */}
+      
+      <aside className="w-64 border-r border-slate-200/60 bg-white/70 backdrop-blur-xl z-20 hidden md:flex flex-col h-full mt-[1px]">
         <SidebarContent />
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Top Bar */}
+        {/* Internal Context Header - (Separate from Global Nav) */}
         <header className="h-14 border-b border-slate-200/60 bg-white/50 backdrop-blur-md flex items-center justify-between px-4 md:px-8 z-10 sticky top-0 shrink-0">
           <div className="flex items-center gap-4">
              {/* Mobile Menu Trigger */}
@@ -206,22 +214,12 @@ function ShellContent({ children }: { children: React.ReactNode }) {
              </div>
           </div>
           
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="relative hidden sm:block">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="h-9 w-48 md:w-64 rounded-lg bg-white border border-slate-200/80 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all pl-9 pr-4 text-sm outline-none placeholder:text-slate-400 font-medium"
-              />
-            </div>
-            <button className="sm:hidden p-2 text-slate-500">
-              <Search className="h-5 w-5" />
-            </button>
-            <button className="relative h-9 w-9 flex items-center justify-center rounded-full hover:bg-white hover:shadow-sm transition-all text-slate-500 hover:text-slate-900 border border-transparent hover:border-slate-200">
-              <Bell className="h-5 w-5 stroke-[1.5]" />
-              <span className="absolute top-2 right-2.5 h-1.5 w-1.5 bg-red-500 rounded-full ring-2 ring-[#F5F5F7]" />
-            </button>
+          {/* Internal Actions */}
+          <div className="flex items-center gap-3">
+             <button className="relative h-9 w-9 flex items-center justify-center rounded-full hover:bg-white hover:shadow-sm transition-all text-slate-500 hover:text-slate-900 border border-transparent hover:border-slate-200">
+               <Bell className="h-5 w-5 stroke-[1.5]" />
+               <span className="absolute top-2 right-2.5 h-1.5 w-1.5 bg-red-500 rounded-full ring-2 ring-[#F5F5F7]" />
+             </button>
           </div>
         </header>
 
