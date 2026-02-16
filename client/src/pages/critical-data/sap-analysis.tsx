@@ -63,11 +63,23 @@ const GAPS_CONFLICTS = [
 ];
 
 
+const LINEAGE_PATH_E2 = [
+  { id: "E2", label: "Co-Primary Estimand (OS in LREM)", type: "estimand" },
+  { id: "M2", label: "Cox PH Model (LREM Subset)", type: "method" },
+  { id: "POP3", label: "LREM Population", type: "derived" },
+  { id: "V18", label: "LREM Flag (Y/N)", type: "derived" },
+  { id: "V17", label: "Risk Score", type: "derived" },
+  { id: "V11-16", label: "6 Baseline Labs", type: "source" }
+];
+
 export default function SapAnalysis() {
   const [step, setStep] = useState(0);
+  const [selectedLineage, setSelectedLineage] = useState<"E1" | "E2">("E1");
 
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => Math.max(0, s - 1));
+
+  const lineagePath = selectedLineage === "E1" ? LINEAGE_PATH_E1 : LINEAGE_PATH_E2;
 
   const steps = [
     { id: "intro", title: "Clinical Question" },
@@ -218,20 +230,37 @@ export default function SapAnalysis() {
                 exit={{ opacity: 0, y: -10 }}
                 className="h-full flex flex-col"
               >
-                <div className="mb-8">
-                   <h2 className="text-2xl font-semibold text-[#1d1d1f]">Lineage Trace: Primary Endpoint</h2>
-                   <p className="text-[#86868b] text-sm mt-1">Tracing E1 (OS ITT) from definition to source data.</p>
+                <div className="mb-8 flex justify-between items-end">
+                   <div>
+                      <h2 className="text-2xl font-semibold text-[#1d1d1f]">Lineage Trace</h2>
+                      <p className="text-[#86868b] text-sm mt-1">Tracing Co-Primary endpoints from definition to source data.</p>
+                   </div>
+                   <div className="flex bg-gray-100 p-1 rounded-lg">
+                      <button 
+                        onClick={() => setSelectedLineage("E1")}
+                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E1" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
+                      >
+                        Primary (E1)
+                      </button>
+                      <button 
+                        onClick={() => setSelectedLineage("E2")}
+                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E2" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
+                      >
+                        Co-Primary (E2)
+                      </button>
+                   </div>
                 </div>
 
                 <div className="flex-1 flex flex-col items-center justify-center py-8">
                    <div className="relative flex flex-col items-center gap-8 w-full max-w-2xl">
-                      {/* E1 */}
+                      {/* Estimand Node */}
                       <motion.div 
+                        key={lineagePath[0].id}
                         initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
                         className="w-full bg-black text-white p-6 rounded-2xl shadow-lg relative z-10"
                       >
                          <div className="text-xs font-bold text-white/60 uppercase tracking-wider mb-1">Target Estimand</div>
-                         <div className="text-xl font-semibold">E1: Primary Overall Survival</div>
+                         <div className="text-xl font-semibold">{lineagePath[0].label}</div>
                          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
                             <div className="h-8 w-[2px] bg-black/20"></div>
                          </div>
@@ -240,8 +269,9 @@ export default function SapAnalysis() {
                       {/* Arrow */}
                       <motion.div initial={{ height: 0 }} animate={{ height: 32 }} className="w-[2px] bg-black/10" />
 
-                      {/* M1 */}
+                      {/* Method Node */}
                       <motion.div 
+                        key={lineagePath[1].id}
                         initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
                         className="w-3/4 bg-white border border-black/10 p-4 rounded-xl shadow-sm relative z-10 flex items-center gap-4"
                       >
@@ -250,15 +280,16 @@ export default function SapAnalysis() {
                          </div>
                          <div>
                             <div className="text-xs font-bold text-black/40 uppercase tracking-wider">Statistical Method</div>
-                            <div className="font-medium">M1: Stratified Cox PH Model</div>
+                            <div className="font-medium">{lineagePath[1].label}</div>
                          </div>
                       </motion.div>
 
                       {/* Arrow */}
                       <motion.div initial={{ height: 0 }} animate={{ height: 32 }} className="w-[2px] bg-black/10" />
 
-                      {/* V9 */}
+                      {/* Derived Variable/Pop Node */}
                       <motion.div 
+                         key={lineagePath[2].id}
                          initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
                          className="w-3/4 bg-white border border-black/10 p-4 rounded-xl shadow-sm relative z-10 flex items-center gap-4"
                       >
@@ -267,7 +298,7 @@ export default function SapAnalysis() {
                          </div>
                          <div>
                             <div className="text-xs font-bold text-black/40 uppercase tracking-wider">Analysis Variable</div>
-                            <div className="font-medium">V9: Overall Survival (Days)</div>
+                            <div className="font-medium">{lineagePath[2].label}</div>
                          </div>
                       </motion.div>
 
@@ -275,17 +306,27 @@ export default function SapAnalysis() {
                       <motion.div initial={{ height: 0 }} animate={{ height: 32 }} className="w-[2px] bg-black/10" />
 
                       {/* Leaf Nodes */}
-                      <div className="grid grid-cols-3 gap-4 w-full">
-                         {["Randomization Date", "Death Date", "Last Known Alive"].map((label, i) => (
+                      <div className={cn("grid gap-4 w-full", selectedLineage === "E1" ? "grid-cols-3" : "grid-cols-1")}>
+                         {selectedLineage === "E1" ? (
+                           ["Randomization Date", "Death Date", "Last Known Alive"].map((label, i) => (
+                             <motion.div 
+                                key={i}
+                                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 + (i * 0.2) }}
+                                className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-center"
+                             >
+                                <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
+                                <div className="text-sm font-semibold text-emerald-900">{label}</div>
+                             </motion.div>
+                           ))
+                         ) : (
                            <motion.div 
-                              key={i}
-                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 + (i * 0.2) }}
+                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }}
                               className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-center"
                            >
                               <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
-                              <div className="text-sm font-semibold text-emerald-900">{label}</div>
+                              <div className="text-sm font-semibold text-emerald-900">6 Baseline Lab Parameters (Neutrophils, Lymphocytes, Albumin, LDH, GGT, AST)</div>
                            </motion.div>
-                         ))}
+                         )}
                       </div>
                    </div>
                 </div>
