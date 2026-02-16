@@ -5,7 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/dashboard";
-import CriticalData from "@/pages/critical-data";
+import CriticalityAnalysis from "@/pages/critical-data/criticality-analysis";
+import ProtocolAnalysis from "@/pages/critical-data/protocol-analysis";
+import SapAnalysis from "@/pages/critical-data/sap-analysis";
 import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
@@ -29,7 +31,13 @@ function Router() {
               <Switch>
                 <Route path="/study/overview" component={StudyOverview} />
                 <Route path="/study/dashboard" component={Dashboard} />
-                <Route path="/study/critical-data" component={CriticalData} />
+                
+                {/* Criticality Model Builder Sub-routes */}
+                <Route path="/study/critical-data" component={() => <ProtocolAnalysis />} /> {/* Redirect/Default */}
+                <Route path="/study/critical-data/protocol" component={ProtocolAnalysis} />
+                <Route path="/study/critical-data/sap" component={SapAnalysis} />
+                <Route path="/study/critical-data/criticality" component={CriticalityAnalysis} />
+
                 <Route path="/study/dossier" component={Dossier} />
                 <Route path="/study/mvr" component={MVRCopilot} />
                 <Route path="/study/data-status" component={DataStatus} />

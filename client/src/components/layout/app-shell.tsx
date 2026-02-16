@@ -66,7 +66,16 @@ function ShellContent({ children }: { children: React.ReactNode }) {
   const navItems = role === "Lead Central Monitor" 
     ? [
         { label: "Study Overview", icon: LayoutDashboard, href: "/study/overview" },
-        { label: "Criticality Model", icon: GitBranch, href: "/study/critical-data" },
+        { 
+          label: "Criticality Model", 
+          icon: GitBranch, 
+          href: "/study/critical-data",
+          children: [
+            { label: "Protocol Analysis", href: "/study/critical-data/protocol" },
+            { label: "SAP Analysis", href: "/study/critical-data/sap" },
+            { label: "Criticality Analysis", href: "/study/critical-data/criticality" },
+          ]
+        },
         { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
         { label: "Investigation", icon: Search, href: "/study/investigations" },
         { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
@@ -118,21 +127,42 @@ function ShellContent({ children }: { children: React.ReactNode }) {
 
         <nav className="space-y-0.5 px-2">
           {navItems.map((item) => {
-            const isActive = location === item.href;
+            const isActive = location === item.href || (item.children && item.children.some(child => location === child.href));
+            const isExpanded = isActive; // Auto-expand if active
+
             return (
-              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}>
-                <div
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer group",
-                    isActive 
-                      ? "bg-slate-900 text-white shadow-sm" 
-                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
-                  )}
-                >
-                  <item.icon className={cn("h-4 w-4 stroke-[2]", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-900")} />
-                  {item.label}
-                </div>
-              </Link>
+              <div key={item.label}>
+                <Link href={item.href} onClick={() => !item.children && setMobileOpen(false)}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer group",
+                      isActive && !item.children
+                        ? "bg-slate-900 text-white shadow-sm" 
+                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                    )}
+                  >
+                    <item.icon className={cn("h-4 w-4 stroke-[2]", isActive && !item.children ? "text-white" : "text-slate-400 group-hover:text-slate-900")} />
+                    {item.label}
+                  </div>
+                </Link>
+                {item.children && isExpanded && (
+                  <div className="ml-9 mt-0.5 space-y-0.5 border-l border-slate-200 pl-2">
+                    {item.children.map(child => {
+                       const isChildActive = location === child.href;
+                       return (
+                         <Link key={child.label} href={child.href} onClick={() => setMobileOpen(false)}>
+                           <div className={cn(
+                             "px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors cursor-pointer",
+                             isChildActive ? "text-slate-900 bg-slate-100" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                           )}>
+                             {child.label}
+                           </div>
+                         </Link>
+                       )
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
