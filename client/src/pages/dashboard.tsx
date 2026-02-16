@@ -297,7 +297,7 @@ export default function SignalDashboard() {
                                )}>
                                   {/* Notification Dot for Issues */}
                                   {(comp.status === 'warning' || comp.status === 'critical') && (
-                                     <div className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-white border border-black/[0.1] shadow-sm flex items-center justify-center text-[9px] font-bold text-black">
+                                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 h-4 min-w-[16px] px-1 rounded-full bg-white border border-black/[0.1] shadow-sm flex items-center justify-center text-[10px] font-bold text-black z-20">
                                         {comp.count}
                                      </div>
                                   )}
