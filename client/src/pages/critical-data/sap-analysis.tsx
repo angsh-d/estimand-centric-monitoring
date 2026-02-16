@@ -57,12 +57,32 @@ const COMPLEX_DERIVATION_E2 = [
   { stage: "Estimand", items: ["E2: Co-Primary OS in LREM"] }
 ];
 
-const CRITICALITY_TIER1 = [
-  { id: "SH_RAND", field: "Randomization Date", reason: "Anchor for ALL TTE calculations" },
-  { id: "SH_DTH", field: "Death Date", reason: "Event date for primary endpoint" },
-  { id: "SH_LSTALV", field: "Last Known Alive", reason: "Censoring date for primary endpoint" },
-  { id: "SH_LAB", field: "6 Lab Parameters", reason: "Define LREM population for co-primary" },
-  { id: "SH_STRATA", field: "Stratification Factors", reason: "Covariates in primary Cox model" }
+const CRITICALITY_GROUPS = [
+  {
+    tier: "Tier 1: Critical (Primary Endpoints)",
+    items: [
+      { id: "SH_RAND", field: "Randomization Date", reason: "Anchor for ALL TTE calculations", estimand: "E1, E2, E5" },
+      { id: "SH_DTH", field: "Death Date", reason: "Event date for primary endpoint", estimand: "E1, E2" },
+      { id: "SH_LSTALV", field: "Last Known Alive", reason: "Censoring date for primary endpoint", estimand: "E1" },
+      { id: "SH_LAB", field: "6 Lab Parameters", reason: "Define LREM population for co-primary", estimand: "E2" }
+    ]
+  },
+  {
+    tier: "Tier 2: Important (Secondary Endpoints)",
+    items: [
+      { id: "SH_PROG", field: "Progression Date", reason: "Event date for secondary PFS", estimand: "E5" },
+      { id: "SH_LSTASS", field: "Last Assessment Date", reason: "Censoring date for PFS", estimand: "E5" },
+      { id: "SH_PRO", field: "Q29/Q30 Scores", reason: "Source for PRO Global Health", estimand: "E13" },
+      { id: "SH_PDL1", field: "PD-L1 Status", reason: "Stratification & Subgroup Analysis", estimand: "E3, E4" }
+    ]
+  },
+  {
+    tier: "Tier 3: Supporting (Safety/Exploratory)",
+    items: [
+      { id: "SH_AE", field: "Adverse Events", reason: "Safety monitoring", estimand: "Safety" },
+      { id: "SH_CONMED", field: "Concomitant Meds", reason: "Safety monitoring", estimand: "Safety" }
+    ]
+  }
 ];
 
 const GAPS_CONFLICTS = [
@@ -520,36 +540,64 @@ export default function SapAnalysis() {
               >
                 <div className="mb-8">
                    <h2 className="text-2xl font-semibold text-[#1d1d1f]">Criticality Assignment</h2>
-                   <p className="text-[#86868b] text-sm mt-1">Automated Tier 1 classification based on lineage impact.</p>
+                   <p className="text-[#86868b] text-sm mt-1">Automated Tier classification based on lineage impact across all estimands.</p>
                 </div>
 
-                <div className="space-y-4">
-                   <div className="flex items-center justify-between px-4 py-2 bg-black/[0.02] rounded-lg border border-black/[0.04]">
-                      <span className="text-xs font-bold text-black/40 uppercase tracking-wider">Source Data Field</span>
-                      <span className="text-xs font-bold text-black/40 uppercase tracking-wider">Impact Rationale</span>
-                   </div>
-                   
-                   {CRITICALITY_TIER1.map((item, i) => (
-                      <motion.div 
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="bg-white p-5 rounded-xl border border-black/[0.04] shadow-sm flex items-center justify-between group hover:border-black/10 transition-colors"
-                      >
-                         <div className="flex items-center gap-4">
-                            <div className="h-8 w-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center font-bold text-xs border border-red-100">T1</div>
-                            <div className="font-semibold text-[#1d1d1f]">{item.field}</div>
-                         </div>
-                         <div className="flex items-center gap-6">
-                            <span className="text-sm text-[#86868b]">{item.reason}</span>
-                            <div className="h-6 w-px bg-black/10" />
-                            <div className="flex items-center gap-2 text-xs font-medium text-black/60">
-                               <Layers className="h-3.5 w-3.5" />
-                               Mapped to CRF
-                            </div>
-                         </div>
-                      </motion.div>
+                <div className="space-y-8">
+                   {CRITICALITY_GROUPS.map((group, groupIndex) => (
+                     <div key={groupIndex} className="space-y-4">
+                       <h3 className={cn(
+                         "text-sm font-bold uppercase tracking-wider px-1",
+                         groupIndex === 0 ? "text-red-600" : 
+                         groupIndex === 1 ? "text-amber-600" : 
+                         "text-blue-600"
+                       )}>
+                         {group.tier}
+                       </h3>
+                       
+                       <div className="bg-white rounded-xl border border-black/[0.04] shadow-sm overflow-hidden">
+                          <div className="grid grid-cols-[2fr_2fr_1fr] px-5 py-3 bg-black/[0.02] border-b border-black/[0.04] text-xs font-bold text-black/40 uppercase tracking-wider">
+                             <div>Source Data Field</div>
+                             <div>Impact Rationale</div>
+                             <div className="text-right">Estimand(s)</div>
+                          </div>
+
+                          {group.items.map((item, i) => (
+                             <motion.div 
+                               key={i}
+                               initial={{ opacity: 0, x: -10 }}
+                               animate={{ opacity: 1, x: 0 }}
+                               transition={{ delay: i * 0.05 + (groupIndex * 0.2) }}
+                               className={cn(
+                                 "px-5 py-4 grid grid-cols-[2fr_2fr_1fr] items-center hover:bg-black/[0.01] transition-colors border-b last:border-0 border-black/[0.04]"
+                               )}
+                             >
+                                <div className="flex items-center gap-3">
+                                   <div className={cn(
+                                     "h-6 w-6 rounded-md flex items-center justify-center font-bold text-[10px] border",
+                                     groupIndex === 0 ? "bg-red-50 text-red-600 border-red-100" : 
+                                     groupIndex === 1 ? "bg-amber-50 text-amber-600 border-amber-100" : 
+                                     "bg-blue-50 text-blue-600 border-blue-100"
+                                   )}>
+                                     {groupIndex === 0 ? "T1" : groupIndex === 1 ? "T2" : "T3"}
+                                   </div>
+                                   <div className="font-semibold text-[#1d1d1f]">{item.field}</div>
+                                </div>
+                                
+                                <div className="text-sm text-[#86868b]">{item.reason}</div>
+                                
+                                <div className="flex justify-end">
+                                   <div className="flex items-center gap-1.5">
+                                      <Layers className="h-3 w-3 text-black/30" />
+                                      <span className="text-xs font-medium text-black/60 bg-black/[0.03] px-2 py-0.5 rounded-md">
+                                        {item.estimand}
+                                      </span>
+                                   </div>
+                                </div>
+                             </motion.div>
+                          ))}
+                       </div>
+                     </div>
                    ))}
                 </div>
               </motion.div>
