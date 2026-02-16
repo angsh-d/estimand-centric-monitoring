@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useLocation } from "wouter";
 import { 
   AlertCircle, 
   CheckCircle2, 
@@ -90,12 +91,12 @@ const useCriticalityData = () => {
 
 const NARRATIVES = {
   "src-E1": {
-    title: "Death Date Discrepancy (Primary Endpoint)",
-    synthesis: "Subject 109-004 has a 2-day date discrepancy between EDC Death Date and Safety Notification.",
-    impact: "Directly impacts the Primary Estimand (OS). If the earlier date is correct, the event time changes, affecting the Cox PH model.",
-    recommendation: "Query site 109 to reconcile Death Date source documents.",
-    signals: ["SIG-991"],
-    criticalDataContext: "Death Date (DTHDAT) is a Tier 1 Critical Data Element."
+    title: "ConMed Date Mismatch (Primary Endpoint)",
+    synthesis: "Subject 109-004 has a date discrepancy for 'Dexamethasone' start date between EDC and Safety Narrative.",
+    impact: "Potential impact on DLT window assessment and AE attribution for Cycle 1.",
+    recommendation: "Query site 109 to reconcile ConMed dates.",
+    signals: ["SIG-2026-042"],
+    criticalDataContext: "ConMed Start Date (CMSTDTC) vs Narrative"
   },
   "src-E2": {
     title: "Missing Baseline Labs (Co-Primary)",
@@ -141,13 +142,13 @@ const NARRATIVES = {
 
 const SIGNAL_QUEUE = [
   {
-    id: "SIG-991",
+    id: "SIG-2026-042",
     category: "Primary Estimand Threat",
-    title: "Death Date Mismatch",
+    title: "ConMed Date Mismatch",
     site: "109 - Charité Berlin",
     subject: "109-004",
     severity: "critical",
-    age: "2h",
+    age: "5m",
     status: "Open",
     isCriticalData: true
   },
@@ -395,7 +396,7 @@ export default function SignalDashboard() {
                         const sig = SIGNAL_QUEUE.find(s => s.id === sigId);
                         if (!sig) return null;
                         return (
-                           <div key={sig.id} className="bg-white p-3 rounded-xl border border-black/[0.04] shadow-sm">
+                           <div key={sig.id} onClick={() => setLocation("/study/investigations")} className="bg-white p-3 rounded-xl border border-black/[0.04] shadow-sm cursor-pointer hover:border-black/10 transition-colors">
                               <div className="flex justify-between items-start mb-1">
                                  <span className="text-[10px] font-bold text-black/40">{sig.id}</span>
                                  <span className="text-[10px] font-medium text-black bg-black/[0.05] px-1.5 py-0.5 rounded">{sig.site.split(' - ')[0]}</span>
@@ -446,6 +447,7 @@ export default function SignalDashboard() {
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.05 }}
+                          onClick={() => setLocation("/study/investigations")}
                           className="grid grid-cols-[1fr_1.5fr_1fr_100px_100px_50px] gap-4 p-4 items-center hover:bg-[#F5F5F7] transition-colors group cursor-pointer"
                        >
                           <div>
