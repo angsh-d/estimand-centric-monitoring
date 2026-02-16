@@ -16,7 +16,10 @@ import {
   Stethoscope,
   Network,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  UploadCloud,
+  Sparkles,
+  Check
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -161,7 +164,9 @@ const COMPLEX_DERIVATION_E13 = [
 ];
 
 export default function SapAnalysis() {
+  const [view, setView] = useState<"upload" | "processing" | "analysis">("upload");
   const [step, setStep] = useState(0);
+  const [processingStage, setProcessingStage] = useState(0);
   const [selectedLineage, setSelectedLineage] = useState<string>("E1");
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
 
@@ -170,6 +175,22 @@ export default function SapAnalysis() {
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setView("processing");
+      
+      // Simulate processing
+      const interval = setInterval(() => {
+        setProcessingStage(prev => (prev < 3 ? prev + 1 : prev));
+      }, 1200);
+      
+      setTimeout(() => {
+        clearInterval(interval);
+        setView("analysis");
+      }, 5000);
+    }
   };
 
   const nextStep = () => setStep(s => s + 1);
@@ -225,6 +246,92 @@ export default function SapAnalysis() {
     { id: "lrem", title: "Complex Derivation" },
     { id: "criticality", title: "Criticality Tiers" }
   ];
+
+  if (view === "upload") {
+    return (
+      <div className="h-[calc(100vh-140px)] flex flex-col items-center justify-center font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-black/5 text-black/60 text-[11px] font-medium uppercase tracking-wide mb-8 shadow-sm">
+            <Sparkles className="h-3 w-3 text-blue-500" />
+            Intelligent Study Design
+          </div>
+          <h1 className="text-5xl font-semibold text-[#1d1d1f] tracking-tight mb-4">SAP Analysis</h1>
+          <p className="text-[#86868b] text-xl max-w-xl mx-auto font-light leading-relaxed">
+            Upload your Statistical Analysis Plan to extract estimands and derivations.
+          </p>
+        </motion.div>
+        
+        <div 
+          className="group relative cursor-pointer" 
+          onClick={() => document.getElementById('sap-upload')?.click()}
+        >
+          <input 
+            type="file" 
+            id="sap-upload" 
+            className="hidden" 
+            accept=".pdf,.doc,.docx"
+            onChange={handleFileUpload}
+          />
+          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition duration-700" />
+          <AppleCard className="relative p-16 flex flex-col items-center justify-center text-center w-[540px] h-[360px] border border-black/[0.04] shadow-2xl shadow-black/[0.03]">
+             <div className="h-16 w-16 bg-[#F5F5F7] text-black/40 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-105 group-hover:text-black transition-all duration-500">
+               <UploadCloud className="h-8 w-8 stroke-[1.5]" />
+             </div>
+             <h3 className="text-xl font-semibold text-[#1d1d1f] mb-2">Upload SAP</h3>
+             <p className="text-[#86868b] mb-10 text-sm">PDF or Word document • Max 50MB</p>
+             <Button className="bg-[#1d1d1f] text-white hover:bg-black/80 w-48 rounded-full h-11 text-sm font-medium shadow-lg transition-all hover:scale-[1.02]">
+               Select Document
+             </Button>
+          </AppleCard>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "processing") {
+    return (
+       <div className="h-[calc(100vh-140px)] flex items-center justify-center font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
+         <div className="flex flex-col items-center max-w-sm w-full">
+            <div className="relative mb-12">
+               <div className="h-16 w-16 rounded-full border-[3px] border-black/5 border-t-black animate-spin" />
+            </div>
+            <h2 className="text-xl font-medium text-[#1d1d1f] mb-8">Analyzing SAP</h2>
+            <div className="w-full space-y-5">
+               {["Parsing document structure", "Extracting Estimands", "Mapping Derivations", "Identifying Critical Data"].map((label, i) => (
+                 <div 
+                    key={i} 
+                    className={cn(
+                        "flex items-center gap-4 text-sm transition-all duration-700",
+                        i > processingStage ? "opacity-40 translate-y-1" : "opacity-100 translate-y-0"
+                    )}
+                 >
+                    <div className={cn(
+                        "h-5 w-5 rounded-full flex items-center justify-center shadow-sm transition-all duration-500 border",
+                        i <= processingStage 
+                            ? "bg-black border-black" 
+                            : "bg-white border-black/10"
+                    )}>
+                      <Check className={cn(
+                          "h-3 w-3 text-white stroke-[3] transition-all duration-500", 
+                          i <= processingStage ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                      )} />
+                    </div>
+                    <span className={cn(
+                        "font-medium transition-colors duration-500",
+                        i <= processingStage ? "text-[#1d1d1f]" : "text-[#1d1d1f]/60"
+                    )}>{label}</span>
+                 </div>
+               ))}
+            </div>
+         </div>
+       </div>
+    );
+  }
 
   return (
     <div className="h-[calc(100vh-140px)] flex flex-col font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
