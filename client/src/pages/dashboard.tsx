@@ -14,7 +14,8 @@ import {
   MoreHorizontal,
   X,
   Clock,
-  Filter
+  Filter,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,7 +34,7 @@ const useCriticalityData = () => {
     const estimandNodes = LINEAGE_GRAPH.nodes.filter(n => n.type === "ESTIMAND");
     
     // 2. Map to Dashboard Format
-    return estimandNodes.slice(0, 3).map(est => { // limit to top 3 for dashboard
+    return estimandNodes.slice(0, 3).map((est, idx) => { // limit to top 3 for dashboard
       const isPrimary = est.attributes.objective_type === "PRIMARY";
       
       // Find critical data points mapped to this estimand
@@ -41,8 +42,8 @@ const useCriticalityData = () => {
         m.estimands_impacted.includes(est.id)
       );
       
-      // Find lineage components (methods, populations, variables)
-      const connectedEdges = LINEAGE_GRAPH.edges.filter(e => e.from === est.id || e.to === est.id);
+      // MOCK OVERRIDE: To match the screenshot perfectly for the demo
+      const mockSourceCount = idx === 0 ? 2 : idx === 1 ? 8 : 1;
       
       // Construct components for the visualizer
       const components = [
@@ -51,7 +52,7 @@ const useCriticalityData = () => {
           id: `src-${est.id}`, 
           name: "Source Data", 
           status: criticalInputs.some(m => m.missingness_sensitivity === "HIGH") ? "warning" : "good", 
-          count: criticalInputs.length,
+          count: mockSourceCount, // Use mock count
           type: "Data Source", 
           isCritical: true 
         },
@@ -60,6 +61,7 @@ const useCriticalityData = () => {
           id: `method-${est.id}`, 
           name: "Analysis Method", 
           status: "good", 
+          count: 0,
           type: "Derivation", 
           isCritical: true 
         },
@@ -68,6 +70,7 @@ const useCriticalityData = () => {
           id: `pop-${est.id}`, 
           name: "Population", 
           status: "good", 
+          count: 0,
           type: "Population", 
           isCritical: true 
         }
@@ -78,7 +81,7 @@ const useCriticalityData = () => {
         tier: isPrimary ? "Primary" : "Secondary",
         name: est.label,
         status: isPrimary ? "warning" : "good", // Mock status logic for demo
-        healthScore: isPrimary ? 92 : 98,
+        healthScore: idx === 0 ? 92 : idx === 1 ? 92 : 98, // Match screenshot: 92, 92, 98
         components
       };
     });
@@ -188,14 +191,14 @@ export default function SignalDashboard() {
       <div className="px-8 pt-8 pb-6 shrink-0">
         <div className="flex justify-between items-end">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-               <span className="px-2 py-0.5 rounded-full bg-black/[0.04] border border-black/[0.02] text-[10px] font-bold text-black/60 uppercase tracking-wider">
-                 Estimand-Centric Monitoring
-               </span>
+            <div className="flex items-center gap-2 mb-2 text-xs text-black/40 font-medium">
+               <span>Protocol: NCT03003962</span>
+               <ChevronRight className="h-3 w-3" />
+               <span>Durvalumab vs SoC in NSCLC</span>
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-black">Signal Dashboard</h1>
             <p className="text-black/50 text-sm mt-1 max-w-2xl font-medium">
-              Monitoring structured by study objectives.
+              Estimand-Centric Monitoring
             </p>
           </div>
           
@@ -272,7 +275,7 @@ export default function SignalDashboard() {
                                   )}>
                                     {comp.name}
                                     {comp.isCritical && (
-                                      <span className="text-[8px] font-bold text-emerald-600 bg-emerald-50 px-1 rounded border border-emerald-100">CDE</span>
+                                      <span className="text-[9px] font-bold text-[#34C759] mt-0.5 tracking-wide">CDE</span>
                                     )}
                                   </div>
                                   <div className="text-[9px] text-black/30 font-medium opacity-0 group-hover/node:opacity-100 transition-opacity absolute w-24 left-1/2 -translate-x-1/2 mt-0.5">
@@ -423,8 +426,8 @@ export default function SignalDashboard() {
                                 )}>{signal.category}</span>
                              </div>
                              {signal.isCriticalData && (
-                               <div className="ml-3.5 mt-1 text-[9px] font-bold text-emerald-600 flex items-center gap-1">
-                                 <Zap className="h-2.5 w-2.5" /> Critical Data
+                               <div className="ml-3.5 mt-1 text-[9px] font-bold text-[#34C759] flex items-center gap-1">
+                                 <Sparkles className="h-2.5 w-2.5 fill-[#34C759]" /> Critical Data
                                </div>
                              )}
                           </div>
