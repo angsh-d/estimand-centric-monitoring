@@ -16,7 +16,9 @@ import {
   Eye,
   MousePointer2,
   Table,
-  FileText
+  FileText,
+  GitBranch,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,12 +47,14 @@ const CRFField = ({
   label, 
   variable, 
   value = "", 
-  mappedInfo = null 
+  mappedInfo = null,
+  onShowLineage
 }: { 
   label: string; 
   variable: string; 
   value?: string; 
-  mappedInfo?: any 
+  mappedInfo?: any;
+  onShowLineage?: (info: any) => void;
 }) => {
   return (
     <div className={cn(
@@ -66,8 +70,20 @@ const CRFField = ({
         <span className="text-[10px] font-mono text-gray-400">{variable}</span>
       </div>
       
-      <div className="h-8 bg-gray-50 border border-gray-200 rounded px-2 flex items-center text-sm text-gray-600 font-mono">
-        {value}
+      <div className="h-8 bg-gray-50 border border-gray-200 rounded px-2 flex items-center text-sm text-gray-600 font-mono justify-between">
+        <span>{value}</span>
+        {mappedInfo && onShowLineage && (
+           <button 
+             onClick={(e) => {
+               e.stopPropagation();
+               onShowLineage(mappedInfo);
+             }}
+             className="h-5 w-5 hover:bg-gray-200 rounded flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors"
+             title="View Data Lineage"
+           >
+             <GitBranch className="h-3 w-3" />
+           </button>
+        )}
       </div>
 
       {mappedInfo && (
@@ -75,10 +91,18 @@ const CRFField = ({
           <TooltipProvider>
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
-                <div className={cn(
-                  "h-6 px-2 rounded-full flex items-center gap-1 shadow-sm cursor-help transition-transform hover:scale-105",
-                  mappedInfo.criticality_tier === 1 ? "bg-red-600 text-white" : "bg-amber-500 text-white"
-                )}>
+                <div 
+                  className={cn(
+                    "h-6 px-2 rounded-full flex items-center gap-1 shadow-sm cursor-pointer transition-transform hover:scale-105",
+                    mappedInfo.criticality_tier === 1 ? "bg-red-600 text-white" : "bg-amber-500 text-white"
+                  )}
+                  onClick={(e) => {
+                    if (onShowLineage) {
+                      e.stopPropagation();
+                      onShowLineage(mappedInfo);
+                    }
+                  }}
+                >
                   <ShieldCheck className="h-3 w-3" />
                   <span className="text-[10px] font-bold">T{mappedInfo.criticality_tier}</span>
                 </div>
@@ -112,6 +136,12 @@ const CRFField = ({
                         ))}
                      </div>
                   </div>
+                  
+                  <div className="pt-2 border-t border-gray-100 flex justify-end">
+                    <div className="text-[10px] text-blue-600 font-medium flex items-center cursor-pointer hover:underline">
+                      <GitBranch className="h-3 w-3 mr-1" /> View Lineage Trace
+                    </div>
+                  </div>
                 </div>
               </TooltipContent>
             </Tooltip>
@@ -122,12 +152,13 @@ const CRFField = ({
   );
 };
 
-const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
+const MockDispositionForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineage: (info: any) => void }) => {
   const deathDateMapping = {
     criticality_tier: 1,
     criticality_description: "Date of Death",
     risk_if_erroneous: "Incorrect date alters Overall Survival duration.",
-    estimands_impacted: ["E1", "E2"]
+    estimands_impacted: ["E1", "E2"],
+    lineage_path: ["DTHDAT (Death Date) → V2 (Event Date) → V1 (OS Time) → M1 (Cox Model) → E1 (Primary OS)"]
   };
 
   return (
@@ -148,6 +179,7 @@ const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
           variable="DTHDAT" 
           value="2024-02-14" 
           mappedInfo={deathDateMapping}
+          onShowLineage={onShowLineage}
         />
         <CRFField label="Primary Cause of Death" variable="DTHCAUS" value="Disease Progression" />
       </div>
@@ -155,7 +187,7 @@ const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
   );
 };
 
-const MockLabForm = ({ mappings }: { mappings: any[] }) => {
+const MockLabForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineage: (info: any) => void }) => {
   const neutMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Neutrophils")));
   const albMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Albumin")));
   // Create mock mappings for the other 4 if they don't exist in the JSON, sharing the same criticality logic
@@ -180,6 +212,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="4.5" 
             mappedInfo={neutMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="10^9/L" />
       </div>
@@ -194,6 +227,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="38" 
             mappedInfo={albMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="g/L" />
       </div>
@@ -208,6 +242,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="1.2" 
             mappedInfo={lymphMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="10^9/L" />
       </div>
@@ -222,6 +257,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="240" 
             mappedInfo={ldhMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="U/L" />
       </div>
@@ -236,6 +272,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="45" 
             mappedInfo={ggtMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="U/L" />
       </div>
@@ -250,6 +287,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             variable="LBORRES" 
             value="32" 
             mappedInfo={astMapping}
+            onShowLineage={onShowLineage}
          />
          <CRFField label="Unit" variable="LBORRESU" value="U/L" />
       </div>
@@ -257,7 +295,7 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
   );
 };
 
-const MockTumorForm = ({ mappings }: { mappings: any[] }) => {
+const MockTumorForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineage: (info: any) => void }) => {
   const scanDateMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.variableName === "TUDAT"));
 
   return (
@@ -273,6 +311,7 @@ const MockTumorForm = ({ mappings }: { mappings: any[] }) => {
           variable="TUDAT" 
           value="2024-05-20" 
           mappedInfo={scanDateMapping}
+          onShowLineage={onShowLineage}
         />
       </div>
 
@@ -285,18 +324,20 @@ const MockTumorForm = ({ mappings }: { mappings: any[] }) => {
 };
 
 
-const MockQSForm = ({ mappings }: { mappings: any[] }) => {
+const MockQSForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineage: (info: any) => void }) => {
   const q29Mapping = {
     criticality_tier: 2,
     criticality_description: "Q29: Overall Health",
     risk_if_erroneous: "Source for PRO Global Health Status endpoint (E13).",
-    estimands_impacted: ["E13"]
+    estimands_impacted: ["E13"],
+    lineage_path: ["QS.QLQ30_29 (Overall Health) → Mean Score → Normalized (0-100) → CFB → MMRM → E13"]
   };
   const q30Mapping = {
     criticality_tier: 2,
     criticality_description: "Q30: Quality of Life",
     risk_if_erroneous: "Source for PRO Global Health Status endpoint (E13).",
-    estimands_impacted: ["E13"]
+    estimands_impacted: ["E13"],
+    lineage_path: ["QS.QLQ30_30 (Quality of Life) → Mean Score → Normalized (0-100) → CFB → MMRM → E13"]
   };
 
   return (
@@ -319,12 +360,14 @@ const MockQSForm = ({ mappings }: { mappings: any[] }) => {
             variable="QS.QLQ30_29" 
             value="6" 
             mappedInfo={q29Mapping}
+            onShowLineage={onShowLineage}
           />
           <CRFField 
             label="30. How would you rate your overall quality of life during the past week?" 
             variable="QS.QLQ30_30" 
             value="5" 
             mappedInfo={q30Mapping}
+            onShowLineage={onShowLineage}
           />
         </div>
       </div>
@@ -339,6 +382,7 @@ export default function CriticalityAnalysis() {
   const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
   const [validationStatus, setValidationStatus] = useState("pending");
   const [smeAssigned, setSmeAssigned] = useState(false);
+  const [selectedLineageItem, setSelectedLineageItem] = useState<any>(null);
   
   // Use data from JSON
   const mappedItems = CRF_CRITICALITY_REPORT.mappings;
@@ -352,6 +396,10 @@ export default function CriticalityAnalysis() {
   const handleSMEApprove = () => {
       setValidationStatus("approved");
       setCurrentUser("study-director");
+  };
+
+  const handleShowLineage = (info: any) => {
+    setSelectedLineageItem(info);
   };
 
   return (
@@ -641,10 +689,10 @@ export default function CriticalityAnalysis() {
                      </div>
                      
                      <div className="p-8 bg-white min-h-[500px]">
-                        {activeForm === "DS" && <MockDispositionForm mappings={mappedItems} />}
-                        {activeForm === "LB" && <MockLabForm mappings={mappedItems} />}
-                        {activeForm === "TU" && <MockTumorForm mappings={mappedItems} />}
-                        {activeForm === "QS" && <MockQSForm mappings={mappedItems} />}
+                        {activeForm === "DS" && <MockDispositionForm mappings={mappedItems} onShowLineage={handleShowLineage} />}
+                        {activeForm === "LB" && <MockLabForm mappings={mappedItems} onShowLineage={handleShowLineage} />}
+                        {activeForm === "TU" && <MockTumorForm mappings={mappedItems} onShowLineage={handleShowLineage} />}
+                        {activeForm === "QS" && <MockQSForm mappings={mappedItems} onShowLineage={handleShowLineage} />}
                      </div>
                   </div>
 
@@ -911,6 +959,92 @@ export default function CriticalityAnalysis() {
             <Button onClick={() => setValidationStatus("pending")} className="bg-[#1d1d1f] text-white">
                Back to Dashboard
             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Lineage Trace Dialog */}
+      <Dialog open={!!selectedLineageItem} onOpenChange={(open) => !open && setSelectedLineageItem(null)}>
+        <DialogContent className="max-w-2xl overflow-hidden flex flex-col max-h-[80vh]">
+          <DialogHeader className="px-6 py-4 border-b border-slate-100 bg-white">
+            <DialogTitle className="flex items-center gap-2 text-lg">
+               <GitBranch className="h-5 w-5 text-blue-600" />
+               Data Lineage Trace
+            </DialogTitle>
+            <DialogDescription>
+              Tracing critical data from Source (CRF) to Analysis (Estimand).
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex-1 overflow-y-auto px-6 py-6 bg-slate-50/50">
+          {selectedLineageItem && (
+            <div>
+               <div className="mb-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                     <div className={cn(
+                        "h-8 w-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0",
+                        selectedLineageItem.criticality_tier === 1 ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-600"
+                     )}>
+                        T{selectedLineageItem.criticality_tier}
+                     </div>
+                     <div>
+                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Selected Field</div>
+                        <div className="font-semibold text-slate-900">{selectedLineageItem.criticality_description}</div>
+                     </div>
+                  </div>
+                  <div className="text-xs text-slate-500 bg-slate-50 p-2 rounded border border-slate-100">
+                     <span className="font-semibold text-slate-700">Impact:</span> {selectedLineageItem.risk_if_erroneous}
+                  </div>
+               </div>
+
+               <div className="relative pl-4 ml-3 border-l-2 border-slate-200 space-y-0">
+                  {selectedLineageItem.lineage_path && selectedLineageItem.lineage_path[0].split(/[→\u2192]/).map((step: string, i: number) => {
+                      const cleanStep = step.trim();
+                      const isEstimand = cleanStep.includes("(E") || cleanStep.startsWith("E");
+                      const isSource = cleanStep.includes("FORM") || i === 0;
+                      const isMethod = cleanStep.includes("(M") || cleanStep.includes("Model") || cleanStep.includes("Cox");
+                      
+                      return (
+                      <div key={i} className="relative pb-10 last:pb-0 group">
+                         <div className={cn(
+                            "absolute top-4 left-[-23px] h-3.5 w-3.5 rounded-full border-2 shadow-sm transition-all z-10",
+                            isEstimand ? "bg-black border-black ring-4 ring-black/5" :
+                            isSource ? "bg-emerald-500 border-white ring-4 ring-emerald-50" :
+                            "bg-white border-slate-300 group-hover:border-blue-400 group-hover:bg-blue-50"
+                         )} />
+                         
+                         <div className={cn(
+                            "p-4 rounded-xl border shadow-sm transition-all",
+                            isEstimand ? "bg-slate-900 text-white border-slate-900 shadow-md" : 
+                            isSource ? "bg-white border-emerald-200 shadow-sm" :
+                            isMethod ? "bg-blue-50/50 border-blue-100 text-blue-900" :
+                            "bg-white border-slate-200 text-slate-700"
+                         )}>
+                            <div className="text-[10px] font-bold uppercase tracking-wider mb-1 opacity-70">
+                               {isEstimand ? "Target Estimand" : isSource ? "Source Data (CRF)" : isMethod ? "Statistical Method" : "Derived Variable"}
+                            </div>
+                            <div className="font-medium text-sm flex items-center gap-2">
+                               {cleanStep}
+                               {isEstimand && <ShieldCheck className="h-3 w-3 text-emerald-400" />}
+                            </div>
+                         </div>
+                         
+                         {i < selectedLineageItem.lineage_path[0].split(/[→\u2192]/).length - 1 && (
+                            <div className="absolute left-[20px] -bottom-3 text-slate-300">
+                               <ArrowRight className="h-4 w-4 rotate-90" />
+                            </div>
+                         )}
+                      </div>
+                  )})}
+               </div>
+            </div>
+          )}
+          </div>
+          
+          <div className="p-4 border-t border-slate-100 bg-white flex justify-end">
+             <Button variant="outline" onClick={() => setSelectedLineageItem(null)}>
+                Close Trace
+             </Button>
           </div>
         </DialogContent>
       </Dialog>
