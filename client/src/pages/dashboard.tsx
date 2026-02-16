@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { 
   AlertCircle, 
   CheckCircle2, 
@@ -22,53 +22,85 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CardSkeleton } from "@/components/ui/skeleton-loader";
 
-// --- Mock Data: Estimand-Centric Model ---
+import CRF_CRITICALITY_REPORT from "@/data/crf_criticality.json";
+import LINEAGE_GRAPH from "@/data/lineage_graph.json";
 
-const ESTIMANDS = [
-  {
-    id: "EST-01",
-    tier: "Primary",
-    name: "Change from Baseline in MADRS Total Score at Week 8",
-    status: "warning", // good, warning, critical
-    healthScore: 92,
-    components: [
-      { id: "c1", name: "MADRS Assessment", status: "good", type: "Data Source", isCritical: true },
-      { id: "c2", name: "Baseline Definition", status: "good", type: "Derivation", isCritical: true },
-      { id: "c3", name: "Visit Windows", status: "warning", count: 3, type: "Logic", isCritical: false },
-      { id: "c4", name: "Rescue Medication", status: "critical", count: 1, type: "Intercurrent Event", isCritical: true },
-      { id: "c5", name: "Treatment Exposure", status: "good", type: "Variable", isCritical: false }
-    ]
-  },
-  {
-    id: "EST-02",
-    tier: "Key Secondary",
-    name: "MADRS Response Rate (≥50% reduction) at Week 8",
-    status: "good",
-    healthScore: 98,
-    components: [
-      { id: "c6", name: "MADRS Assessment", status: "good", type: "Data Source", isCritical: true }, // Shared component
-      { id: "c7", name: "Response Logic", status: "good", type: "Derivation", isCritical: false },
-      { id: "c8", name: "Dropouts", status: "good", type: "Population", isCritical: false }
-    ]
-  }
-];
+// --- Data Transformation from Criticality Model ---
+
+const useCriticalityData = () => {
+  return useMemo(() => {
+    // 1. Extract Estimands from Lineage Graph
+    const estimandNodes = LINEAGE_GRAPH.nodes.filter(n => n.type === "ESTIMAND");
+    
+    // 2. Map to Dashboard Format
+    return estimandNodes.slice(0, 3).map(est => { // limit to top 3 for dashboard
+      const isPrimary = est.attributes.objective_type === "PRIMARY";
+      
+      // Find critical data points mapped to this estimand
+      const criticalInputs = CRF_CRITICALITY_REPORT.mappings.filter(m => 
+        m.estimands_impacted.includes(est.id)
+      );
+      
+      // Find lineage components (methods, populations, variables)
+      const connectedEdges = LINEAGE_GRAPH.edges.filter(e => e.from === est.id || e.to === est.id);
+      
+      // Construct components for the visualizer
+      const components = [
+        // Source Data Level (aggregated)
+        { 
+          id: `src-${est.id}`, 
+          name: "Source Data", 
+          status: criticalInputs.some(m => m.missingness_sensitivity === "HIGH") ? "warning" : "good", 
+          count: criticalInputs.length,
+          type: "Data Source", 
+          isCritical: true 
+        },
+        // Derivation Level (Method)
+        { 
+          id: `method-${est.id}`, 
+          name: "Analysis Method", 
+          status: "good", 
+          type: "Derivation", 
+          isCritical: true 
+        },
+        // Population Level
+        { 
+          id: `pop-${est.id}`, 
+          name: "Population", 
+          status: "good", 
+          type: "Population", 
+          isCritical: true 
+        }
+      ];
+
+      return {
+        id: est.id,
+        tier: isPrimary ? "Primary" : "Secondary",
+        name: est.label,
+        status: isPrimary ? "warning" : "good", // Mock status logic for demo
+        healthScore: isPrimary ? 92 : 98,
+        components
+      };
+    });
+  }, []);
+};
 
 const NARRATIVES = {
-  "c4": {
-    title: "Rescue Medication Misclassification Risk",
-    synthesis: "Subject 109-004 at Charité Berlin has a 2-day date discrepancy between EDC and Safety Narrative for a concomitant medication (Lorazepam).",
-    impact: "This creates ambiguity in the Intercurrent Event classification. If the earlier date (Jan 12) is correct, this qualifies as 'Rescue Medication' and triggers a composite failure for the Primary Estimand. If the later date (Jan 14) is correct, it remains a standard concomitant med with no estimand impact.",
-    recommendation: "Query site 109 immediately to reconcile start dates. Prioritize EDC correction if Safety Narrative is source-verified.",
-    signals: ["SIG-991", "SIG-992"],
-    criticalDataContext: "Lorazepam Start Date (CM.CMSTDTC) is a Tier 1 Critical Data Element."
+  "src-E1": {
+    title: "Death Date Discrepancy (Primary Endpoint)",
+    synthesis: "Subject 109-004 has a 2-day date discrepancy between EDC Death Date and Safety Notification.",
+    impact: "Directly impacts the Primary Estimand (OS). If the earlier date is correct, the event time changes, affecting the Cox PH model.",
+    recommendation: "Query site 109 to reconcile Death Date source documents.",
+    signals: ["SIG-991"],
+    criticalDataContext: "Death Date (DTHDAT) is a Tier 1 Critical Data Element."
   },
-  "c3": {
-    title: "Visit Window Compliance Drift",
-    synthesis: "Emerging trend at Site 331 (Univ. of Tokyo) showing systematic late scheduling for Week 4 visits.",
-    impact: "3 subjects have fallen outside the ±3 day window. While currently handled by the MMRM model, continued drift risks pushing subjects into 'Missing Data' classification for the primary endpoint at Week 8 if patterns persist.",
-    recommendation: "Contact Site Monitor to retrain study coordinator on scheduling windows. No data exclusions required yet.",
-    signals: ["SIG-801", "SIG-802", "SIG-803"],
-    criticalDataContext: "Visit Date (SV.SVSTDTC) impacts analysis population assignment."
+  "src-E2": {
+    title: "Missing Baseline Labs (Co-Primary)",
+    synthesis: "Site 331 has 3 subjects with missing Neutrophil counts at baseline.",
+    impact: "Prevents calculation of LREM Risk Score. Subjects risk exclusion from the Co-Primary Analysis Set (POP2).",
+    recommendation: "Check for unscheduled visits or local lab data availability.",
+    signals: ["SIG-801", "SIG-802"],
+    criticalDataContext: "Neutrophils (LBORRES) determines LREM Population."
   }
 };
 
@@ -76,7 +108,7 @@ const SIGNAL_QUEUE = [
   {
     id: "SIG-991",
     category: "Primary Estimand Threat",
-    title: "Conmed Date Mismatch (Lorazepam)",
+    title: "Death Date Mismatch",
     site: "109 - Charité Berlin",
     subject: "109-004",
     severity: "critical",
@@ -86,8 +118,8 @@ const SIGNAL_QUEUE = [
   },
   {
     id: "SIG-801",
-    category: "Primary Estimand Threat",
-    title: "Week 4 Window Deviation",
+    category: "Co-Primary Risk",
+    title: "Missing Neutrophils",
     site: "331 - Univ. of Tokyo",
     subject: "331-012",
     severity: "warning",
@@ -97,8 +129,8 @@ const SIGNAL_QUEUE = [
   },
   {
     id: "SIG-802",
-    category: "Primary Estimand Threat",
-    title: "Week 4 Window Deviation",
+    category: "Co-Primary Risk",
+    title: "Missing Albumin",
     site: "331 - Univ. of Tokyo",
     subject: "331-015",
     severity: "warning",
@@ -116,19 +148,9 @@ const SIGNAL_QUEUE = [
     age: "5h",
     status: "Open",
     isCriticalData: true
-  },
-  {
-    id: "SIG-605",
-    category: "Operational",
-    title: "Query Aging > 14 Days",
-    site: "205 - Gustave Roussy",
-    subject: "N/A",
-    severity: "info",
-    age: "3d",
-    status: "Open",
-    isCriticalData: false
   }
 ];
+
 
 // --- Components ---
 
@@ -150,6 +172,7 @@ const AppleCard = ({ children, className, onClick }: { children: React.ReactNode
 // --- Main Page ---
 
 export default function SignalDashboard() {
+  const estimands = useCriticalityData();
   const [selectedComponent, setSelectedComponent] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -203,7 +226,7 @@ export default function SignalDashboard() {
                  <CardSkeleton className="h-48 rounded-2xl" />
                </div>
             ) : (
-              ESTIMANDS.map((est) => (
+              estimands.map((est) => (
                 <AppleCard key={est.id} className="p-6 relative group transition-all hover:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.08)]">
                    <div className="flex justify-between items-start mb-6">
                       <div>
