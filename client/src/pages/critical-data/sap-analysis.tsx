@@ -77,7 +77,7 @@ const LINEAGE_PATH_E2 = [
   { id: "POP3", label: "LREM Population", type: "derived" },
   { id: "V18", label: "LREM Flag (Y/N)", type: "derived" },
   { id: "V17", label: "Risk Score", type: "derived" },
-  { id: "V11-16", label: "6 Baseline Labs", type: "source" }
+  // Lab parameters handled in rendering to show as leaf nodes
 ];
 
 export default function SapAnalysis() {
@@ -314,7 +314,7 @@ export default function SapAnalysis() {
                       <motion.div initial={{ height: 0 }} animate={{ height: 32 }} className="w-[2px] bg-black/10" />
 
                       {/* Leaf Nodes */}
-                      <div className={cn("grid gap-4 w-full", selectedLineage === "E1" ? "grid-cols-3" : "grid-cols-1")}>
+                      <div className={cn("grid gap-4 w-full", selectedLineage === "E1" ? "grid-cols-3" : "grid-cols-3")}>
                          {selectedLineage === "E1" ? (
                            ["Randomization Date", "Death Date", "Last Known Alive"].map((label, i) => (
                              <motion.div 
@@ -327,13 +327,16 @@ export default function SapAnalysis() {
                              </motion.div>
                            ))
                          ) : (
-                           <motion.div 
-                              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }}
-                              className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-center"
-                           >
-                              <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
-                              <div className="text-sm font-semibold text-emerald-900">6 Baseline Lab Parameters (Neutrophils, Lymphocytes, Albumin, LDH, GGT, AST)</div>
-                           </motion.div>
+                           ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"].map((label, i) => (
+                             <motion.div 
+                                key={i}
+                                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 + (i * 0.1) }}
+                                className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-center"
+                             >
+                                <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
+                                <div className="text-sm font-semibold text-emerald-900">{label}</div>
+                             </motion.div>
+                           ))
                          )}
                       </div>
                    </div>
