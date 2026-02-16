@@ -26,10 +26,10 @@ import { cn } from "@/lib/utils";
 const ESTIMANDS_DEMO = [
   { id: "E1", tier: "Primary", label: "Overall Survival (OS) in ITT Population", desc: "Hazard Ratio (Stratified Cox PH)", type: "Time-to-Event", status: "Critical" },
   { id: "E2", tier: "Co-Primary", label: "Overall Survival (OS) in LREM Population", desc: "Hazard Ratio (Stratified Cox PH)", type: "Time-to-Event", status: "Critical" },
+  { id: "E5", tier: "Secondary", label: "Progression-Free Survival (PFS) in ITT", desc: "Hazard Ratio (Stratified Cox PH)", type: "Time-to-Event", status: "Important" },
+  { id: "E13", tier: "Secondary", label: "PRO Global Health Status (Change from Baseline)", desc: "MMRM Difference in LS Means", type: "Continuous", status: "Important" },
   { id: "E3", tier: "Secondary", label: "OS in PD-L1 ≥ 50%", desc: "Hazard Ratio", type: "Time-to-Event", status: "Important" },
-  { id: "E4", tier: "Secondary", label: "PFS in ITT", desc: "Hazard Ratio", type: "Time-to-Event", status: "Important" },
-  { id: "E5", tier: "Secondary", label: "ORR in ITT", desc: "Proportion Difference", type: "Binary", status: "Important" },
-  // ... implied 6 others
+  { id: "E4", tier: "Secondary", label: "OS in PD-L1 ≥ 50% LREM", desc: "Hazard Ratio", type: "Time-to-Event", status: "Important" },
 ];
 
 const LINEAGE_PATH_E1 = [
@@ -80,14 +80,58 @@ const LINEAGE_PATH_E2 = [
   // Lab parameters handled in rendering to show as leaf nodes
 ];
 
+const LINEAGE_PATH_E5 = [
+  { id: "E5", label: "Secondary Estimand (PFS)", type: "estimand" },
+  { id: "M8", label: "PFS Analysis (Cox PH)", type: "method" },
+  { id: "V7", label: "PFS Time (Days)", type: "derived" },
+  { id: "V8", label: "PFS Event Date", type: "derived" },
+  { id: "V10", label: "Progression Date", type: "source" },
+  { id: "V11", label: "Last Assessment", type: "source" }
+];
+
+const LINEAGE_PATH_E13 = [
+  { id: "E13", label: "Secondary Estimand (PRO)", type: "estimand" },
+  { id: "M16", label: "MMRM Model", type: "method" },
+  { id: "V35", label: "Global Health Score", type: "derived" },
+  { id: "QS", label: "EORTC QLQ-C30", type: "source" },
+  { id: "I29", label: "Item 29", type: "source" },
+  { id: "I30", label: "Item 30", type: "source" }
+];
+
+const COMPLEX_DERIVATION_E5 = [
+  { stage: "Source Data", items: ["Date of Randomization", "Date of Progression (RECIST)", "Date of Death"] },
+  { stage: "Derived", items: ["V7: PFS Duration (Days)", "V8: Event Date"] },
+  { stage: "Censoring", items: ["Censor Flag (Event vs Censored)"] },
+  { stage: "Population", items: ["POP1: ITT Population"] },
+  { stage: "Estimand", items: ["E5: Secondary PFS in ITT"] }
+];
+
+const COMPLEX_DERIVATION_E13 = [
+  { stage: "Source Data", items: ["EORTC QLQ-C30 Item 29", "EORTC QLQ-C30 Item 30"] },
+  { stage: "Derived", items: ["Raw Score (Mean of I29, I30)", "Linear Transformation (0-100 Scale)"] },
+  { stage: "Analysis", items: ["Change from Baseline (CFB)"] },
+  { stage: "Model", items: ["MMRM (Mixed Models for Repeated Measures)"] },
+  { stage: "Estimand", items: ["E13: PRO Global Health Status"] }
+];
+
 export default function SapAnalysis() {
   const [step, setStep] = useState(0);
-  const [selectedLineage, setSelectedLineage] = useState<"E1" | "E2">("E1");
+  const [selectedLineage, setSelectedLineage] = useState<"E1" | "E2" | "E5" | "E13">("E1");
 
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => Math.max(0, s - 1));
 
-  const lineagePath = selectedLineage === "E1" ? LINEAGE_PATH_E1 : LINEAGE_PATH_E2;
+  const lineagePath = 
+    selectedLineage === "E1" ? LINEAGE_PATH_E1 : 
+    selectedLineage === "E2" ? LINEAGE_PATH_E2 :
+    selectedLineage === "E5" ? LINEAGE_PATH_E5 :
+    LINEAGE_PATH_E13;
+
+  const complexDerivation = 
+    selectedLineage === "E1" ? COMPLEX_DERIVATION_E1 : 
+    selectedLineage === "E2" ? COMPLEX_DERIVATION_E2 :
+    selectedLineage === "E5" ? COMPLEX_DERIVATION_E5 :
+    COMPLEX_DERIVATION_E13;
 
   const steps = [
     { id: "intro", title: "Clinical Question" },
@@ -241,21 +285,21 @@ export default function SapAnalysis() {
                 <div className="mb-8 flex justify-between items-end">
                    <div>
                       <h2 className="text-2xl font-semibold text-[#1d1d1f]">Lineage Trace</h2>
-                      <p className="text-[#86868b] text-sm mt-1">Tracing Co-Primary endpoints from definition to source data.</p>
+                      <p className="text-[#86868b] text-sm mt-1">Tracing {selectedLineage} endpoint from definition to source data.</p>
                    </div>
                    <div className="flex bg-gray-100 p-1 rounded-lg">
-                      <button 
-                        onClick={() => setSelectedLineage("E1")}
-                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E1" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
-                      >
-                        Primary (E1)
-                      </button>
-                      <button 
-                        onClick={() => setSelectedLineage("E2")}
-                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E2" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
-                      >
-                        Co-Primary (E2)
-                      </button>
+                      {["E1", "E2", "E5", "E13"].map((id) => (
+                        <button 
+                          key={id}
+                          onClick={() => setSelectedLineage(id as any)}
+                          className={cn(
+                            "px-4 py-1.5 rounded-md text-xs font-semibold transition-all", 
+                            selectedLineage === id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
+                          )}
+                        >
+                          {id}
+                        </button>
+                      ))}
                    </div>
                 </div>
 
@@ -314,20 +358,13 @@ export default function SapAnalysis() {
                       <motion.div initial={{ height: 0 }} animate={{ height: 32 }} className="w-[2px] bg-black/10" />
 
                       {/* Leaf Nodes */}
-                      <div className={cn("grid gap-4 w-full", selectedLineage === "E1" ? "grid-cols-3" : "grid-cols-3")}>
-                         {selectedLineage === "E1" ? (
-                           ["Randomization Date", "Death Date", "Last Known Alive"].map((label, i) => (
-                             <motion.div 
-                                key={i}
-                                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 + (i * 0.2) }}
-                                className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-center"
-                             >
-                                <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
-                                <div className="text-sm font-semibold text-emerald-900">{label}</div>
-                             </motion.div>
-                           ))
-                         ) : (
-                           ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"].map((label, i) => (
+                      <div className={cn("grid gap-4 w-full", selectedLineage === "E2" ? "grid-cols-3" : "grid-cols-3")}>
+                         {(
+                           selectedLineage === "E1" ? ["Randomization Date", "Death Date", "Last Known Alive"] :
+                           selectedLineage === "E2" ? ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] :
+                           selectedLineage === "E5" ? ["Progression Date", "Last Assessment", "Death Date"] :
+                           ["Item 29", "Item 30"]
+                         ).map((label, i) => (
                              <motion.div 
                                 key={i}
                                 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 + (i * 0.1) }}
@@ -336,8 +373,7 @@ export default function SapAnalysis() {
                                 <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-1">Source Data</div>
                                 <div className="text-sm font-semibold text-emerald-900">{label}</div>
                              </motion.div>
-                           ))
-                         )}
+                         ))}
                       </div>
                    </div>
                 </div>
@@ -358,29 +394,33 @@ export default function SapAnalysis() {
                       <p className="text-[#86868b] text-sm mt-1">
                         {selectedLineage === "E1" 
                           ? "E1 (Primary) relies on standard time-to-event derivation (Survival Days)." 
-                          : "E2 (Co-Primary) relies on a 4-level derivation chain (LREM Score)."
+                          : selectedLineage === "E2"
+                          ? "E2 (Co-Primary) relies on a 4-level derivation chain (LREM Score)."
+                          : selectedLineage === "E5"
+                          ? "E5 (Secondary) relies on independent radiology review (RECIST 1.1)."
+                          : "E13 (Secondary) relies on mixed models for repeated measures (MMRM)."
                         }
                       </p>
                    </div>
                    <div className="flex bg-gray-100 p-1 rounded-lg">
-                      <button 
-                        onClick={() => setSelectedLineage("E1")}
-                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E1" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
-                      >
-                        Primary (E1)
-                      </button>
-                      <button 
-                        onClick={() => setSelectedLineage("E2")}
-                        className={cn("px-4 py-1.5 rounded-md text-xs font-semibold transition-all", selectedLineage === "E2" ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black")}
-                      >
-                        Co-Primary (E2)
-                      </button>
+                      {["E1", "E2", "E5", "E13"].map((id) => (
+                        <button 
+                          key={id}
+                          onClick={() => setSelectedLineage(id as any)}
+                          className={cn(
+                            "px-4 py-1.5 rounded-md text-xs font-semibold transition-all", 
+                            selectedLineage === id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
+                          )}
+                        >
+                          {id}
+                        </button>
+                      ))}
                    </div>
                 </div>
 
                 <div className="bg-[#F9F9FA] rounded-3xl p-8 border border-black/[0.04]">
                    <div className="flex flex-col gap-2">
-                      {(selectedLineage === "E1" ? COMPLEX_DERIVATION_E1 : COMPLEX_DERIVATION_E2).map((layer, i) => (
+                      {complexDerivation.map((layer, i) => (
                          <div key={i} className="flex items-center">
                             <div className="w-32 text-right pr-6 py-4">
                                <span className="text-xs font-bold text-black/40 uppercase tracking-wider">{layer.stage}</span>
@@ -415,10 +455,18 @@ export default function SapAnalysis() {
                         <>
                           <strong>Insight:</strong> Censor Date derivation logic varies based on outcome: Lost to Follow-up (Last Known Alive) vs. Study End (Cutoff Date) vs. Withdrawal (Withdrawal Date).
                         </>
-                      ) : (
+                      ) : selectedLineage === "E2" ? (
                         <>
                           <strong>Insight:</strong> If any single baseline lab value (Neutrophils, Lymphocytes, etc.) is missing, 
                           the Risk Score cannot be calculated, excluding the patient from the Co-Primary analysis.
+                        </>
+                      ) : selectedLineage === "E5" ? (
+                        <>
+                          <strong>Insight:</strong> Progression Date must be the earliest of: objective radiological progression or death from any cause. Requires adjudication.
+                        </>
+                      ) : (
+                        <>
+                          <strong>Insight:</strong> Missing data handling in MMRM assumes missing at random (MAR). Patterns of missingness in QLQ-C30 should be monitored.
                         </>
                       )}
                    </p>
