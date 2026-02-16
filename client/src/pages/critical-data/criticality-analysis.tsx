@@ -213,42 +213,84 @@ export default function CriticalityAnalysis() {
                           {mappedItems.map((item: any, i: number) => (
                               <AppleCard key={i} className="p-5 hover:shadow-md transition-all group">
                                   <div className="flex justify-between items-start">
-                                      <div className="flex gap-4">
+                                      <div className="flex gap-4 w-full">
                                           <div className={cn(
                                               "h-10 w-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0",
                                               item.criticality_tier === 1 ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-600"
                                           )}>
                                               T{item.criticality_tier}
                                           </div>
-                                          <div>
-                                              <h4 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h4>
-                                              <div className="flex flex-wrap gap-2 mt-2">
-                                                  {item.estimands_impacted.map((est: string) => (
-                                                      <span key={est} className="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded font-medium">
-                                                          Impacts {est}
-                                                      </span>
-                                                  ))}
+                                          <div className="flex-1">
+                                              <div className="flex justify-between items-start">
+                                                  <div>
+                                                      <h4 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h4>
+                                                      <div className="flex flex-wrap gap-2 mt-2">
+                                                          {item.estimands_impacted.map((est: string) => (
+                                                              <span key={est} className="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded font-medium">
+                                                                  Impacts {est}
+                                                              </span>
+                                                          ))}
+                                                      </div>
+                                                  </div>
+                                                  <div className="flex items-center justify-end gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full mb-2">
+                                                      <ShieldCheck className="h-3 w-3" /> Auto-Mapped
+                                                  </div>
+                                              </div>
+                                              
+                                              {/* Enhanced Details Section */}
+                                              <div className="mt-4 space-y-3 pt-3 border-t border-dashed border-gray-200">
+                                                  <div className="grid grid-cols-2 gap-4">
+                                                      <div className="text-xs text-gray-600">
+                                                          <div className="font-semibold text-gray-900 mb-1">Risk if Erroneous</div>
+                                                          <div className="leading-relaxed opacity-90">{item.risk_if_erroneous}</div>
+                                                      </div>
+                                                      <div className="text-xs text-gray-600">
+                                                          <div className="font-semibold text-gray-900 mb-1">Collection Guidance</div>
+                                                          <div className="leading-relaxed bg-blue-50/50 px-2 py-1.5 rounded border border-blue-100/50 text-blue-900/80">
+                                                              {item.data_collection_guidance}
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+                                                  {item.lineage_path && (
+                                                    <div>
+                                                        <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Lineage Trace</div>
+                                                        <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-gray-600 font-medium">
+                                                            {item.lineage_path.map((node: string, idx: number) => (
+                                                                <div key={idx} className="flex items-center">
+                                                                    {idx > 0 && <ArrowRight className="h-3 w-3 text-gray-300 mx-1" />}
+                                                                    <span className={cn(
+                                                                        "px-1.5 py-0.5 rounded border shadow-sm", 
+                                                                        node.includes("(E") ? "bg-slate-900 text-white border-slate-900" :
+                                                                        node.includes("(M") ? "bg-blue-50 text-blue-700 border-blue-100" :
+                                                                        node.includes("(POP") ? "bg-emerald-50 text-emerald-700 border-emerald-100" :
+                                                                        "bg-white text-gray-700 border-gray-200"
+                                                                    )}>
+                                                                        {node.replace(/^[→\s]+/, "")}
+                                                                    </span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                  )}
                                               </div>
                                           </div>
                                       </div>
-                                      <div className="text-right">
-                                         <div className="flex items-center justify-end gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full mb-2">
-                                             <ShieldCheck className="h-3 w-3" /> Auto-Mapped
-                                         </div>
-                                      </div>
                                   </div>
                                   
-                                  <div className="mt-4 pt-4 border-t border-black/5 flex items-center gap-4">
-                                      <div className="text-[10px] text-gray-500 font-medium">Source Hint: <span className="font-mono text-gray-800">{item.source_hint_id}</span></div>
+                                  <div className="mt-4 pt-4 border-t border-black/5 flex items-center gap-4 bg-gray-50/50 -mx-5 -mb-5 p-4 rounded-b-2xl">
+                                      <div className="text-[10px] text-gray-500 font-medium flex items-center gap-2">
+                                          Source Hint: <span className="font-mono text-gray-800 bg-white px-1.5 py-0.5 rounded border border-gray-200">{item.source_hint_id}</span>
+                                      </div>
                                       <ArrowRight className="h-3 w-3 text-gray-300" />
-                                      <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center justify-between border border-black/[0.03]">
+                                      <div className="flex-1 flex items-center justify-between">
                                           <div className="flex items-center gap-2">
                                               <Database className="h-3.5 w-3.5 text-blue-500" />
                                               <span className="text-xs font-medium text-gray-900">{item.mapped_crf_fields[0].formName}</span>
                                               <span className="text-[10px] text-gray-400">/</span>
-                                              <span className="text-xs font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded">{item.mapped_crf_fields[0].domain}.{item.mapped_crf_fields[0].variableName}</span>
+                                              <span className="text-xs font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">{item.mapped_crf_fields[0].domain}.{item.mapped_crf_fields[0].variableName}</span>
                                           </div>
-                                          <div className="text-[10px] text-gray-500">{item.mapped_crf_fields[0].mapping_confidence} Confidence</div>
+                                          <div className="text-[10px] text-gray-500 uppercase tracking-wide font-medium">{item.mapped_crf_fields[0].mapping_confidence} Confidence</div>
                                       </div>
                                   </div>
                               </AppleCard>
