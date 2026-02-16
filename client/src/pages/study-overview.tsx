@@ -20,9 +20,9 @@ import { motion } from "framer-motion";
 
 // Mock Data
 const kriMetrics = [
-  { id: "KRI-001", label: "SAE Reporting Latency", value: "2.4 days", target: "< 24h", status: "warning", trend: "up" },
-  { id: "KRI-002", label: "Protocol Deviations", value: "4.2%", target: "< 5%", status: "good", trend: "stable" },
-  { id: "KRI-003", label: "Query Response Time", value: "12 days", target: "< 14d", status: "good", trend: "down" },
+  { id: "KRI-001", label: "Critical Data Latency", value: "2.4 days", target: "< 24h", status: "warning", trend: "up" },
+  { id: "KRI-002", label: "Critical Data Queries", value: "15 Open", target: "< 10", status: "warning", trend: "up" },
+  { id: "KRI-003", label: "Protocol Deviations", value: "4.2%", target: "< 5%", status: "good", trend: "stable" },
   { id: "KRI-004", label: "Lost to Follow-up", value: "1.8%", target: "< 2%", status: "warning", trend: "up" }
 ];
 

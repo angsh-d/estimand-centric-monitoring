@@ -32,11 +32,11 @@ const ESTIMANDS = [
     status: "warning", // good, warning, critical
     healthScore: 92,
     components: [
-      { id: "c1", name: "MADRS Assessment", status: "good", type: "Data Source" },
-      { id: "c2", name: "Baseline Definition", status: "good", type: "Derivation" },
-      { id: "c3", name: "Visit Windows", status: "warning", count: 3, type: "Logic" },
-      { id: "c4", name: "Rescue Medication", status: "critical", count: 1, type: "Intercurrent Event" },
-      { id: "c5", name: "Treatment Exposure", status: "good", type: "Variable" }
+      { id: "c1", name: "MADRS Assessment", status: "good", type: "Data Source", isCritical: true },
+      { id: "c2", name: "Baseline Definition", status: "good", type: "Derivation", isCritical: true },
+      { id: "c3", name: "Visit Windows", status: "warning", count: 3, type: "Logic", isCritical: false },
+      { id: "c4", name: "Rescue Medication", status: "critical", count: 1, type: "Intercurrent Event", isCritical: true },
+      { id: "c5", name: "Treatment Exposure", status: "good", type: "Variable", isCritical: false }
     ]
   },
   {
@@ -46,9 +46,9 @@ const ESTIMANDS = [
     status: "good",
     healthScore: 98,
     components: [
-      { id: "c6", name: "MADRS Assessment", status: "good", type: "Data Source" }, // Shared component
-      { id: "c7", name: "Response Logic", status: "good", type: "Derivation" },
-      { id: "c8", name: "Dropouts", status: "good", type: "Population" }
+      { id: "c6", name: "MADRS Assessment", status: "good", type: "Data Source", isCritical: true }, // Shared component
+      { id: "c7", name: "Response Logic", status: "good", type: "Derivation", isCritical: false },
+      { id: "c8", name: "Dropouts", status: "good", type: "Population", isCritical: false }
     ]
   }
 ];
@@ -59,14 +59,16 @@ const NARRATIVES = {
     synthesis: "Subject 109-004 at Charité Berlin has a 2-day date discrepancy between EDC and Safety Narrative for a concomitant medication (Lorazepam).",
     impact: "This creates ambiguity in the Intercurrent Event classification. If the earlier date (Jan 12) is correct, this qualifies as 'Rescue Medication' and triggers a composite failure for the Primary Estimand. If the later date (Jan 14) is correct, it remains a standard concomitant med with no estimand impact.",
     recommendation: "Query site 109 immediately to reconcile start dates. Prioritize EDC correction if Safety Narrative is source-verified.",
-    signals: ["SIG-991", "SIG-992"]
+    signals: ["SIG-991", "SIG-992"],
+    criticalDataContext: "Lorazepam Start Date (CM.CMSTDTC) is a Tier 1 Critical Data Element."
   },
   "c3": {
     title: "Visit Window Compliance Drift",
     synthesis: "Emerging trend at Site 331 (Univ. of Tokyo) showing systematic late scheduling for Week 4 visits.",
     impact: "3 subjects have fallen outside the ±3 day window. While currently handled by the MMRM model, continued drift risks pushing subjects into 'Missing Data' classification for the primary endpoint at Week 8 if patterns persist.",
     recommendation: "Contact Site Monitor to retrain study coordinator on scheduling windows. No data exclusions required yet.",
-    signals: ["SIG-801", "SIG-802", "SIG-803"]
+    signals: ["SIG-801", "SIG-802", "SIG-803"],
+    criticalDataContext: "Visit Date (SV.SVSTDTC) impacts analysis population assignment."
   }
 };
 
@@ -79,7 +81,8 @@ const SIGNAL_QUEUE = [
     subject: "109-004",
     severity: "critical",
     age: "2h",
-    status: "Open"
+    status: "Open",
+    isCriticalData: true
   },
   {
     id: "SIG-801",
@@ -89,7 +92,8 @@ const SIGNAL_QUEUE = [
     subject: "331-012",
     severity: "warning",
     age: "1d",
-    status: "Investigating"
+    status: "Investigating",
+    isCriticalData: true
   },
   {
     id: "SIG-802",
@@ -99,7 +103,8 @@ const SIGNAL_QUEUE = [
     subject: "331-015",
     severity: "warning",
     age: "1d",
-    status: "Open"
+    status: "Open",
+    isCriticalData: true
   },
   {
     id: "SIG-771",
@@ -109,7 +114,8 @@ const SIGNAL_QUEUE = [
     subject: "402-011",
     severity: "critical",
     age: "5h",
-    status: "Open"
+    status: "Open",
+    isCriticalData: true
   },
   {
     id: "SIG-605",
@@ -119,7 +125,8 @@ const SIGNAL_QUEUE = [
     subject: "N/A",
     severity: "info",
     age: "3d",
-    status: "Open"
+    status: "Open",
+    isCriticalData: false
   }
 ];
 
@@ -237,9 +244,14 @@ export default function SignalDashboard() {
                                   )}
                                </div>
                                <div className="mt-3 text-center">
-                                  <div className={cn("text-[10px] font-semibold transition-colors", 
+                                  <div className={cn("text-[10px] font-semibold transition-colors flex flex-col items-center gap-0.5", 
                                      selectedComponent === comp.id ? "text-black" : "text-black/60"
-                                  )}>{comp.name}</div>
+                                  )}>
+                                    {comp.name}
+                                    {comp.isCritical && (
+                                      <span className="text-[8px] font-bold text-emerald-600 bg-emerald-50 px-1 rounded border border-emerald-100">CDE</span>
+                                    )}
+                                  </div>
                                   <div className="text-[9px] text-black/30 font-medium opacity-0 group-hover/node:opacity-100 transition-opacity absolute w-24 left-1/2 -translate-x-1/2 mt-0.5">
                                      {comp.type}
                                   </div>
@@ -295,9 +307,15 @@ export default function SignalDashboard() {
                            <h4 className="text-xs font-bold text-black/40 uppercase tracking-wider mb-2 flex items-center gap-2">
                               <Target className="h-3 w-3" /> Estimand Impact
                            </h4>
-                           <p className="text-sm text-black/70 leading-relaxed">
+                           <p className="text-sm text-black/70 leading-relaxed mb-3">
                               {activeNarrative.impact}
                            </p>
+                           {activeNarrative.criticalDataContext && (
+                             <div className="flex items-start gap-2 text-[11px] bg-emerald-50/50 p-2 rounded-lg border border-emerald-100 text-emerald-800">
+                               <ShieldAlert className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                               <span className="font-medium">{activeNarrative.criticalDataContext}</span>
+                             </div>
+                           )}
                         </div>
 
                         <div>
@@ -381,6 +399,11 @@ export default function SignalDashboard() {
                                    signal.severity === 'critical' ? "text-black" : "text-black/60"
                                 )}>{signal.category}</span>
                              </div>
+                             {signal.isCriticalData && (
+                               <div className="ml-3.5 mt-1 text-[9px] font-bold text-emerald-600 flex items-center gap-1">
+                                 <Zap className="h-2.5 w-2.5" /> Critical Data
+                               </div>
+                             )}
                           </div>
                           <div>
                              <div className="text-sm font-medium text-black mb-0.5">{signal.title}</div>
