@@ -285,10 +285,57 @@ const MockTumorForm = ({ mappings }: { mappings: any[] }) => {
 };
 
 
+const MockQSForm = ({ mappings }: { mappings: any[] }) => {
+  const q29Mapping = {
+    criticality_tier: 2,
+    criticality_description: "Q29: Overall Health",
+    risk_if_erroneous: "Source for PRO Global Health Status endpoint (E13).",
+    estimands_impacted: ["E13"]
+  };
+  const q30Mapping = {
+    criticality_tier: 2,
+    criticality_description: "Q30: Quality of Life",
+    risk_if_erroneous: "Source for PRO Global Health Status endpoint (E13).",
+    estimands_impacted: ["E13"]
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="border-b border-gray-200 pb-2 mb-4">
+         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">QS - EORTC QLQ-C30</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <CRFField label="Visit" variable="VISIT" value="Week 6" />
+        <CRFField label="Date of Assessment" variable="QSDTC" value="2024-03-10" />
+      </div>
+
+      <div className="bg-gray-50/50 p-4 rounded-lg border border-gray-100 space-y-4">
+        <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Global Health Status / QoL</div>
+        
+        <div className="grid grid-cols-1 gap-4">
+          <CRFField 
+            label="29. How would you rate your overall health during the past week?" 
+            variable="QS.QLQ30_29" 
+            value="6" 
+            mappedInfo={q29Mapping}
+          />
+          <CRFField 
+            label="30. How would you rate your overall quality of life during the past week?" 
+            variable="QS.QLQ30_30" 
+            value="5" 
+            mappedInfo={q30Mapping}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function CriticalityAnalysis() {
   const [step, setStep] = useState("review-criticality");
   const [viewMode, setViewMode] = useState<"list" | "annotated">("annotated");
-  const [activeForm, setActiveForm] = useState<"DS" | "LB" | "TU">("DS");
+  const [activeForm, setActiveForm] = useState<"DS" | "LB" | "TU" | "QS">("DS");
   const [currentUser, setCurrentUser] = useState<"study-director" | "sme">("study-director");
   const [validationStatus, setValidationStatus] = useState("pending");
   const [smeAssigned, setSmeAssigned] = useState(false);
@@ -508,7 +555,8 @@ export default function CriticalityAnalysis() {
                         {[
                           { id: "DS", label: "Disposition (Survival)", criticalCount: 1 },
                           { id: "LB", label: "Laboratory", criticalCount: 2 },
-                          { id: "TU", label: "Tumor Assessment", criticalCount: 1 }
+                          { id: "TU", label: "Tumor Assessment", criticalCount: 1 },
+                          { id: "QS", label: "PRO (EORTC QLQ-C30)", criticalCount: 2 }
                         ].map((form) => (
                            <button
                              key={form.id}
@@ -596,6 +644,7 @@ export default function CriticalityAnalysis() {
                         {activeForm === "DS" && <MockDispositionForm mappings={mappedItems} />}
                         {activeForm === "LB" && <MockLabForm mappings={mappedItems} />}
                         {activeForm === "TU" && <MockTumorForm mappings={mappedItems} />}
+                        {activeForm === "QS" && <MockQSForm mappings={mappedItems} />}
                      </div>
                   </div>
 
@@ -630,6 +679,11 @@ export default function CriticalityAnalysis() {
                               {activeForm === "TU" && (
                                 <p className="text-xs text-slate-600 leading-relaxed">
                                   <span className="font-semibold text-slate-900">Scan Date</span> determines the Progression-Free Survival (PFS) event time. It's a key secondary endpoint derived directly from this date.
+                                </p>
+                              )}
+                              {activeForm === "QS" && (
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                  <span className="font-semibold text-slate-900">Q29 & Q30</span> (Overall Health & QoL) are the direct source for the PRO Global Health Status endpoint. Missing data here cannot be imputed easily.
                                 </p>
                               )}
                            </div>
