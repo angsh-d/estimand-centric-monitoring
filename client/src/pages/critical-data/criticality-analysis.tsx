@@ -345,8 +345,86 @@ export default function CriticalityAnalysis() {
              <div className="max-w-6xl mx-auto">
                 <AnimatePresence mode="wait">
 
+            {/* --- SME Validation View --- */}
+            {currentUser === "sme" && (
+                <motion.div 
+                    key="sme-view"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-4xl mx-auto pt-8"
+                >
+                    <div className="mb-10 text-center">
+                        <h1 className="text-3xl font-semibold tracking-tight text-black mb-2">Model Validation</h1>
+                        <p className="text-gray-500">Review and approve criticality definitions for XYZ-301.</p>
+                    </div>
+
+                    <div className="grid grid-cols-12 gap-8">
+                        <div className="col-span-8 space-y-6">
+                            {/* Review Mapped Items */}
+                            {mappedItems.map((item: any, i: number) => (
+                                <AppleCard key={i} className="p-6">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex gap-3">
+                                            <div className="h-8 w-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center font-bold text-xs shrink-0">
+                                                T{item.criticality_tier}
+                                            </div>
+                                            <div>
+                                                <h3 className="font-semibold text-sm text-[#1d1d1f]">{item.criticality_description}</h3>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded font-mono">{item.source_hint_id}</span>
+                                                    <span className="text-[10px] text-gray-400">→</span>
+                                                    {item.mapped_crf_fields.map((f: any) => (
+                                                        <span key={f.variableName} className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 px-1.5 py-0.5 rounded font-mono">
+                                                            {f.domain}.{f.variableName}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                                            <ShieldCheck className="h-3 w-3" />
+                                            Validated Match
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50/50 rounded-lg p-3 text-xs text-gray-600 leading-relaxed border border-black/[0.03]">
+                                        <span className="font-semibold text-gray-900">Rationale:</span> {item.mapped_crf_fields[0].mapping_rationale}
+                                    </div>
+                                </AppleCard>
+                            ))}
+                        </div>
+
+                        <div className="col-span-4">
+                             <AppleCard className="p-6 h-full flex flex-col sticky top-4">
+                                <h3 className="text-sm font-semibold text-gray-900 mb-2">Approval Action</h3>
+                                <p className="text-xs text-gray-500 mb-8 leading-relaxed">
+                                    Certify alignment with SAP and Protocol.
+                                </p>
+                                
+                                <div className="mt-auto space-y-3">
+                                    {validationStatus === "approved" ? (
+                                        <div className="p-4 bg-[#34C759]/10 text-[#34C759] rounded-xl text-center font-medium text-sm flex flex-col items-center gap-2">
+                                            <CheckCircle2 className="h-6 w-6" />
+                                            Model Approved
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <Button className="w-full bg-[#1d1d1f] hover:bg-[#1d1d1f]/90 text-white shadow-lg rounded-xl h-11 text-sm font-medium" onClick={handleSMEApprove}>
+                                                Approve Model
+                                            </Button>
+                                            <Button variant="ghost" className="w-full text-gray-500 hover:text-gray-900 rounded-xl h-11 text-sm">
+                                                Request Changes
+                                            </Button>
+                                        </>
+                                    )}
+                                </div>
+                             </AppleCard>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+
             {/* --- ANNOTATED CRF VIEW (NEW) --- */}
-            {viewMode === "annotated" && step !== "complete" && (
+            {viewMode === "annotated" && step !== "complete" && currentUser !== "sme" && (
                <motion.div 
                  key="annotated-view"
                  initial={{ opacity: 0 }}
@@ -498,7 +576,7 @@ export default function CriticalityAnalysis() {
             )}
 
             {/* --- LIST VIEW (Original) --- */}
-            {viewMode === "list" && step !== "complete" && (
+            {viewMode === "list" && step !== "complete" && currentUser !== "sme" && (
                <motion.div key="list-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col">
                   {/* ... (Existing List View Content) ... */}
                   
