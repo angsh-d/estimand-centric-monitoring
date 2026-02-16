@@ -221,7 +221,6 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
   };
 
   const columns = [[], [], [], [], []]; // 0: Events, 1: Source Vars, 2: Derived/Pop, 3: Methods, 4: Estimands
-  const nodePositions = new Map(); // Store rough positions for edge drawing
   
   graph.nodes.forEach(node => {
     const colIndex = getColumn(node);
@@ -229,18 +228,31 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
     columns[colIndex].push(node);
   });
 
-  // Helper to calculate rough coordinates
+  // Coordinate system for SVG (1000 x 600)
+  // Matches the container's relative layout
+  const SVG_WIDTH = 1000;
+  const SVG_HEIGHT = 600;
+
+  // Helper to calculate coordinates in the 1000x600 space
   const getCoordinates = (nodeId: string) => {
     // Find column and index
     for (let c = 0; c < columns.length; c++) {
       // @ts-ignore
       const index = columns[c].findIndex(n => n.id === nodeId);
       if (index !== -1) {
-        // Approximate: Column width ~20%, Card height ~80px + gap
-        // We'll use percentages for X, pixels for Y roughly
-        return { x: 10 + (c * 20) + 10, y: 100 + (index * 90) + 40 }; 
-        // x: Start + ColWidth * c + HalfColWidth
-        // y: HeaderOffset + CardHeight * index + HalfCardHeight
+        // Map 5 columns to 1000 width
+        // Col centers: 10%, 30%, 50%, 70%, 90%
+        const x = (0.1 + (c * 0.2)) * SVG_WIDTH;
+        
+        // Map rows to height (fixed pixels in CSS, so we match them here)
+        // HeaderOffset (40px) + Padded Top (16px in col) -> Start at ~100px?
+        // Actually, CSS says: pt-16 (64px) + gap-6 (24px)
+        // First card center: 64 + 40 (half height) = 104
+        // Gap is 24, Card is 80. Stride = 104.
+        // Let's approximate to match the visual center
+        const y = 100 + (index * 90) + 40;
+        
+        return { x, y };
       }
     }
     return null;
@@ -294,7 +306,11 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
          </div>
          
          {/* SVG Edges Layer */}
-         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+         <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none z-0"
+            viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
+            preserveAspectRatio="none"
+         >
             <defs>
               <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto" fill="#94a3b8">
                 <polygon points="0 0, 6 2, 0 4" />
@@ -309,9 +325,9 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
                
                if (!start || !end) return null;
 
-               const x1 = `${start.x}%`;
+               const x1 = start.x;
                const y1 = start.y;
-               const x2 = `${end.x}%`;
+               const x2 = end.x;
                const y2 = end.y;
                
                const isActive = getEdgeStatus(edge.from, edge.to) === "active";
@@ -320,7 +336,7 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
                return (
                  <path 
                    key={i}
-                   d={`M ${x1} ${y1} C ${parseFloat(x1)+10}% ${y1}, ${parseFloat(x2)-10}% ${y2}, ${x2} ${y2}`}
+                   d={`M ${x1} ${y1} C ${x1 + 100} ${y1}, ${x2 - 100} ${y2}, ${x2} ${y2}`}
                    fill="none"
                    stroke={isActive ? "#3b82f6" : "#cbd5e1"}
                    strokeWidth={isActive ? "2" : "1.5"}
