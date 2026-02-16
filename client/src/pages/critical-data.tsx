@@ -219,12 +219,30 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
   };
 
   const columns = [[], [], [], [], []]; // 0: Events, 1: Source Vars, 2: Derived/Pop, 3: Methods, 4: Estimands
+  const nodePositions = new Map(); // Store rough positions for edge drawing
   
   graph.nodes.forEach(node => {
     const colIndex = getColumn(node);
     // @ts-ignore
     columns[colIndex].push(node);
   });
+
+  // Helper to calculate rough coordinates
+  const getCoordinates = (nodeId: string) => {
+    // Find column and index
+    for (let c = 0; c < columns.length; c++) {
+      // @ts-ignore
+      const index = columns[c].findIndex(n => n.id === nodeId);
+      if (index !== -1) {
+        // Approximate: Column width ~20%, Card height ~80px + gap
+        // We'll use percentages for X, pixels for Y roughly
+        return { x: 10 + (c * 20) + 10, y: 100 + (index * 90) + 40 }; 
+        // x: Start + ColWidth * c + HalfColWidth
+        // y: HeaderOffset + CardHeight * index + HalfCardHeight
+      }
+    }
+    return null;
+  };
 
   return (
     <div className="h-[600px] bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden relative flex">
@@ -237,27 +255,80 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
           <div className="bg-slate-50/50" />
        </div>
        
+       {/* SVG Edges Layer */}
+       <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <defs>
+            <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto" fill="#cbd5e1">
+              <polygon points="0 0, 6 2, 0 4" />
+            </marker>
+          </defs>
+          {graph.edges.map((edge, i) => {
+             const start = getCoordinates(edge.to); // Reverse direction for flow: Source -> Target
+             const end = getCoordinates(edge.from); // But graph edges are "targeted_by", "derived_from" (Backwards)
+             
+             // Let's check relationship direction. 
+             // E1 -> M1 (targeted_by) => Flow is M1 -> E1? No, E1 is the goal.
+             // Lineage flows: Source -> Variable -> Method -> Estimand.
+             // Edge: E1 (Estimand) -> M1 (Method) [targeted_by]. So arrow should go M1 -> E1 ??
+             // Or usually DAG is drawn left-to-right: Source(Left) -> Estimand(Right).
+             
+             // Let's normalize flow to Left->Right.
+             // Col 0 (Events) -> ... -> Col 4 (Estimands).
+             
+             // If edge is "derived_from" (V4 -> V1): V1 is source (Left), V4 is derived (Right).
+             // Arrow: V1 -> V4.
+             // Edge data: from: V4, to: V1, rel: derived_from_start_date.
+             // So 'to' is Source (Left), 'from' is Target (Right).
+             
+             // If edge is "targeted_by" (E1 -> M1): M1 is Method (Left of Est), E1 is Estimand (Right).
+             // Edge data: from: E1, to: M1. 'to' is Left, 'from' is Right.
+             
+             // General rule seems to be: 'to' is upstream (Left), 'from' is downstream (Right).
+             // So we draw line from 'to' -> 'from'.
+             
+             if (!start || !end) return null;
+
+             const x1 = `${start.x}%`;
+             const y1 = start.y;
+             const x2 = `${end.x}%`;
+             const y2 = end.y;
+
+             return (
+               <path 
+                 key={i}
+                 d={`M ${x1} ${y1} C ${parseFloat(x1)+10}% ${y1}, ${parseFloat(x2)-10}% ${y2}, ${x2} ${y2}`}
+                 fill="none"
+                 stroke="#cbd5e1"
+                 strokeWidth="1.5"
+                 markerEnd="url(#arrowhead)"
+                 className="opacity-60"
+               />
+             );
+          })}
+       </svg>
+       
        {/* Columns */}
        {columns.map((col, colIndex) => (
-         <div key={colIndex} className="flex-1 flex flex-col justify-center gap-4 p-4 relative z-10">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-4 absolute top-4 left-0 right-0">
+         <div key={colIndex} className="flex-1 flex flex-col justify-start gap-4 p-4 relative z-10 pt-16">
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center mb-4 absolute top-4 left-0 right-0 h-8 flex items-center justify-center bg-slate-50/80 backdrop-blur-sm z-20 border-b border-slate-100">
                {colIndex === 0 ? "Events / Deviations" :
                 colIndex === 1 ? "Source Variables" :
                 colIndex === 2 ? "Derived / Populations" :
                 colIndex === 3 ? "Analysis Methods" :
                 "Estimands"}
             </div>
-            <div className="flex flex-col gap-3 mt-8 overflow-y-auto max-h-full py-2">
+            {/* Added gap at top for header */}
+            <div className="flex flex-col gap-6"> 
                {col.map((node: any) => (
                  <div key={node.id} className={cn(
-                    "p-3 rounded-xl border shadow-sm text-xs transition-all hover:scale-105 cursor-default relative group",
+                    "p-3 rounded-xl border shadow-sm text-xs transition-all hover:scale-105 cursor-default relative group z-10 h-[80px] flex flex-col justify-center",
                     node.type === "ESTIMAND" ? "bg-slate-900 text-white border-slate-900" :
                     node.type === "METHOD" ? "bg-white border-blue-200 text-slate-900" :
                     node.type === "POPULATION" ? "bg-emerald-50 border-emerald-100 text-emerald-800" :
                     "bg-white border-slate-200 text-slate-600"
                  )}>
                     <div className="font-bold mb-0.5">{node.id}</div>
-                    <div className="leading-tight opacity-90">{node.label}</div>
+                    <div className="leading-tight opacity-90 line-clamp-2">{node.label}</div>
                     
                     {/* Tooltip for attributes */}
                     <div className="absolute left-full top-0 ml-2 w-48 bg-slate-800 text-white p-2 rounded-lg text-[10px] opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl transition-opacity">
@@ -270,17 +341,10 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
             </div>
          </div>
        ))}
-       
-       {/* Edges - SVG Overlay (Simplified: just decorative connections for mockup) */}
-       <svg className="absolute inset-0 pointer-events-none opacity-20">
-          {/* Note: In a real implementation, we'd calculate coordinates. 
-              Here we just hint at connections with a background pattern or we skip complex edge drawing 
-              for this rapid mockup as precise coordinate calculation without a library is verbose. 
-          */}
-       </svg>
     </div>
   );
 };
+
 
 // Helper to extract estimands from lineage graph
 const getEstimandsFromGraph = (graph: typeof LINEAGE_GRAPH) => {
