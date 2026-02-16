@@ -152,6 +152,11 @@ const MockDispositionForm = ({ mappings }: { mappings: any[] }) => {
 const MockLabForm = ({ mappings }: { mappings: any[] }) => {
   const neutMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Neutrophils")));
   const albMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Albumin")));
+  // Create mock mappings for the other 4 if they don't exist in the JSON, sharing the same criticality logic
+  const lymphMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("Lymphocytes"))) || neutMapping;
+  const ldhMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("LDH"))) || neutMapping;
+  const ggtMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("GGT"))) || neutMapping;
+  const astMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.mapping_rationale.includes("AST"))) || neutMapping;
 
   return (
     <div className="space-y-6">
@@ -185,6 +190,62 @@ const MockLabForm = ({ mappings }: { mappings: any[] }) => {
             mappedInfo={albMapping}
          />
          <CRFField label="Unit" variable="LBORRESU" value="g/L" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 3
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="Lymphocytes" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="1.2" 
+            mappedInfo={lymphMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="10^9/L" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 4
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="LDH" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="240" 
+            mappedInfo={ldhMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="U/L" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 5
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="GGT" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="45" 
+            mappedInfo={ggtMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="U/L" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200">
+         <div className="col-span-3 bg-gray-50 p-2 rounded text-xs font-medium text-gray-500 text-center mb-2">
+            Record 6
+         </div>
+         <CRFField label="Test Name" variable="LBTEST" value="AST" />
+         <CRFField 
+            label="Result" 
+            variable="LBORRES" 
+            value="32" 
+            mappedInfo={astMapping}
+         />
+         <CRFField label="Unit" variable="LBORRESU" value="U/L" />
       </div>
     </div>
   );
