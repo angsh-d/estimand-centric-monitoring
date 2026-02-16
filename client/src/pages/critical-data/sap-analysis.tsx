@@ -116,22 +116,53 @@ const COMPLEX_DERIVATION_E13 = [
 
 export default function SapAnalysis() {
   const [step, setStep] = useState(0);
-  const [selectedLineage, setSelectedLineage] = useState<"E1" | "E2" | "E5" | "E13">("E1");
+  const [selectedLineage, setSelectedLineage] = useState<string>("E1");
 
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => Math.max(0, s - 1));
 
-  const lineagePath = 
-    selectedLineage === "E1" ? LINEAGE_PATH_E1 : 
-    selectedLineage === "E2" ? LINEAGE_PATH_E2 :
-    selectedLineage === "E5" ? LINEAGE_PATH_E5 :
-    LINEAGE_PATH_E13;
+  // Helper to get lineage path based on selection
+  const getLineagePath = (id: string) => {
+    switch(id) {
+      case "E1": return LINEAGE_PATH_E1;
+      case "E2": return LINEAGE_PATH_E2;
+      case "E5": return LINEAGE_PATH_E5;
+      case "E13": return LINEAGE_PATH_E13;
+      // Fallback for E3, E4 or others to E1 structure but with updated labels if needed
+      // For now, we'll map E3/E4 to a generic structure or reuse E1 as they are similar OS endpoints
+      case "E3": return [
+        { id: "E3", label: "Secondary Estimand (OS PD-L1>=50%)", type: "estimand" },
+        { id: "M1", label: "Cox PH Model", type: "method" },
+        { id: "V9", label: "AVAL_OS (Survival Days)", type: "derived" },
+        { id: "V7", label: "Death Date", type: "source" },
+        { id: "V8", label: "Last Known Alive", type: "source" },
+        { id: "V1", label: "Rand Date", type: "source" }
+      ];
+      case "E4": return [
+         { id: "E4", label: "Secondary Estimand (OS PD-L1>=50% LREM)", type: "estimand" },
+         { id: "M2", label: "Cox PH Model (LREM)", type: "method" },
+         { id: "POP3", label: "LREM Population", type: "derived" },
+         { id: "V18", label: "LREM Flag (Y/N)", type: "derived" },
+         { id: "V17", label: "Risk Score", type: "derived" },
+      ];
+      default: return LINEAGE_PATH_E1;
+    }
+  };
 
-  const complexDerivation = 
-    selectedLineage === "E1" ? COMPLEX_DERIVATION_E1 : 
-    selectedLineage === "E2" ? COMPLEX_DERIVATION_E2 :
-    selectedLineage === "E5" ? COMPLEX_DERIVATION_E5 :
-    COMPLEX_DERIVATION_E13;
+  const getComplexDerivation = (id: string) => {
+    switch(id) {
+      case "E1": return COMPLEX_DERIVATION_E1;
+      case "E2": return COMPLEX_DERIVATION_E2;
+      case "E5": return COMPLEX_DERIVATION_E5;
+      case "E13": return COMPLEX_DERIVATION_E13;
+      case "E3": return COMPLEX_DERIVATION_E1; // Similar to E1
+      case "E4": return COMPLEX_DERIVATION_E2; // Similar to E2
+      default: return COMPLEX_DERIVATION_E1;
+    }
+  };
+
+  const lineagePath = getLineagePath(selectedLineage);
+  const complexDerivation = getComplexDerivation(selectedLineage);
 
   const steps = [
     { id: "intro", title: "Clinical Question" },
@@ -293,16 +324,16 @@ export default function SapAnalysis() {
                       <p className="text-[#86868b] text-sm mt-1">Tracing {selectedLineage} endpoint from definition to source data.</p>
                    </div>
                    <div className="flex bg-gray-100 p-1 rounded-lg">
-                      {["E1", "E2", "E5", "E13"].map((id) => (
+                      {ESTIMANDS_DEMO.map((est) => (
                         <button 
-                          key={id}
-                          onClick={() => setSelectedLineage(id as any)}
+                          key={est.id}
+                          onClick={() => setSelectedLineage(est.id as any)}
                           className={cn(
                             "px-4 py-1.5 rounded-md text-xs font-semibold transition-all", 
-                            selectedLineage === id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
+                            selectedLineage === est.id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
                           )}
                         >
-                          {id}
+                          {est.id}
                         </button>
                       ))}
                    </div>
@@ -365,8 +396,8 @@ export default function SapAnalysis() {
                       {/* Leaf Nodes */}
                       <div className={cn("grid gap-4 w-full", selectedLineage === "E2" ? "grid-cols-3" : "grid-cols-3")}>
                          {(
-                           selectedLineage === "E1" ? ["Randomization Date", "Death Date", "Last Known Alive"] :
-                           selectedLineage === "E2" ? ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] :
+                           selectedLineage === "E1" || selectedLineage === "E3" ? ["Randomization Date", "Death Date", "Last Known Alive"] :
+                           selectedLineage === "E2" || selectedLineage === "E4" ? ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] :
                            selectedLineage === "E5" ? ["Progression Date", "Last Assessment", "Death Date"] :
                            ["Item 29", "Item 30"]
                          ).map((label, i) => (
@@ -408,16 +439,16 @@ export default function SapAnalysis() {
                       </p>
                    </div>
                    <div className="flex bg-gray-100 p-1 rounded-lg">
-                      {["E1", "E2", "E5", "E13"].map((id) => (
+                      {ESTIMANDS_DEMO.map((est) => (
                         <button 
-                          key={id}
-                          onClick={() => setSelectedLineage(id as any)}
+                          key={est.id}
+                          onClick={() => setSelectedLineage(est.id as any)}
                           className={cn(
                             "px-4 py-1.5 rounded-md text-xs font-semibold transition-all", 
-                            selectedLineage === id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
+                            selectedLineage === est.id ? "bg-white shadow-sm text-black" : "text-gray-500 hover:text-black"
                           )}
                         >
-                          {id}
+                          {est.id}
                         </button>
                       ))}
                    </div>
