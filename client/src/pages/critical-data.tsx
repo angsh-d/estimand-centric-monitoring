@@ -282,13 +282,52 @@ const LineageGraphView = ({ graph }: { graph: typeof LINEAGE_GRAPH }) => {
   );
 };
 
+// Helper to extract estimands from lineage graph
+const getEstimandsFromGraph = (graph: typeof LINEAGE_GRAPH) => {
+  return graph.nodes
+    .filter(n => n.type === "ESTIMAND")
+    .map(n => {
+      // Find method targeting this estimand
+      const methodEdge = graph.edges.find(e => e.from === n.id && e.relationship === "targeted_by");
+      const methodNode = methodEdge ? graph.nodes.find(mn => mn.id === methodEdge.to) : null;
+      
+      // Find pop edge targeting this method (Method <-analyzed_on- POP)
+      // Wait, edges are directed: M1 -> POP1 (analyzed_on). 
+      // Let's check graph structure: 
+      // { from: "M1", to: "POP1", relationship: "analyzed_on" }
+      const popEdge = methodNode ? graph.edges.find(e => e.from === methodNode.id && e.relationship === "analyzed_on") : null;
+      const popNode = popEdge ? graph.nodes.find(pn => pn.id === popEdge.to) : null;
+
+      // Find treatment/intercurrent events? 
+      // E9 -> ICE3 (handles)
+      const iceEdges = graph.edges.filter(e => e.from === n.id && e.relationship === "handles");
+      const iceNodes = iceEdges.map(e => graph.nodes.find(in_ => in_.id === e.to)).filter(Boolean);
+
+      return {
+        id: n.id,
+        label: n.label,
+        var: n.attributes.objective_type === "PRIMARY" ? "Primary Endpoint" : "Secondary Endpoint", // Simplification as description isn't in attributes
+        pop: popNode ? popNode.label : (n.attributes.population || "ITT"),
+        trt: "Durvalumab vs SoC", // Hardcoded context from user prompt
+        algo: methodNode ? `${methodNode.label} (${methodNode.attributes.test_statistic || 'Statistical Model'})` : "Standard Analysis",
+        ic: iceNodes.map(ice => ({ ev: ice?.label, st: ice?.attributes.strategy, source: "Lineage" })),
+        sum: "Derived from Lineage Graph",
+        conf: 0.98,
+        reasoning: "Extracted directly from SAP Lineage Graph JSON.",
+        source: "lineage_graph.json"
+      };
+    });
+};
+
+const ESTS_FROM_GRAPH = getEstimandsFromGraph(LINEAGE_GRAPH);
+
 // --- Main Page ---
 
 export default function CriticalData() {
   const [step, setStep] = useState("upload-protocol");
   const [soaData, setSoaData] = useState(SOA_INIT);
   const [acrfData, setAcrfData] = useState(ACRF_INIT);
-  const [estimands, setEstimands] = useState(ESTS_INIT);
+  const [estimands, setEstimands] = useState(ESTS_FROM_GRAPH);
   
   // Transform CRITICALITY_ASSIGNMENTS to match derivationData structure if needed, or use directly
   // We'll use a new state for the new data structure
