@@ -193,7 +193,7 @@ export default function Investigations() {
                       <div className={cn(
                         "px-4 py-2.5 rounded-2xl text-[13px] leading-relaxed shadow-sm",
                         msg.role === "user" 
-                          ? "bg-blue-600 text-white rounded-br-none" 
+                          ? "bg-slate-900 text-white rounded-br-none" 
                           : "bg-slate-100 text-slate-700 rounded-bl-none"
                       )}>
                         {msg.content}
@@ -223,7 +223,7 @@ export default function Investigations() {
               />
               <button className={cn(
                 "absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-all",
-                input ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-400"
+                input ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-400"
               )}>
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
