@@ -1,0 +1,232 @@
+  ---                                                                                                                                             
+  1. The PEARL Trial at a Glance                                                                                                                  
+                                                                                                                                                  
+  NCT03003962 (PEARL / D419AC00002): Phase III, randomized, open-label trial of Durvalumab (anti-PD-L1) vs Standard-of-Care chemotherapy in       
+  first-line PD-L1-high (TC >= 25%) advanced NSCLC.
+
+  What makes this trial unusual: it has dual co-primary endpoints — two different populations, same drug, same outcome (Overall Survival), but
+  different analysis populations. This is the complexity that makes the lineage model valuable.
+
+  ---
+  2. The Estimand Framework (ICH E9 R1)
+
+  The pipeline extracted 11 estimands, each defined by 5 components per ICH E9(R1):
+
+  ┌─────────────────────┬─────────────────────────────────────────────────┐
+  │      Component      │                 What it answers                 │
+  ├─────────────────────┼─────────────────────────────────────────────────┤
+  │ Population          │ Who are we studying?                            │
+  ├─────────────────────┼─────────────────────────────────────────────────┤
+  │ Treatment           │ What are we comparing?                          │
+  ├─────────────────────┼─────────────────────────────────────────────────┤
+  │ Variable            │ What are we measuring?                          │
+  ├─────────────────────┼─────────────────────────────────────────────────┤
+  │ Intercurrent Events │ What happens if patients deviate from the plan? │
+  ├─────────────────────┼─────────────────────────────────────────────────┤
+  │ Summary Measure     │ How do we summarize the effect?                 │
+  └─────────────────────┴─────────────────────────────────────────────────┘
+
+  The Two Co-Primary Estimands
+
+  E1 — Primary OS in ITT (all comers PD-L1 >= 25%)
+  - Population: POP1 (Full Analysis Set — all randomized patients)
+  - Variable: V9 (Overall Survival in days)
+  - Method: M1 (Stratified Cox PH model)
+  - Summary Measure: Hazard Ratio
+  - ICE Strategy: Treatment Policy (follow all patients regardless of what happens)
+
+  E2 — Co-Primary OS in Low Risk of Early Mortality
+  - Population: POP3 (subset of POP1 where LREM Score indicates low risk)
+  - Variable: V9 (same OS variable)
+  - Method: M2 (Cox PH model on the LREM subset)
+  - Summary Measure: Hazard Ratio
+  - ICE Strategy: Treatment Policy
+
+  The rationale: immunotherapy takes time to work. Patients who die very early (first ~3 months) likely die from their disease before the drug can
+   act. The LREM score identifies patients who are expected to survive long enough for the drug to have an effect. By analyzing both populations,
+  the trial tests "does it work in everyone?" AND "does it work when we remove the noise of early mortality?"
+
+  ---
+  3. How the Lineage Graph Traces from Estimand to Source Data
+
+  The lineage graph is a Directed Acyclic Graph (DAG) with 37 nodes and 36 edges. Here's how to read it, tracing E1 from top to bottom:
+
+  Layer 1: Estimand → Method
+
+  E1 (Primary OS ITT) --targeted_by--> M1 (Cox PH Model)
+  The estimand defines WHAT we want to know. The method defines HOW we compute it.
+
+  Layer 2: Method → Variables + Population
+
+  M1 --uses_as_response--> V9 (AVAL_OS — survival time in days)
+  M1 --uses_as_covariate--> V2 (Planned Treatment arm)
+  M1 --uses_as_stratification--> V4 (PD-L1 strat: 25-49% vs >=50%)
+  M1 --uses_as_stratification--> V5 (Histology/Smoking composite)
+  M1 --analyzed_on--> POP1 (FAS/ITT)
+  This tells the statistical programmer: "Run a Cox model with V9 as the response, stratified by V4 and V5, comparing treatment groups V2, on
+  population POP1."
+
+  Layer 3: Derived Variable → Leaf Variables (Source Data)
+
+  V9 (OS Days) --derived_from--> V1 (Date of Randomization)     [START]
+  V9 --derived_from_event--> V7 (Date of Death)                  [EVENT]
+  V9 --derived_from_censor--> V8 (Date Last Known Alive)         [CENSOR]
+  This is the TTE derivation formula: OS = (Death Date or Last Known Alive Date) - Randomization Date
+
+  Every time-to-event variable decomposes into exactly 3 leaf dates. This is what the prompt improvements (Agent 3 Rule 19) enforce.
+
+  Layer 4: Population → Defining Variables
+
+  For POP1 (ITT), it's simple:
+  POP1 --defined_by--> V1 (Randomization — if randomized, you're in)
+
+  For POP3 (LREM), the chain is much deeper:
+  POP3 --subset_of--> POP1
+  POP3 --defined_by--> V18 (LREM Flag: Y/N)
+  V18 --derived_from--> V17 (Early Mortality Risk Score: continuous)
+  V17 --derived_from--> V11 (Neutrophils)
+  V17 --derived_from--> V12 (Lymphocytes)
+  V17 --derived_from--> V13 (Albumin)
+  V17 --derived_from--> V14 (LDH)
+  V17 --derived_from--> V15 (GGT)
+  V17 --derived_from--> V16 (AST)
+
+  This 4-level derivation chain (6 Labs → Score → Flag → Population → Estimand) is the most powerful part of the demo. It shows that if any one of
+   those 6 baseline lab values is missing, the Risk Score can't be calculated, the LREM flag can't be set, and the patient is excluded from the
+  co-primary analysis.
+
+  Layer 5: ICE Handling
+
+  E1 --handles--> ICE1 (Treatment Discontinuation) → Strategy: TREATMENT_POLICY
+  E1 --handles--> ICE2 (Subsequent Therapy) → Strategy: TREATMENT_POLICY
+  Treatment Policy means: "We don't care if the patient stopped treatment or got other therapy — we follow them until death or censoring
+  regardless." This is the most common ICE strategy for OS endpoints.
+
+  ---
+  4. How Criticality Tiers Work
+
+  The criticality assignments trace the impact of each source data field on the primary analysis:
+
+  Tier 1 (Critical — direct impact on primary estimand)
+
+  ┌─────────────────────────────────┬───────────────────────────────────────┬─────────────────────────────────────┐
+  │           Source Hint           │              Why Tier 1               │            Lineage Path             │
+  ├─────────────────────────────────┼───────────────────────────────────────┼─────────────────────────────────────┤
+  │ SH_RAND (Randomization Date)    │ Anchor for ALL TTE calculations       │ V1 → V9 → M1 → E1                   │
+  ├─────────────────────────────────┼───────────────────────────────────────┼─────────────────────────────────────┤
+  │ SH_DTH (Death Date)             │ Event date for primary endpoint       │ V7 → V9 → M1 → E1                   │
+  ├─────────────────────────────────┼───────────────────────────────────────┼─────────────────────────────────────┤
+  │ SH_LSTALV (Last Known Alive)    │ Censoring date for primary endpoint   │ V8 → V9 → M1 → E1                   │
+  ├─────────────────────────────────┼───────────────────────────────────────┼─────────────────────────────────────┤
+  │ SH_LAB_SCORE (6 Lab Parameters) │ Define LREM population for co-primary │ V11-16 → V17 → V18 → POP3 → M2 → E2 │
+  ├─────────────────────────────────┼───────────────────────────────────────┼─────────────────────────────────────┤
+  │ SH_STRATA_IVRS (Strat Factors)  │ Stratification in primary Cox model   │ V4/V5 → M1 → E1                     │
+  └─────────────────────────────────┴───────────────────────────────────────┴─────────────────────────────────────┘
+
+  Tier 2 (Important — secondary/key secondary impact)
+
+  ┌────────────────────────────────┬────────────────────────────────────────────────────┐
+  │          Source Hint           │                     Why Tier 2                     │
+  ├────────────────────────────────┼────────────────────────────────────────────────────┤
+  │ SH_PDL1_RAW (PD-L1 TC Score)   │ Defines PD-L1>=50% population for key secondary E3 │
+  ├────────────────────────────────┼────────────────────────────────────────────────────┤
+  │ SH_RECIST (RECIST Assessments) │ Drives PFS (secondary endpoint E5)                 │
+  └────────────────────────────────┴────────────────────────────────────────────────────┘
+
+  How to explain this in a demo:
+
+  "If the Death Date is wrong for a single patient, it directly changes the Hazard Ratio for the primary endpoint. That's Tier 1. If a RECIST scan
+   date is wrong, it affects PFS which is a secondary endpoint — still important, but Tier 2. The system automatically determines this by tracing
+  the lineage graph from source data up to estimands."
+
+  ---
+  5. The Multiplicity Control Story
+
+  The SAP specifies a fixed-sequence testing procedure with alpha recycling:
+
+  - Total alpha = 5% (two-sided)
+  - 4% allocated to E1 (OS in ITT)
+  - 1% allocated to E2 (OS in LREM)
+  - If E1 is significant, its 4% recycles to E2 (now tested at 5%)
+  - If E2 is significant, alpha flows to key secondary E3 (OS in PD-L1>=50%), then E4
+
+  This means the testing order matters, and the lineage model captures this hierarchy through the estimand numbering and method assignments.
+
+  ---
+  6. The CRF Mapping Story (End-to-End)
+
+  This is where the full pipeline value becomes visible. Starting from the clinical question and ending at the actual data collection form:
+
+  Example 1: Death Date (Tier 1)
+
+  E1 (Primary OS)
+    → M1 (Cox Model)
+      → V9 (OS Days)
+        → V7 (Death Date)
+          → SH_DTH (Source Hint: DM.DTHDTC)
+            → FORM-DS-SURVIVAL / DTHDAT (CRF Field)
+  Demo message: "The system traced from the primary estimand all the way down to the specific CRF field where the site enters the death date. It
+  flagged this as Tier 1 with HIGH missingness sensitivity."
+
+  Example 2: LREM Lab Parameters (Tier 1)
+
+  E2 (Co-Primary OS LREM)
+    → POP3 (Low Risk Population)
+      → V18 (LREM Flag)
+        → V17 (Risk Score)
+          → V11-V16 (6 Lab Values)
+            → SH_LAB_SCORE (Source Hint: LB.LBORRES)
+              → FORM-LB / LBORRES (CRF Field)
+  Demo message: "Six baseline lab values — neutrophils, lymphocytes, albumin, LDH, GGT, AST — feed into a prognostic score that determines if a
+  patient enters the co-primary analysis. If any single value is missing, that patient is excluded. The system identified all 6, assigned Tier 1,
+  and mapped them to the Laboratory CRF form."
+
+  Example 3: RECIST Tumor Assessment (Tier 2)
+
+  E5 (Secondary PFS)
+    → M6 (Cox Model)
+      → V21 (PFS Days)
+        → V19 (Progression Date)
+          → SH_RECIST (Source Hint: RS.RSDTC)
+            → FORM-TU / TUDAT + TUORRES (CRF Fields)
+  Demo message: "PFS is secondary, not primary, so the system correctly assigned Tier 2. But notice the cross-domain mapping — the CRF collects
+  tumor data on a TU form, but the SDTM target is the RS domain. The LLM figured out this cross-domain relationship."
+
+  ---
+  7. How to Analyze the Quality Scorecard
+
+  When presenting the scorecard, highlight these metrics:
+
+  ┌──────────────────────┬───────┬─────────────────────────────────────────────────────────────────────────┐
+  │        Metric        │ Value │                              What it means                              │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Completeness         │ 0.95  │ 95% of expected SAP elements were extracted                             │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Cross-ref resolution │ 100%  │ Every reference between agents resolved to a concrete ID                │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Citation coverage    │ 92%   │ 92% of extracted elements have verbatim SAP citations                   │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Conflicts            │ 1     │ One IVRS-vs-eCRF strata source mismatch — documented, not resolved      │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Gaps                 │ 1     │ Treatment Start Date for Safety Pop — implied but not explicitly in SAP │
+  ├──────────────────────┼───────┼─────────────────────────────────────────────────────────────────────────┤
+  │ Source hint coverage │ 7/7   │ Every criticality item has a matching source data hint                  │
+  └──────────────────────┴───────┴─────────────────────────────────────────────────────────────────────────┘
+
+  The 1 remaining gap (Treatment Start Date for Safety Population POP8) is a legitimate extraction finding — the SAP defines safety population as
+  "all patients who received at least one dose" but doesn't explicitly define a variable for treatment start date. The system created
+  V_IMPLIED_TRTSDT and flagged it as a gap requiring downstream mapping to EX.EXSTDTC.
+
+  ---
+  8. Suggested Demo Flow
+
+  1. Start with the clinical question: "Does durvalumab improve survival in PD-L1-high NSCLC?"
+  2. Show the estimand table: 11 estimands, 2 co-primary with the LREM innovation
+  3. Walk through one lineage path: E1 → M1 → V9 → V7/V8/V1 (the "happy path")
+  4. Show the LREM derivation chain: The 6 labs → score → flag → population chain
+  5. Show criticality assignments: "The system figured out these 5 fields are Tier 1"
+  6. Bridge to CRF mapping: "And here's exactly where those fields are collected on the CRF"
+  7. Show the gap/conflict as a feature: "It also found issues — a strata source mismatch and a missing variable — and flagged them for review
+  rather than silently resolving them"
+
+  This tells the story of going from a 80-page PDF to actionable data collection intelligence in ~4 minutes of pipeline runtime.
