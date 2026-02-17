@@ -86,35 +86,39 @@ const messages = [
 
 const evidenceData = [
   {
-    type: "Safety Conflict",
-    id: "SIG-2026-042",
+    type: "EDC eCRF Record",
+    id: "Rec-CM-9921",
     data: {
-      "Subject": "109-004",
-      "Event": "Dexamethasone Start",
-      "EDC Value": "12-Jan-2026",
-      "Narrative": "14-Jan-2026",
-      "Impact": "Cycle 1 DLT Window"
+      "Form": "Concomitant Medications",
+      "Medication": "Dexamethasone",
+      "Start Date": "12-Jan-2026",
+      "Indication": "Prophylaxis",
+      "Status": "Signed by PI"
     }
   },
   {
-    type: "Randomization Error",
-    id: "SIG-2026-045",
+    type: "Safety Narrative",
+    id: "Argus-Case-882",
+    text: "...subject experienced Grade 2 Nausea on 10-Jan. Started Dexamethasone 4mg PO BID on 14-Jan for symptom management..."
+  },
+  {
+    type: "IXRS Log",
+    id: "Trans-8821",
     data: {
-      "Subject": "109-007",
-      "Parameter": "PD-L1 Status",
-      "IXRS Stratum": "High (>=50%)",
-      "EDC Lab": "Low (42%)",
-      "Risk": "Selection Bias"
+      "Transaction": "Randomization",
+      "Date": "05-Jan-2026 09:14",
+      "Assigned Stratum": "PD-L1 High (>=50%)",
+      "Kit ID": "KIT-10292"
     }
   },
   {
-    type: "Site Analytics",
-    id: "Site-109",
+    type: "EDC Lab Form",
+    id: "Rec-LB-4421",
     data: {
-      "Risk Score": "High (88/100)",
-      "Query Rate": "12% (Avg: 4%)",
-      "Enrollment": "Top 10% (Fast)",
-      "Status": "Active"
+      "Form": "Local Lab Results",
+      "Test Name": "PD-L1 Expression",
+      "Result": "42%",
+      "Collection Date": "04-Jan-2026"
     }
   }
 ];
@@ -266,7 +270,7 @@ export default function Investigations() {
         <div className="w-[320px] border-l border-slate-100 bg-slate-50/30 flex flex-col shrink-0">
            <div className="p-4 border-b border-slate-100 font-semibold text-[11px] text-slate-400 uppercase tracking-wider flex items-center justify-between bg-white">
              <span>Evidence Packet</span>
-             <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">3 Sources</span>
+             <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">4 Sources</span>
            </div>
            
            <div className="flex-1 overflow-y-auto p-4 space-y-4">
