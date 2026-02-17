@@ -8,7 +8,7 @@ import Dashboard from "@/pages/dashboard";
 import CriticalityAnalysis from "@/pages/critical-data/criticality-analysis";
 import ProtocolAnalysis from "@/pages/critical-data/protocol-analysis";
 import SapAnalysis from "@/pages/critical-data/sap-analysis";
-import Dossier from "@/pages/dossier";
+import SiteDossier from "@/pages/site-dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
 import StudyOverview from "@/pages/study-overview";
@@ -38,6 +38,7 @@ function Router() {
                 <Route path="/study/critical-data/sap" component={SapAnalysis} />
                 <Route path="/study/critical-data/criticality" component={CriticalityAnalysis} />
 
+                <Route path="/study/site-dossier/:siteId" component={SiteDossier} />
                 <Route path="/study/dossier" component={Dossier} />
                 <Route path="/study/mvr" component={MVRCopilot} />
                 <Route path="/study/data-status" component={DataStatus} />
