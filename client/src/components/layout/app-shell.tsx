@@ -78,14 +78,14 @@ function ShellContent({ children }: { children: React.ReactNode }) {
         },
         { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
         { label: "Investigation", icon: Search, href: "/study/investigations" },
-        { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
+        { label: "Site Dossiers", icon: Files, href: "/study/site-dossier/109" },
         { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
         { label: "Data Status", icon: Database, href: "/study/data-status" },
         { label: "Configuration", icon: Settings, href: "/study/config" },
       ]
     : [
         { label: "My Sites & Schedule", icon: LayoutDashboard, href: "/sites/my-sites" },
-        { label: "Site Dossiers", icon: Files, href: "/study/dossier" },
+        { label: "Site Dossiers", icon: Files, href: "/study/site-dossier/109" },
         { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },
         { label: "Query Resolution", icon: Search, href: "/study/investigations" },
       ];
