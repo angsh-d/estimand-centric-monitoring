@@ -65,7 +65,7 @@ function ShellContent({ children }: { children: React.ReactNode }) {
 
   const navItems = role === "Lead Central Monitor" 
     ? [
-        { label: "Study Overview", icon: LayoutDashboard, href: "/study/overview" },
+        { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
         { 
           label: "Criticality Model", 
           icon: GitBranch, 
@@ -76,7 +76,6 @@ function ShellContent({ children }: { children: React.ReactNode }) {
             { label: "Criticality Analysis", href: "/study/critical-data/criticality" },
           ]
         },
-        { label: "Signal Dashboard", icon: Activity, href: "/study/dashboard" },
         { label: "Investigation", icon: Search, href: "/study/investigations" },
         { label: "Site Dossiers", icon: Files, href: "/study/site-dossier/109" },
         { label: "MVR CoPilot", icon: FileText, href: "/study/mvr" },

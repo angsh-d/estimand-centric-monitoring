@@ -12,7 +12,6 @@ import SiteDossier from "@/pages/site-dossier";
 import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
-import StudyOverview from "@/pages/study-overview";
 import MVRCopilot from "@/pages/mvr";
 import DataStatus from "@/pages/data-status";
 import Configuration from "@/pages/configuration";
@@ -30,7 +29,6 @@ function Router() {
           <Route>
             <AppShell>
               <Switch>
-                <Route path="/study/overview" component={StudyOverview} />
                 <Route path="/study/dashboard" component={Dashboard} />
                 
                 {/* Criticality Model Builder Sub-routes */}
