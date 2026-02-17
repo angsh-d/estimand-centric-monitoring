@@ -22,47 +22,62 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 
 const activeThread = {
-  id: "SIG-2026-042",
-  title: "ConMed Date Mismatch (Subject 109-004)",
+  id: "INV-2026-109",
+  title: "Site 109 Data Integrity Investigation",
   status: "active",
-  context: "EDC vs Safety Narrative Reconciliation"
+  context: "Cross-domain anomaly detection (EDC, Safety, IXRS)"
 };
 
 const messages = [
   {
     id: 1,
-    role: "user",
-    content: "What is the discrepancy for Subject 109-004?",
-    time: "10:23 AM"
+    role: "assistant",
+    content: "I've detected a pattern of data anomalies at Site 109 (Charité Berlin) suggesting a potential systemic quality issue.",
+    type: "analysis", 
+    sources: [],
+    time: "10:21 AM"
   },
   {
     id: 2,
-    role: "assistant",
-    content: "I've detected a conflict between two data sources regarding the start date of 'Dexamethasone'.",
-    type: "analysis",
-    sources: [
-      { sys: "Rave EDC", val: "12-Jan-2026", field: "CM.CMSTDTC" },
-      { sys: "Argus Safety", val: "14-Jan-2026", field: "Narrative Text" }
-    ],
-    time: "10:23 AM"
+    role: "user",
+    content: "Show me the specific signals contributing to this alert.",
+    time: "10:22 AM"
   },
   {
     id: 3,
-    role: "user",
-    content: "Does this fall within the DLT window?",
-    time: "10:24 AM"
+    role: "assistant",
+    content: "There are two distinct but temporally correlated signals:",
+    type: "analysis",
+    sources: [
+      { sys: "Signal 1", val: "Date Discrepancy (Subj 109-004)", field: "ConMed vs Safety Narrative" },
+      { sys: "Signal 2", val: "Stratification Error (Subj 109-007)", field: "IXRS vs EDC Stratum" }
+    ],
+    time: "10:22 AM"
   },
   {
     id: 4,
     role: "assistant",
-    content: "Yes. The Cycle 1 DLT observation period is Day 1 to Day 21 (Jan 01 - Jan 21).",
+    content: "Connecting these domains: The ConMed date error (Safety vs Clinical) and the Stratification error (Randomization vs Clinical) both occurred within 48 hours of data entry. This suggests a breakdown in source document verification processes at the site level.",
     type: "text",
-    time: "10:24 AM"
+    time: "10:22 AM"
   },
   {
     id: 5,
+    role: "user",
+    content: "What is the impact on the Primary Estimand?",
+    time: "10:23 AM"
+  },
+  {
+    id: 6,
     role: "assistant",
-    content: "Since the medication is a steroid, taking it on Jan 12 (Day 12) vs Jan 14 (Day 14) might impact the attribution of any subsequent AEs, but both dates are within the window.",
+    content: "High Impact. Subject 109-007 was randomized to 'Strata A' (PD-L1 High) in IXRS, but EDC lab data shows PD-L1 < 50%. This mis-stratification directly affects the Primary Analysis Set (ITT) and could bias the Hazard Ratio if not corrected before database lock.",
+    type: "text",
+    time: "10:23 AM"
+  },
+  {
+    id: 7,
+    role: "assistant",
+    content: "Recommendation: Trigger a targeted remote monitoring visit for Site 109 to review all source documents for patients randomized in the last 30 days.",
     type: "text",
     time: "10:24 AM"
   }
@@ -70,21 +85,36 @@ const messages = [
 
 const evidenceData = [
   {
-    type: "EDC Record",
-    id: "Rec-9921",
+    type: "Safety Conflict",
+    id: "SIG-2026-042",
     data: {
       "Subject": "109-004",
-      "Medication": "Dexamethasone",
-      "Dose": "4 mg",
-      "Route": "Oral",
-      "Start Date": "2026-01-12",
-      "Indication": "Prophylaxis"
+      "Event": "Dexamethasone Start",
+      "EDC Value": "12-Jan-2026",
+      "Narrative": "14-Jan-2026",
+      "Impact": "Cycle 1 DLT Window"
     }
   },
   {
-    type: "Safety Narrative",
-    id: "Argus-Case-882",
-    text: "...subject experienced Grade 2 Nausea on 10-Jan. Started Dexamethasone 4mg PO BID on 14-Jan for symptom management..."
+    type: "Randomization Error",
+    id: "SIG-2026-045",
+    data: {
+      "Subject": "109-007",
+      "Parameter": "PD-L1 Status",
+      "IXRS Stratum": "High (>=50%)",
+      "EDC Lab": "Low (42%)",
+      "Risk": "Selection Bias"
+    }
+  },
+  {
+    type: "Site Analytics",
+    id: "Site-109",
+    data: {
+      "Risk Score": "High (88/100)",
+      "Query Rate": "12% (Avg: 4%)",
+      "Enrollment": "Top 10% (Fast)",
+      "Status": "Active"
+    }
   }
 ];
 
@@ -96,16 +126,16 @@ export default function Investigations() {
       {/* Header */}
       <div className="h-14 border-b border-slate-100 bg-white flex items-center justify-between px-6 shrink-0 z-10">
          <div className="flex items-center gap-4">
-           <div className="h-8 w-8 bg-orange-50 text-orange-600 rounded-lg flex items-center justify-center border border-orange-100">
-             <Search className="h-4 w-4" />
+           <div className="h-8 w-8 bg-red-50 text-red-600 rounded-lg flex items-center justify-center border border-red-100">
+             <ShieldCheck className="h-4 w-4" />
            </div>
            <div>
              <h1 className="text-[13px] font-semibold text-slate-900 flex items-center gap-2">
-               SIG-2026-042
-               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 ring-2 ring-emerald-100" />
+               INV-2026-109: Site 109 Integrity Investigation
+               <span className="h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-red-100 animate-pulse" />
              </h1>
              <p className="text-[11px] text-slate-500 font-medium">
-               ConMed Date Mismatch (Subject 109-004)
+               Multi-domain anomaly detection (Safety + Randomization)
              </p>
            </div>
          </div>
@@ -234,8 +264,8 @@ export default function Investigations() {
         {/* Right: Evidence Panel (Sidekick) */}
         <div className="w-[320px] border-l border-slate-100 bg-slate-50/30 flex flex-col shrink-0">
            <div className="p-4 border-b border-slate-100 font-semibold text-[11px] text-slate-400 uppercase tracking-wider flex items-center justify-between bg-white">
-             <span>Evidence</span>
-             <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">2 items</span>
+             <span>Evidence Packet</span>
+             <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">3 Sources</span>
            </div>
            
            <div className="flex-1 overflow-y-auto p-4 space-y-4">
