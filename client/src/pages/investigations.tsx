@@ -16,7 +16,8 @@ import {
   Table,
   ArrowRight,
   MoreHorizontal,
-  ArrowUpRight
+  ArrowUpRight,
+  ShieldCheck
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
