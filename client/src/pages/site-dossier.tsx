@@ -118,10 +118,10 @@ export default function SiteDossier() {
             <div>
               <div className="flex items-center gap-3 mb-1.5">
                 <h1 className="text-xl font-bold tracking-tight text-slate-900">{SITE_DETAILS.name}</h1>
-                <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-emerald-100/50 font-semibold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-none">
+                <Badge variant="outline" className="bg-white border-slate-200 text-slate-600 font-semibold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-sm">
                   {SITE_DETAILS.status}
                 </Badge>
-                <Badge variant="secondary" className="bg-rose-50 text-rose-600 border-rose-100/50 font-bold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-none">
+                <Badge variant="secondary" className="bg-slate-900 text-white border-slate-900 font-bold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-none">
                   Targeted Monitoring Triggered
                 </Badge>
               </div>
@@ -158,7 +158,7 @@ export default function SiteDossier() {
            </div>
            <div className="group">
              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 group-hover:text-slate-600 transition-colors">Next Visit</div>
-             <div className="text-[13px] font-semibold text-rose-600 flex items-center gap-1.5">
+             <div className="text-[13px] font-semibold text-slate-900 flex items-center gap-1.5">
                 {SITE_DETAILS.nextVisit} <AlertCircle className="h-3.5 w-3.5 stroke-[2.5]" />
              </div>
            </div>
@@ -183,17 +183,17 @@ export default function SiteDossier() {
         <div className="col-span-8 space-y-6">
           
           {/* Estimand Impact Analysis - Replaces generic Intelligence Summary */}
-          <div className="bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] border border-rose-100 overflow-hidden group hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08)] transition-all duration-300">
-             <div className="bg-rose-50/40 px-6 py-4 border-b border-rose-100/60 flex justify-between items-center">
+          <div className="bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] border border-slate-200 overflow-hidden group hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08)] transition-all duration-300">
+             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
                 <div className="flex items-center gap-2.5">
-                   <div className="bg-rose-100 rounded-md p-1">
-                    <Target className="h-4 w-4 text-rose-600" />
+                   <div className="bg-white border border-slate-200 rounded-md p-1 shadow-sm">
+                    <Target className="h-4 w-4 text-slate-900" />
                    </div>
-                   <h2 className="text-[13px] font-bold text-rose-900 uppercase tracking-wide">Estimand Impact Analysis</h2>
+                   <h2 className="text-[13px] font-bold text-slate-900 uppercase tracking-wide">Estimand Impact Analysis</h2>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-medium text-rose-700">Threat Level:</span>
-                  <span className="text-[10px] font-bold text-rose-700 bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full border border-rose-200/60 shadow-sm">
+                  <span className="text-[10px] font-medium text-slate-500">Threat Level:</span>
+                  <span className="text-[10px] font-bold text-slate-900 bg-white px-2.5 py-1 rounded-full border border-slate-200 shadow-sm">
                     Critical
                   </span>
                 </div>
@@ -205,16 +205,16 @@ export default function SiteDossier() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Primary Estimand (OS - ITT)</div>
-                      <Badge className="bg-rose-100 text-rose-700 hover:bg-rose-100 border-rose-200 text-[10px]">At Risk</Badge>
+                      <Badge className="bg-slate-900 text-white hover:bg-slate-800 border-slate-900 text-[10px]">At Risk</Badge>
                     </div>
-                    <p className="text-[13px] text-slate-700 leading-relaxed">
-                      Data lineage confirms <span className="font-semibold text-rose-600">Stratification Error</span> in Subject 109-007 directly impacts the Intent-to-Treat population definition.
+                    <p className="text-[13px] text-slate-600 leading-relaxed">
+                      Data lineage confirms <span className="font-semibold text-slate-900">Stratification Error</span> in Subject 109-007 directly impacts the Intent-to-Treat population definition.
                     </p>
-                    <div className="bg-rose-50/50 p-3 rounded-lg border border-rose-100 flex items-start gap-3">
-                      <AlertCircle className="h-4 w-4 text-rose-600 mt-0.5 shrink-0" />
+                    <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-start gap-3">
+                      <AlertCircle className="h-4 w-4 text-slate-900 mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[11px] font-bold text-rose-800 mb-0.5">Lineage Trace</div>
-                        <div className="text-[11px] text-rose-700 leading-tight">IXRS Randomization → eCRF Demographics → Statistical Analysis Set</div>
+                        <div className="text-[11px] font-bold text-slate-900 mb-0.5">Lineage Trace</div>
+                        <div className="text-[11px] text-slate-600 leading-tight">IXRS Randomization → eCRF Demographics → Statistical Analysis Set</div>
                       </div>
                     </div>
                   </div>
@@ -223,16 +223,16 @@ export default function SiteDossier() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                       <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Safety Estimand</div>
-                      <Badge variant="outline" className="text-amber-600 border-amber-200 bg-amber-50 text-[10px]">Warning</Badge>
+                      <Badge variant="outline" className="text-slate-600 border-slate-300 bg-white text-[10px]">Warning</Badge>
                     </div>
-                    <p className="text-[13px] text-slate-700 leading-relaxed">
-                      <span className="font-semibold text-amber-600">ConMed Date Mismatch</span> creates temporal ambiguity in Adverse Event attribution window.
+                    <p className="text-[13px] text-slate-600 leading-relaxed">
+                      <span className="font-semibold text-slate-900">ConMed Date Mismatch</span> creates temporal ambiguity in Adverse Event attribution window.
                     </p>
-                    <div className="bg-amber-50/50 p-3 rounded-lg border border-amber-100 flex items-start gap-3">
-                      <History className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
+                    <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-start gap-3">
+                      <History className="h-4 w-4 text-slate-500 mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[11px] font-bold text-amber-800 mb-0.5">Lineage Trace</div>
-                        <div className="text-[11px] text-amber-700 leading-tight">Safety Narrative → AE Log → ConMed Log → MedDRA Coding</div>
+                        <div className="text-[11px] font-bold text-slate-700 mb-0.5">Lineage Trace</div>
+                        <div className="text-[11px] text-slate-500 leading-tight">Safety Narrative → AE Log → ConMed Log → MedDRA Coding</div>
                       </div>
                     </div>
                   </div>
@@ -245,39 +245,39 @@ export default function SiteDossier() {
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 hover:shadow-md transition-shadow duration-300">
               <div className="flex justify-between items-start">
                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">SDV Progress</span>
-                 <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                 <CheckCircle2 className="h-4 w-4 text-slate-900" />
               </div>
               <div>
                 <div className="text-3xl font-bold text-slate-900 tracking-tight">{SITE_METRICS.sdvProgress.value}%</div>
-                <Progress value={82} className="h-1.5 mt-3 bg-slate-100" indicatorClassName="bg-emerald-500" />
+                <Progress value={82} className="h-1.5 mt-3 bg-slate-100" indicatorClassName="bg-slate-900" />
               </div>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 hover:shadow-md transition-shadow duration-300">
               <div className="flex justify-between items-start">
                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Query Aging</span>
-                 <Clock className="h-4 w-4 text-amber-500" />
+                 <Clock className="h-4 w-4 text-slate-400" />
               </div>
               <div>
                 <div className="text-3xl font-bold text-slate-900 tracking-tight flex items-baseline gap-1">
                   {SITE_METRICS.queryAging.value} <span className="text-sm text-slate-400 font-normal">days</span>
                 </div>
-                <div className="text-[10px] text-amber-600 font-medium mt-1 bg-amber-50 inline-block px-1.5 py-0.5 rounded">Above limit (7 days)</div>
+                <div className="text-[10px] text-slate-500 font-medium mt-1 bg-slate-100 inline-block px-1.5 py-0.5 rounded">Above limit (7 days)</div>
               </div>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 hover:shadow-md transition-shadow duration-300">
               <div className="flex justify-between items-start">
                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Protocol Deviations</span>
-                 <AlertTriangle className="h-4 w-4 text-rose-500" />
+                 <AlertTriangle className="h-4 w-4 text-slate-900" />
               </div>
               <div>
                 <div className="text-3xl font-bold text-slate-900 tracking-tight">{SITE_METRICS.pdRate.value}</div>
-                <div className="text-[10px] text-rose-600 font-medium mt-1">Rate per 100 days</div>
+                <div className="text-[10px] text-slate-900 font-medium mt-1">Rate per 100 days</div>
               </div>
             </div>
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 hover:shadow-md transition-shadow duration-300">
               <div className="flex justify-between items-start">
                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Missing Pages</span>
-                 <FileText className="h-4 w-4 text-blue-500" />
+                 <FileText className="h-4 w-4 text-slate-400" />
               </div>
               <div>
                 <div className="text-3xl font-bold text-slate-900 tracking-tight">{SITE_METRICS.missingPages.value}</div>
@@ -307,7 +307,7 @@ export default function SiteDossier() {
                    <tr key={subj.id} className="group hover:bg-slate-50/80 transition-colors">
                      <td className="px-6 py-4 font-semibold text-slate-700 text-[13px]">
                        {subj.id}
-                       {subj.risk === "high" && <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-rose-500 ring-2 ring-rose-100" />}
+                       {subj.risk === "high" && <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-slate-900" />}
                      </td>
                      <td className="px-6 py-4">
                        <Badge variant="outline" className="bg-white text-slate-500 border-slate-200 font-medium text-[10px] shadow-sm">
@@ -317,7 +317,7 @@ export default function SiteDossier() {
                      <td className="px-6 py-4">
                        <div className="flex flex-col gap-2">
                          {subj.alerts.length > 0 ? subj.alerts.map(a => (
-                           <div key={a} className="flex items-center gap-2 text-[11px] font-medium text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md w-fit border border-rose-100/60">
+                           <div key={a} className="flex items-center gap-2 text-[11px] font-medium text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md w-fit border border-slate-200">
                              <AlertCircle className="h-3 w-3" /> {a}
                            </div>
                          )) : <span className="text-slate-400 text-[11px] italic">No active alerts</span>}
@@ -328,7 +328,7 @@ export default function SiteDossier() {
                          <div className="flex items-center gap-1.5">
                            <Target className="h-3.5 w-3.5 text-slate-400" />
                            <span className={cn("text-[11px] font-medium", 
-                             subj.estimandImpact.includes("Primary") ? "text-rose-600" : "text-amber-600"
+                             subj.estimandImpact.includes("Primary") ? "text-slate-900" : "text-slate-500"
                            )}>
                              {subj.estimandImpact}
                            </span>
@@ -361,18 +361,18 @@ export default function SiteDossier() {
               <div className="space-y-3">
                  {OPEN_ACTION_ITEMS.map((item) => (
                    <div key={item.id} className="p-4 border border-slate-100 rounded-xl hover:border-slate-300 transition-all bg-white shadow-sm group cursor-pointer relative overflow-hidden">
-                      {item.impact === "Primary OS" && <div className="absolute top-0 right-0 w-3 h-3 bg-rose-500 rounded-bl-lg" />}
+                      {item.impact === "Primary OS" && <div className="absolute top-0 right-0 w-3 h-3 bg-slate-900 rounded-bl-lg" />}
                       
                       <div className="flex justify-between items-start mb-2">
                         <span className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full border", 
                           item.priority === "High" 
-                            ? "bg-rose-50 text-rose-600 border-rose-100" 
-                            : "bg-amber-50 text-amber-600 border-amber-100"
+                            ? "bg-slate-900 text-white border-slate-900" 
+                            : "bg-white text-slate-600 border-slate-200"
                         )}>{item.priority}</span>
                         <span className="text-[10px] text-slate-400 font-medium">Due {item.dueDate}</span>
                       </div>
                       
-                      <p className="text-[13px] font-semibold text-slate-800 leading-snug mb-3 group-hover:text-blue-600 transition-colors">{item.task}</p>
+                      <p className="text-[13px] font-semibold text-slate-800 leading-snug mb-3 group-hover:text-slate-900 transition-colors">{item.task}</p>
                       
                       <div className="flex items-center justify-between border-t border-slate-50 pt-2">
                         <div className="flex items-center gap-2 text-[11px] text-slate-500">
@@ -404,16 +404,16 @@ export default function SiteDossier() {
                  <div className="flex items-center gap-3 group cursor-pointer">
                     <div className="h-10 w-10 rounded-full bg-slate-50 flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-100 shadow-sm group-hover:scale-105 transition-transform">DW</div>
                     <div>
-                       <div className="text-[13px] font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">Dr. Klaus Webber</div>
+                       <div className="text-[13px] font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">Dr. Klaus Webber</div>
                        <div className="text-[11px] text-slate-500 font-medium">Principal Investigator</div>
                     </div>
                     <Button size="icon" variant="ghost" className="ml-auto h-8 w-8 text-slate-300 hover:text-slate-600 hover:bg-slate-50"><Mail className="h-4 w-4" /></Button>
                  </div>
                  <Separator className="bg-slate-50" />
                  <div className="flex items-center gap-3 group cursor-pointer">
-                    <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center text-xs font-bold text-blue-600 border border-blue-100 shadow-sm group-hover:scale-105 transition-transform">SM</div>
+                    <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-200 shadow-sm group-hover:scale-105 transition-transform">SM</div>
                     <div>
-                       <div className="text-[13px] font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">Sarah Miller</div>
+                       <div className="text-[13px] font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">Sarah Miller</div>
                        <div className="text-[11px] text-slate-500 font-medium">Study Coordinator</div>
                     </div>
                     <Button size="icon" variant="ghost" className="ml-auto h-8 w-8 text-slate-300 hover:text-slate-600 hover:bg-slate-50"><Mail className="h-4 w-4" /></Button>
