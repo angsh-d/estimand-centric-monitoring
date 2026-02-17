@@ -48,28 +48,32 @@ const OPEN_SIGNALS = [
     title: "ConMed Date Mismatch",
     status: "Due in 2 days",
     severity: "critical",
-    category: "Data Integrity"
+    category: "Data Integrity",
+    impact: "Primary OS (ITT)"
   },
   {
     id: "SIG-2026-045",
     title: "Incorrect Randomization Stratification",
     status: "Due in 2 days",
     severity: "critical",
-    category: "Protocol Compliance"
+    category: "Protocol Compliance",
+    impact: "Primary OS (ITT)"
   },
   {
     id: "SIG-002",
     title: "Missed Tumor Assessment",
     status: "Due in 5 days",
     severity: "warning",
-    category: "Clinical"
+    category: "Clinical",
+    impact: "Secondary PFS"
   },
   {
     id: "SIG-009",
     title: "Informed Consent Version",
     status: "Due in 7 days",
     severity: "info",
-    category: "Regulatory"
+    category: "Regulatory",
+    impact: "Compliance"
   }
 ];
 
@@ -118,54 +122,53 @@ export default function Investigations() {
         {/* Left Column (Main Content) */}
         <div className="col-span-8 space-y-6">
           
-          {/* 2. Intelligence Summary */}
+          {/* 2. Intelligence Summary (Estimand-Centric) */}
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-black/[0.04] relative overflow-hidden group">
             <div className="absolute top-0 left-0 w-1 h-full bg-red-500" />
-            <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="h-4 w-4 text-red-500" />
-              <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider">Intelligence Summary</h3>
+            <div className="flex items-center justify-between mb-4">
+               <div className="flex items-center gap-2">
+                 <ShieldCheck className="h-4 w-4 text-red-500" />
+                 <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider">Intelligence Summary</h3>
+               </div>
+               <div className="flex items-center gap-2 bg-red-50 text-red-700 px-3 py-1 rounded-full border border-red-100">
+                  <Activity className="h-3.5 w-3.5" />
+                  <span className="text-[10px] font-bold uppercase tracking-wide">Threatens Primary Estimand</span>
+               </div>
             </div>
             <p className="text-lg text-[#1d1d1f] leading-relaxed font-medium">
-              Site 109 shows emerging risk patterns in <span className="text-red-600 bg-red-50 px-1 rounded">Concomitant Medication reporting</span> and <span className="text-red-600 bg-red-50 px-1 rounded">Stratification accuracy</span>. 
-              Cross-system validation between EDC, Safety narratives, and IXRS indicates 2 high-confidence discrepancies affecting the Primary Estimand. 
-              While enrollment is on track (12/15 subjects), data entry latency has increased by 15% since the last monitoring visit.
+              Site 109 shows emerging risk patterns that directly threaten the <span className="font-semibold underline decoration-red-200 decoration-2 underline-offset-2">Primary OS (ITT) Estimand</span>. 
+              Specifically, data integrity failures in <span className="text-red-600 bg-red-50 px-1 rounded">ConMed dates</span> (Safety/EDC conflict) and <span className="text-red-600 bg-red-50 px-1 rounded">Stratification</span> (IXRS/EDC conflict) undermine the validity of the ITT population analysis.
             </p>
+            <div className="mt-6 flex items-center gap-4 text-sm text-[#86868b] border-t border-black/[0.04] pt-4">
+              <span className="flex items-center gap-1.5">
+                <AlertCircle className="h-4 w-4 text-red-500" />
+                2 High-Confidence Discrepancies
+              </span>
+              <span className="w-1 h-1 rounded-full bg-black/20" />
+              <span>Data Entry Latency +15%</span>
+            </div>
           </div>
 
-          {/* 3. Key Risk Indicators */}
-          <div className="grid grid-cols-4 gap-4">
-             {/* KRI 1 */}
-             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
-                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Data Entry Lag</div>
-                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.dataEntryLag.value}</div>
-                <div className="flex items-center gap-1 text-[11px] font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded w-fit">
-                   <TrendingUp className="h-3 w-3" /> Warning
-                </div>
-             </div>
-             {/* KRI 2 */}
-             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
-                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Query Response</div>
-                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.queryResponse.value}</div>
-                <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded w-fit">
-                   <CheckCircle2 className="h-3 w-3" /> Good
-                </div>
-             </div>
-             {/* KRI 3 */}
-             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
-                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">AE Reporting</div>
-                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.aeReporting.value}</div>
-                <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded w-fit">
-                   <Activity className="h-3 w-3" /> Good
-                </div>
-             </div>
-             {/* KRI 4 */}
-             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
-                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Protocol Deviations</div>
-                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.protocolDeviations.value}</div>
-                <div className="flex items-center gap-1 text-[11px] font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded w-fit">
-                   <AlertTriangle className="h-3 w-3" /> Critical
-                </div>
-             </div>
+          {/* 3. Estimand Risk Contribution (Replaces generic KRIs) */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/[0.04]">
+            <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider mb-4">Estimand Risk Contribution</h3>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="p-4 bg-red-50/50 rounded-xl border border-red-100 flex flex-col gap-2">
+                 <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider">Primary OS (ITT)</span>
+                 <div className="text-2xl font-bold text-red-700">High Risk</div>
+                 <div className="text-[11px] text-red-600 leading-tight">Driven by Stratification Error & ConMed Date Mismatch</div>
+              </div>
+              <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-100 flex flex-col gap-2">
+                 <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Secondary PFS</span>
+                 <div className="text-2xl font-bold text-amber-700">Medium Risk</div>
+                 <div className="text-[11px] text-amber-600 leading-tight">Driven by Missed Tumor Assessment</div>
+              </div>
+              <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100 flex flex-col gap-2">
+                 <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Safety (AEs)</span>
+                 <div className="text-2xl font-bold text-blue-700">Low Risk</div>
+                 <div className="text-[11px] text-blue-600 leading-tight">AE Reporting is 100% compliant</div>
+              </div>
+            </div>
           </div>
 
           {/* 4. Open Signals */}
@@ -183,7 +186,16 @@ export default function Investigations() {
                          )} />
                          <div>
                             <div className="font-semibold text-sm text-[#1d1d1f] mb-0.5">{signal.title}</div>
-                            <div className="text-[11px] text-[#86868b] font-mono">ID: {signal.id}</div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[11px] text-[#86868b] font-mono">ID: {signal.id}</span>
+                              {signal.impact && (
+                                <span className={cn("text-[10px] px-1.5 py-0.5 rounded font-medium", 
+                                  signal.severity === 'critical' ? "bg-red-50 text-red-600" : "bg-gray-100 text-gray-500"
+                                )}>
+                                  Threatens: {signal.impact}
+                                </span>
+                              )}
+                            </div>
                          </div>
                       </div>
                       <div className="flex items-center gap-4">
