@@ -1,7 +1,7 @@
 [
   {
     "source_hint_id": "SH_RAND_DT",
-    "description": "Date of Randomization (IVRS)",
+    "description": "Date of Randomization (IXRS)",
     "criticality_tier_primary_timepoint": 1,
     "criticality_tier_other_timepoints": 1,
     "tier_justification": "Start date for OS (Primary) and PFS (Secondary). Also defines ITT Population (POP1) membership.",
@@ -233,7 +233,7 @@
   },
   {
     "source_hint_id": "SH_STRAT_PDL1",
-    "description": "PD-L1 Stratification Factor (IVRS)",
+    "description": "PD-L1 Stratification Factor (IXRS)",
     "criticality_tier_primary_timepoint": 1,
     "criticality_tier_other_timepoints": 1,
     "tier_justification": "Used in Randomization AND Primary Analysis Model (Stratified Cox). Errors affect model validity.",
@@ -260,7 +260,7 @@
   },
   {
     "source_hint_id": "SH_STRAT_HIST",
-    "description": "Histology Stratification Factor (IVRS)",
+    "description": "Histology Stratification Factor (IXRS)",
     "criticality_tier_primary_timepoint": 1,
     "criticality_tier_other_timepoints": 1,
     "tier_justification": "Used in Randomization AND Primary Analysis Model.",
@@ -287,7 +287,7 @@
   },
   {
     "source_hint_id": "SH_STRAT_SMOKE",
-    "description": "Smoking Stratification Factor (IVRS)",
+    "description": "Smoking Stratification Factor (IXRS)",
     "criticality_tier_primary_timepoint": 1,
     "criticality_tier_other_timepoints": 1,
     "tier_justification": "Used in Randomization AND Primary Analysis Model.",

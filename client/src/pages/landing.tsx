@@ -23,8 +23,8 @@ const STUDIES = [
     title: "Durvalumab vs SoC in Stage IV NSCLC",
     phase: "Phase III",
     status: "Active",
-    sites: 142,
-    patients: 850,
+    sites: 42,
+    patients: 680,
     alerts: 5,
     lastUpdate: "2h ago",
     progress: 68

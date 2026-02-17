@@ -67,7 +67,7 @@ export default function StudyOverview() {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Primary Endpoint</div>
-                <h3 className="text-base font-semibold text-slate-900">PFS (Progression Free Survival)</h3>
+                <h3 className="text-base font-semibold text-slate-900">OS (Overall Survival)</h3>
               </div>
               <div className="h-9 w-9 rounded-full bg-white text-emerald-600 flex items-center justify-center border border-slate-100 font-bold text-xs shadow-sm">
                 98%
@@ -101,8 +101,8 @@ export default function StudyOverview() {
           <div className="group rounded-xl p-5 border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-md transition-all duration-300 cursor-default">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Secondary Endpoint</div>
-                <h3 className="text-base font-semibold text-slate-900">OS (Overall Survival)</h3>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Co-Primary Endpoint</div>
+                <h3 className="text-base font-semibold text-slate-900">OS in LREM Population</h3>
               </div>
               <div className="h-9 w-9 rounded-full bg-white text-amber-500 flex items-center justify-center border border-slate-100 font-bold text-xs shadow-sm">
                 85%
@@ -123,10 +123,10 @@ export default function StudyOverview() {
               <div>
                  <div className="flex justify-between text-[11px] mb-1.5">
                   <span className="text-slate-500">Loss to Follow-up</span>
-                  <span className="font-medium text-amber-600">High (12%)</span>
+                  <span className="font-medium text-amber-600">Elevated (4.2%)</span>
                 </div>
                 <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-amber-500 h-full w-[12%]" />
+                  <div className="bg-amber-500 h-full w-[4.2%]" />
                 </div>
               </div>
             </div>

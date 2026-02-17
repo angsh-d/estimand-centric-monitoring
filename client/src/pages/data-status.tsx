@@ -35,8 +35,8 @@ const structuredSources = [
   },
   {
     id: "IRT",
-    name: "IRT",
-    description: "Randomization & Supply",
+    name: "IXRS",
+    description: "Randomization & Drug Supply",
     status: "healthy",
     records: "3,102",
     latency: "120ms"

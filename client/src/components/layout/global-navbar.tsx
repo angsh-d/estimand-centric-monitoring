@@ -49,10 +49,10 @@ export function GlobalNavbar() {
         
         <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">
-            AD
+            AM
           </div>
           <div className="hidden sm:flex items-center gap-1">
-            <span className="text-[13px] font-medium text-[#1d1d1f]">Angshuman Deb</span>
+            <span className="text-[13px] font-medium text-[#1d1d1f]">Alex Morgan</span>
             <ChevronDown className="h-3 w-3 text-[#86868b]" />
           </div>
         </div>

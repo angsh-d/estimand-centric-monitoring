@@ -36,7 +36,7 @@ const useCriticalityData = () => {
     
     // 2. Map to Dashboard Format
     return estimandNodes.slice(0, 3).map((est, idx) => { // limit to top 3 for dashboard
-      const isPrimary = est.attributes.objective_type === "PRIMARY";
+      const isPrimary = est.attributes.objective_type === "PRIMARY" || est.attributes.objective_type === "CO-PRIMARY";
       
       // Find critical data points mapped to this estimand
       const criticalInputs = CRF_CRITICALITY_REPORT.mappings.filter(m => 
@@ -82,7 +82,7 @@ const useCriticalityData = () => {
         tier: isPrimary ? "Primary" : "Secondary",
         name: est.label,
         status: isPrimary ? "warning" : "good", // Mock status logic for demo
-        healthScore: idx === 0 ? 92 : idx === 1 ? 92 : 98, // Match screenshot: 92, 92, 98
+        healthScore: idx === 0 ? 92 : idx === 1 ? 85 : 98,
         components
       };
     });
@@ -100,11 +100,11 @@ const NARRATIVES = {
   },
   "src-E2": {
     title: "Missing Baseline Labs (Co-Primary)",
-    synthesis: "Site 331 has 3 subjects with missing Neutrophil counts at baseline.",
+    synthesis: "Site 331 has 3 subjects with missing baseline lab values (Neutrophils and Albumin) required for LREM Risk Score calculation.",
     impact: "Prevents calculation of LREM Risk Score. Subjects risk exclusion from the Co-Primary Analysis Set (POP2).",
     recommendation: "Check for unscheduled visits or local lab data availability.",
     signals: ["SIG-801", "SIG-802"],
-    criticalDataContext: "Neutrophils (LBORRES) determines LREM Population."
+    criticalDataContext: "Neutrophils & Albumin (LBORRES) determine LREM Population."
   },
   "method-E1": {
     title: "Analysis Method Risk (Primary)",

@@ -81,7 +81,7 @@ const messages = [
   {
     id: 7,
     role: "assistant",
-    content: "Recommendation: Trigger a targeted remote monitoring visit for Site 109 to review all source documents for patients randomized in the last 30 days.",
+    content: "Recommendation: Trigger a targeted on-site monitoring visit for Site 109 to conduct SDV/SDR for all subjects randomized in the last 30 days. Focus on source document verification for stratification factors and concomitant medication dates.",
     type: "text",
     time: "10:24 AM"
   }

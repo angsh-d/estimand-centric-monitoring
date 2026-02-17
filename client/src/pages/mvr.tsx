@@ -52,7 +52,7 @@ const VISIT_CONTEXT = {
   address: "Charitéplatz 1, 10117 Berlin, Germany",
   lastVisitDate: "12-Jan-2026",
   currentVisitDate: "19-Feb-2026",
-  visitType: "IMV", // Interim Monitoring Visit
+  visitType: "On-site - Targeted (IMV)", // Interim Monitoring Visit
 };
 
 // --- Report Sections Configuration ---
@@ -322,9 +322,9 @@ export default function MVRCopilot() {
                       <div className="col-span-3">Action</div>
                    </div>
                    <div className="divide-y divide-slate-100 border border-t-0 border-slate-200 rounded-b-lg">
-                      <ICFRow subject="109-007" date="29/Apr/2019" correct={true} />
-                      <ICFRow subject="109-004" date="29/Apr/2019" correct={true} />
-                      <ICFRow subject="109-011" date="21/Feb/2019" correct={false} action="Re-consent required (New Amendment)" />
+                      <ICFRow subject="109-007" date="18/Sep/2024" correct={true} />
+                      <ICFRow subject="109-004" date="05/Oct/2024" correct={true} />
+                      <ICFRow subject="109-011" date="12/Jan/2026" correct={false} action="Re-consent required (New Amendment)" />
                    </div>
                 </div>
 

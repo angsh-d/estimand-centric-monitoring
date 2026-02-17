@@ -40,10 +40,10 @@ const ESTIMANDS_DEMO = [
 const LINEAGE_PATH_E1 = [
   { id: "E1", label: "Primary Estimand (OS)", type: "estimand" },
   { id: "M1", label: "Cox PH Model", type: "method" },
-  { id: "V9", label: "AVAL_OS (Survival Days)", type: "derived" },
-  { id: "V7", label: "Death Date", type: "source" },
-  { id: "V8", label: "Last Known Alive", type: "source" },
-  { id: "V1", label: "Rand Date", type: "source" }
+  { id: "V1", label: "AVAL_OS (Survival Days)", type: "derived" },
+  { id: "V5", label: "Death Date", type: "source" },
+  { id: "V6", label: "Last Known Alive", type: "source" },
+  { id: "V3", label: "Randomization Date", type: "source" }
 ];
 
 const COMPLEX_DERIVATION_E1 = [
@@ -56,9 +56,10 @@ const COMPLEX_DERIVATION_E1 = [
 
 const COMPLEX_DERIVATION_E2 = [
   { stage: "Source Data", items: ["Neutrophils", "Lymphocytes", "Albumin", "LDH", "GGT", "AST"] },
-  { stage: "Derived", items: ["V17: Early Mortality Risk Score"] },
-  { stage: "Flag", items: ["V18: LREM Flag (Y/N)"] },
-  { stage: "Population", items: ["POP3: Low Risk Analysis Set"] },
+  { stage: "Derived", items: ["V14: NLR (Neutrophil-Lymphocyte Ratio)", "V13: Prognostic Risk Score"] },
+  { stage: "Flag", items: ["V12: LREM Flag (Y/N)"] },
+  { stage: "Population", items: ["POP2: FAS LREM"] },
+  { stage: "Method", items: ["M2: Cox PH (LREM Subset)"] },
   { stage: "Estimand", items: ["E2: Co-Primary OS in LREM"] }
 ];
 
@@ -67,8 +68,9 @@ const CRITICALITY_GROUPS = [
     tier: "Tier 1: Critical (Primary Endpoints)",
     items: [
       { id: "SH_RAND", field: "Randomization Date", varName: "DS.DSSTDTC", reason: "Anchor for ALL TTE calculations", estimand: "E1, E2, E5" },
-      { id: "SH_DTH", field: "Death Date", varName: "DS.DSSTDTC / AE.AESTDTC", reason: "Event date for primary endpoint", estimand: "E1, E2" },
-      { id: "SH_LSTALV", field: "Last Known Alive", varName: "ADSL.LSTALVDT", reason: "Censoring date for primary endpoint", estimand: "E1" },
+      { id: "SH_PDL1", field: "PD-L1 Status", varName: "SUPPDS.QVAL", reason: "Stratification factor for Primary Analysis", estimand: "E1, E3, E4" },
+      { id: "SH_DTH", field: "Death Date", varName: "DS.DSSTDTC", reason: "Event date for primary endpoint", estimand: "E1, E2" },
+      { id: "SH_LSTALV", field: "Last Known Alive", varName: "DS.DSSTDTC", reason: "Censoring date for primary endpoint", estimand: "E1" },
       { 
         id: "SH_LAB", 
         field: "6 Lab Parameters", 
@@ -102,7 +104,6 @@ const CRITICALITY_GROUPS = [
           { field: "Q30: Quality of Life", varName: "QS.QSORRES WHERE QSTESTCD='QLQ30_30'" }
         ]
       },
-      { id: "SH_PDL1", field: "PD-L1 Status", varName: "LB.LBORRES / SC.SCTESTCD", reason: "Stratification & Subgroup Analysis", estimand: "E3, E4" }
     ]
   },
   {
@@ -115,7 +116,7 @@ const CRITICALITY_GROUPS = [
 ];
 
 const GAPS_CONFLICTS = [
-  { type: "Conflict", title: "Strata Source Mismatch", desc: "IVRS vs eCRF strata source definition conflict.", severity: "medium" },
+  { type: "Conflict", title: "Strata Source Mismatch", desc: "IXRS vs eCRF strata source definition conflict.", severity: "medium" },
   { type: "Gap", title: "Treatment Start Date", desc: "Implied by Safety Population definition but not explicitly defined in SAP.", severity: "low" }
 ];
 
@@ -123,9 +124,9 @@ const GAPS_CONFLICTS = [
 const LINEAGE_PATH_E2 = [
   { id: "E2", label: "Co-Primary Estimand (OS in LREM)", type: "estimand" },
   { id: "M2", label: "Cox PH Model (LREM Subset)", type: "method" },
-  { id: "POP3", label: "LREM Population", type: "derived" },
-  { id: "V18", label: "LREM Flag (Y/N)", type: "derived" },
-  { id: "V17", label: "Risk Score", type: "derived" },
+  { id: "POP2", label: "FAS LREM Population", type: "derived" },
+  { id: "V12", label: "LREM Flag (Y/N)", type: "derived" },
+  { id: "V13", label: "Prognostic Score", type: "derived" },
   // Lab parameters handled in rendering to show as leaf nodes
 ];
 
@@ -211,17 +212,17 @@ export default function SapAnalysis() {
       case "E3": return [
         { id: "E3", label: "Secondary Estimand (OS PD-L1>=50%)", type: "estimand" },
         { id: "M1", label: "Cox PH Model", type: "method" },
-        { id: "V9", label: "AVAL_OS (Survival Days)", type: "derived" },
-        { id: "V7", label: "Death Date", type: "source" },
-        { id: "V8", label: "Last Known Alive", type: "source" },
-        { id: "V1", label: "Rand Date", type: "source" }
+        { id: "V1", label: "AVAL_OS (Survival Days)", type: "derived" },
+        { id: "V5", label: "Death Date", type: "source" },
+        { id: "V6", label: "Last Known Alive", type: "source" },
+        { id: "V3", label: "Randomization Date", type: "source" }
       ];
       case "E4": return [
          { id: "E4", label: "Secondary Estimand (OS PD-L1>=50% LREM)", type: "estimand" },
          { id: "M2", label: "Cox PH Model (LREM)", type: "method" },
-         { id: "POP3", label: "LREM Population", type: "derived" },
-         { id: "V18", label: "LREM Flag (Y/N)", type: "derived" },
-         { id: "V17", label: "Risk Score", type: "derived" },
+         { id: "POP2", label: "FAS LREM Population", type: "derived" },
+         { id: "V12", label: "LREM Flag (Y/N)", type: "derived" },
+         { id: "V13", label: "Prognostic Score", type: "derived" },
       ];
       default: return LINEAGE_PATH_E1;
     }
@@ -252,7 +253,7 @@ export default function SapAnalysis() {
 
   if (view === "upload") {
     return (
-      <div className="h-[calc(100vh-140px)] flex flex-col items-center justify-center font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
+      <div className="h-full flex flex-col items-center justify-center font-sans antialiased text-[#1d1d1f]">
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -298,7 +299,7 @@ export default function SapAnalysis() {
 
   if (view === "processing") {
     return (
-       <div className="h-[calc(100vh-140px)] flex items-center justify-center font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
+       <div className="h-full flex items-center justify-center font-sans antialiased text-[#1d1d1f]">
          <div className="flex flex-col items-center max-w-sm w-full">
             <div className="relative mb-12">
                <div className="h-16 w-16 rounded-full border-[3px] border-black/5 border-t-black animate-spin" />
@@ -337,7 +338,7 @@ export default function SapAnalysis() {
   }
 
   return (
-    <div className="h-[calc(100vh-140px)] flex flex-col font-sans antialiased text-[#1d1d1f] bg-[#F5F5F7]">
+    <div className="h-full flex flex-col font-sans antialiased text-[#1d1d1f]">
       
       {/* Progress Header */}
       <div className="px-8 pt-6 pb-6 bg-white border-b border-black/[0.04]">

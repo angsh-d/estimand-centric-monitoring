@@ -249,27 +249,27 @@
   "unmapped_criticality_items": [
     {
       "source_hint_id": "SH_RAND_DT",
-      "criticality_description": "Date of Randomization (IVRS)",
+      "criticality_description": "Date of Randomization (IXRS)",
       "criticality_tier": 1,
-      "reason": "Data collected via IVRS/IWRS, not directly on an eCRF form provided."
+      "reason": "Data collected via IXRS/IWRS, not directly on an eCRF form provided."
     },
     {
       "source_hint_id": "SH_STRAT_PDL1",
-      "criticality_description": "PD-L1 Stratification Factor (IVRS)",
+      "criticality_description": "PD-L1 Stratification Factor (IXRS)",
       "criticality_tier": 1,
-      "reason": "Data collected via IVRS/IWRS, not directly on an eCRF form provided."
+      "reason": "Data collected via IXRS/IWRS, not directly on an eCRF form provided."
     },
     {
       "source_hint_id": "SH_STRAT_HIST",
-      "criticality_description": "Histology Stratification Factor (IVRS)",
+      "criticality_description": "Histology Stratification Factor (IXRS)",
       "criticality_tier": 1,
-      "reason": "Data collected via IVRS/IWRS, not directly on an eCRF form provided."
+      "reason": "Data collected via IXRS/IWRS, not directly on an eCRF form provided."
     },
     {
       "source_hint_id": "SH_STRAT_SMOKE",
-      "criticality_description": "Smoking Stratification Factor (IVRS)",
+      "criticality_description": "Smoking Stratification Factor (IXRS)",
       "criticality_tier": 1,
-      "reason": "Data collected via IVRS/IWRS, not directly on an eCRF form provided."
+      "reason": "Data collected via IXRS/IWRS, not directly on an eCRF form provided."
     },
     {
       "source_hint_id": "SH_RECIST_PD",

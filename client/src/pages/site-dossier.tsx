@@ -61,7 +61,7 @@ const KEY_SUBJECTS = [
     status: "Active", 
     alerts: ["ConMed Reconciliation"], 
     risk: "medium",
-    estimandImpact: "Safety (AEs)" 
+    estimandImpact: "Primary OS (ConMed → ICE)"
   },
   { 
     id: "109-011", 
@@ -82,7 +82,7 @@ const KEY_SUBJECTS = [
 const OPEN_ACTION_ITEMS = [
   {
     id: "AI-102",
-    task: "Retrain SC on IVRS Stratification Module",
+    task: "Retrain SC on IXRS Stratification Module",
     dueDate: "20-Feb-2026",
     assignee: "CRA (You)",
     priority: "High",
@@ -99,8 +99,8 @@ const OPEN_ACTION_ITEMS = [
 ];
 
 const RECENT_ACTIVITY = [
-  { date: "Today, 09:30", user: "System", action: "New Signal: SAE inconsistency (Subject 109-007)" },
-  { date: "Yesterday, 14:15", user: "Dr. Webber", action: "eSigned Visit 3 for Subject 109-004" },
+  { date: "Today, 09:30", user: "System", action: "New Signal: Eligibility Review Required (Subject 109-007)" },
+  { date: "15-Feb, 14:15", user: "Dr. Webber", action: "eSigned Visit 3 for Subject 109-004" },
   { date: "15-Feb, 11:00", user: "Sarah Miller", action: "Responded to Query #4421 (Lab Units)" }
 ];
 
@@ -402,7 +402,7 @@ export default function SiteDossier() {
               </h3>
               <div className="space-y-4">
                  <div className="flex items-center gap-3 group cursor-pointer">
-                    <div className="h-10 w-10 rounded-full bg-slate-50 flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-100 shadow-sm group-hover:scale-105 transition-transform">DW</div>
+                    <div className="h-10 w-10 rounded-full bg-slate-50 flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-100 shadow-sm group-hover:scale-105 transition-transform">KW</div>
                     <div>
                        <div className="text-[13px] font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">Dr. Klaus Webber</div>
                        <div className="text-[11px] text-slate-500 font-medium">Principal Investigator</div>
@@ -415,6 +415,15 @@ export default function SiteDossier() {
                     <div>
                        <div className="text-[13px] font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">Sarah Miller</div>
                        <div className="text-[11px] text-slate-500 font-medium">Study Coordinator</div>
+                    </div>
+                    <Button size="icon" variant="ghost" className="ml-auto h-8 w-8 text-slate-300 hover:text-slate-600 hover:bg-slate-50"><Mail className="h-4 w-4" /></Button>
+                 </div>
+                 <Separator className="bg-slate-50" />
+                 <div className="flex items-center gap-3 group cursor-pointer">
+                    <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center text-xs font-bold text-slate-600 border border-slate-200 shadow-sm group-hover:scale-105 transition-transform">FM</div>
+                    <div>
+                       <div className="text-[13px] font-semibold text-slate-900 group-hover:text-slate-700 transition-colors">Dr. Fritz Muller</div>
+                       <div className="text-[11px] text-slate-500 font-medium">Sub-Investigator</div>
                     </div>
                     <Button size="icon" variant="ghost" className="ml-auto h-8 w-8 text-slate-300 hover:text-slate-600 hover:bg-slate-50"><Mail className="h-4 w-4" /></Button>
                  </div>

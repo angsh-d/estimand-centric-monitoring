@@ -11,9 +11,9 @@
     {
       "id": "E2",
       "type": "ESTIMAND",
-      "label": "Primary Estimand - OS (Low Risk)",
+      "label": "Co-Primary Estimand - OS (LREM)",
       "attributes": {
-        "objective_type": "PRIMARY"
+        "objective_type": "CO-PRIMARY"
       }
     },
     {

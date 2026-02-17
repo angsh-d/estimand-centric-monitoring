@@ -99,7 +99,7 @@ function ShellContent({ children }: { children: React.ReactNode }) {
                  <div className="flex flex-col overflow-hidden">
                    <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 mb-0.5">Current Context</span>
                    <span className="text-sm font-semibold text-slate-900 truncate">
-                     {role === "Lead Central Monitor" ? "PEARL (NCT03003962)" : "Northeast Region"}
+                     {role === "Lead Central Monitor" ? "PEARL (NCT03003962)" : "EMEA North"}
                    </span>
                  </div>
                  <ChevronDown className="h-4 w-4 text-slate-400 group-hover:text-slate-600" />

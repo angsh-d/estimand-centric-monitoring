@@ -168,8 +168,8 @@ const MockDispositionForm = ({ mappings, onShowLineage }: { mappings: any[], onS
       </div>
       
       <div className="grid grid-cols-2 gap-4">
-        <CRFField label="Subject ID" variable="USUBJID" value="001-1001" />
-        <CRFField label="Visit Date" variable="VISITDAT" value="2024-02-15" />
+        <CRFField label="Subject ID" variable="USUBJID" value="109-001" />
+        <CRFField label="Visit Date" variable="VISITDAT" value="2025-11-18" />
       </div>
 
       <div className="grid grid-cols-1 gap-4">
@@ -177,7 +177,7 @@ const MockDispositionForm = ({ mappings, onShowLineage }: { mappings: any[], onS
         <CRFField 
           label="Date of Death" 
           variable="DTHDAT" 
-          value="2024-02-14" 
+          value="2025-11-17"
           mappedInfo={deathDateMapping}
           onShowLineage={onShowLineage}
         />
@@ -296,7 +296,13 @@ const MockLabForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLinea
 };
 
 const MockTumorForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineage: (info: any) => void }) => {
-  const scanDateMapping = mappings.find(m => m.mapped_crf_fields.some((f: any) => f.variableName === "TUDAT"));
+  const scanDateMapping = {
+    criticality_tier: 2,
+    criticality_description: "Date of Tumor Assessment Scan",
+    risk_if_erroneous: "Incorrect scan date alters PFS event time for secondary endpoint (E5).",
+    estimands_impacted: ["E5"],
+    lineage_path: ["TUDAT (Scan Date) → V10 (Progression Date) → V7 (PFS Time) → M8 (PFS Analysis) → E5 (Secondary PFS)"]
+  };
 
   return (
     <div className="space-y-6">
@@ -309,7 +315,7 @@ const MockTumorForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLin
         <CRFField 
           label="Date of Scan" 
           variable="TUDAT" 
-          value="2024-05-20" 
+          value="2025-12-15"
           mappedInfo={scanDateMapping}
           onShowLineage={onShowLineage}
         />
@@ -348,7 +354,7 @@ const MockQSForm = ({ mappings, onShowLineage }: { mappings: any[], onShowLineag
       
       <div className="grid grid-cols-2 gap-4">
         <CRFField label="Visit" variable="VISIT" value="Week 6" />
-        <CRFField label="Date of Assessment" variable="QSDTC" value="2024-03-10" />
+        <CRFField label="Date of Assessment" variable="QSDTC" value="2025-10-22" />
       </div>
 
       <div className="bg-gray-50/50 p-4 rounded-lg border border-gray-100 space-y-4">
@@ -517,7 +523,7 @@ export default function CriticalityAnalysis() {
                 >
                     <div className="mb-10 text-center">
                         <h1 className="text-3xl font-semibold tracking-tight text-black mb-2">Model Validation</h1>
-                        <p className="text-gray-500">Review and approve criticality definitions for XYZ-301.</p>
+                        <p className="text-gray-500">Review and approve criticality definitions for PEARL (NCT03003962).</p>
                     </div>
 
                     <div className="grid grid-cols-12 gap-8">
@@ -597,7 +603,7 @@ export default function CriticalityAnalysis() {
                   <div className="w-64 shrink-0 space-y-4">
                      <div className="flex items-center justify-between mb-2">
                         <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">CRF Forms</h3>
-                        <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">3 Forms</span>
+                        <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">4 Forms</span>
                      </div>
                      <nav className="space-y-1">
                         {[
@@ -648,10 +654,10 @@ export default function CriticalityAnalysis() {
                         
                         <div className="space-y-3">
                            {[
-                             { label: "Date of Randomization (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
-                             { label: "PD-L1 Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
-                             { label: "Histology Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
-                             { label: "Smoking Stratification Factor (IVRS)", type: "EXTERNAL", desc: "Data collected via IVRS/IWRS, not directly on an eCRF form provided.", tier: 2 },
+                             { label: "Date of Randomization (IXRS)", type: "EXTERNAL", desc: "Data collected via IXRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
+                             { label: "PD-L1 Stratification Factor (IXRS)", type: "EXTERNAL", desc: "Data collected via IXRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
+                             { label: "Histology Stratification Factor (IXRS)", type: "EXTERNAL", desc: "Data collected via IXRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
+                             { label: "Smoking Stratification Factor (IXRS)", type: "EXTERNAL", desc: "Data collected via IXRS/IWRS, not directly on an eCRF form provided.", tier: 1 },
                              { label: "Date of Disease Progression (RECIST)", type: "EXTERNAL", desc: "RECIST assessment data (RS domain) is typically derived or collected on a dedicated form not provided in the aCRF.", tier: 2 }
                            ].map((source, i) => (
                              <div key={i} className="group relative pl-3 border-l-2 border-purple-200 hover:border-purple-400 transition-colors py-1">

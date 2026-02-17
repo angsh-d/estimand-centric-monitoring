@@ -26,8 +26,8 @@ const sites = [
     location: "Berlin, Germany",
     pi: "Dr. Klaus Webber",
     status: "Active",
-    nextVisit: "Feb 18, 2026",
-    visitType: "On-site Monitoring",
+    nextVisit: "Feb 19, 2026",
+    visitType: "On-site - Targeted",
     alerts: 3,
     queries: 12,
     recruitment: "12/15",
@@ -64,12 +64,12 @@ const sites = [
     name: "Mass General",
     location: "Boston, USA",
     pi: "Dr. James Wilson",
-    status: "Pending Activation",
-    nextVisit: "TBD",
-    visitType: "SIV (Site Initiation)",
-    alerts: 0,
+    status: "Active",
+    nextVisit: "Mar 10, 2026",
+    visitType: "Remote - Targeted",
+    alerts: 1,
     queries: 0,
-    recruitment: "0/20",
+    recruitment: "14/20",
     health: "neutral"
   }
 ];
@@ -80,8 +80,8 @@ const upcomingVisits = [
     id: "V-109-04",
     siteId: "109",
     siteName: "Charité Berlin",
-    type: "On-site Monitoring",
-    date: "Feb 18, 2026",
+    type: "On-site - Targeted",
+    date: "Feb 19, 2026",
     duration: "2 Days",
     status: "Confirmed",
     tasks: ["SDV (Source Data Verification)", "Pharmacy Review", "ISF Check"]
@@ -177,7 +177,7 @@ export default function MySites() {
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Next Visit</div>
                       <div className="text-[13px] font-medium text-slate-900">{site.nextVisit}</div>
                     </div>
-                    <Link href="/study/dossier">
+                    <Link href={`/study/site-dossier/${site.id}`}>
                       <button className="h-9 w-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all">
                         <ArrowRight className="h-4 w-4" />
                       </button>

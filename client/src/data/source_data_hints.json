@@ -1,10 +1,10 @@
 [
   {
     "source_hint_id": "SH_RAND_DT",
-    "description": "Date of Randomization (IVRS)",
+    "description": "Date of Randomization (IXRS)",
     "measurement_context": {
       "instrument_name": "Randomization",
-      "data_collection_method": "IVRS/IWRS Integration",
+      "data_collection_method": "IXRS/IWRS Integration",
       "value_type": "Date",
       "collection_timepoints": "Randomization Visit"
     },
@@ -235,11 +235,11 @@
   },
   {
     "source_hint_id": "SH_STRAT_PDL1",
-    "description": "PD-L1 Stratification Factor (IVRS)",
+    "description": "PD-L1 Stratification Factor (IXRS)",
     "measurement_context": {
-      "instrument_name": "IVRS/IXRS",
+      "instrument_name": "IXRS",
       "item_identifier": "PD-L1 Stratification",
-      "data_collection_method": "IVRS Integration",
+      "data_collection_method": "IXRS Integration",
       "value_type": "Categorical",
       "collection_timepoints": "Randomization"
     },
@@ -261,11 +261,11 @@
   },
   {
     "source_hint_id": "SH_STRAT_HIST",
-    "description": "Histology Stratification Factor (IVRS)",
+    "description": "Histology Stratification Factor (IXRS)",
     "measurement_context": {
-      "instrument_name": "IVRS/IXRS",
+      "instrument_name": "IXRS",
       "item_identifier": "Histology Stratification",
-      "data_collection_method": "IVRS Integration",
+      "data_collection_method": "IXRS Integration",
       "value_type": "Categorical",
       "collection_timepoints": "Randomization"
     },
@@ -287,11 +287,11 @@
   },
   {
     "source_hint_id": "SH_STRAT_SMOKE",
-    "description": "Smoking Stratification Factor (IVRS)",
+    "description": "Smoking Stratification Factor (IXRS)",
     "measurement_context": {
-      "instrument_name": "IVRS/IXRS",
+      "instrument_name": "IXRS",
       "item_identifier": "Smoking Stratification",
-      "data_collection_method": "IVRS Integration",
+      "data_collection_method": "IXRS Integration",
       "value_type": "Categorical",
       "collection_timepoints": "Randomization"
     },
@@ -379,7 +379,6 @@
         "variable_id": "V35",
         "role": "Endpoint Component",
         "estimands_impacted": [
-          "E7",
           "E13"
         ],
         "criticality_tier_at_primary_timepoint": 2,
