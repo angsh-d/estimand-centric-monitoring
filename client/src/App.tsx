@@ -9,6 +9,7 @@ import CriticalityAnalysis from "@/pages/critical-data/criticality-analysis";
 import ProtocolAnalysis from "@/pages/critical-data/protocol-analysis";
 import SapAnalysis from "@/pages/critical-data/sap-analysis";
 import SiteDossier from "@/pages/site-dossier";
+import Dossier from "@/pages/dossier";
 import Investigations from "@/pages/investigations";
 import Landing from "@/pages/landing";
 import StudyOverview from "@/pages/study-overview";
