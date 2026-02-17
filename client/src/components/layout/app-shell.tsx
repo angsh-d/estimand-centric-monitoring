@@ -173,15 +173,25 @@ function ShellContent({ children }: { children: React.ReactNode }) {
           </h3>
           <div className="space-y-2">
             {(role === "Lead Central Monitor" 
-              ? ['Site 402 - Boston', 'Site 109 - London', 'Site 331 - Tokyo'] 
-              : ['Site 109 - London (Next Visit)', 'Site 204 - Manchester', 'Site 882 - Paris']
+              ? [
+                  { name: 'Site 109 - Berlin', link: '/study/site-dossier/109' },
+                  { name: 'Site 402 - Boston', link: '/study/site-dossier/402' },
+                  { name: 'Site 331 - Tokyo', link: '/study/site-dossier/331' }
+                ] 
+              : [
+                  { name: 'Site 109 - Berlin (Next Visit)', link: '/study/site-dossier/109' },
+                  { name: 'Site 204 - Manchester', link: '/study/site-dossier/204' },
+                  { name: 'Site 882 - Paris', link: '/study/site-dossier/882' }
+                ]
             ).map((site, i) => (
-              <div key={i} className="flex items-center gap-2 text-[13px] text-slate-500 hover:text-slate-900 cursor-pointer transition-colors group">
-                <div className={cn("h-1.5 w-1.5 rounded-full transition-colors", 
-                  role === "Clinical Research Associate" && i === 0 ? "bg-emerald-500 ring-2 ring-emerald-100" : "bg-slate-300 group-hover:bg-blue-500"
-                )} />
-                {site}
-              </div>
+              <Link key={i} href={site.link}>
+                <div className="flex items-center gap-2 text-[13px] text-slate-500 hover:text-slate-900 cursor-pointer transition-colors group py-1">
+                  <div className={cn("h-1.5 w-1.5 rounded-full transition-colors", 
+                    role === "Clinical Research Associate" && i === 0 ? "bg-emerald-500 ring-2 ring-emerald-100" : "bg-slate-300 group-hover:bg-blue-500"
+                  )} />
+                  {site.name}
+                </div>
+              </Link>
             ))}
           </div>
         </div>
