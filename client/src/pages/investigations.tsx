@@ -1,308 +1,246 @@
-import { AppShell } from "@/components/layout/app-shell";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { 
-  Send, 
-  Paperclip, 
-  Bot, 
-  User, 
-  FileText, 
-  ChevronLeft,
-  Search,
-  CheckCircle2,
-  Clock,
-  MoreVertical,
-  Link as LinkIcon,
-  Table,
-  ArrowRight,
-  MoreHorizontal,
-  ArrowUpRight,
-  ShieldCheck
+  ShieldCheck, 
+  MapPin, 
+  Clock, 
+  Mail, 
+  Phone, 
+  Download, 
+  ChevronRight, 
+  TrendingUp, 
+  AlertTriangle, 
+  CheckCircle2, 
+  Activity, 
+  Users,
+  FileText,
+  Calendar,
+  AlertCircle
 } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-const activeThread = {
-  id: "INV-2026-109",
-  title: "Site 109 Data Integrity Investigation",
-  status: "active",
-  context: "Cross-domain anomaly detection (EDC, Safety, IXRS)"
+// --- Mock Data ---
+
+const SITE_METRICS = {
+  dataEntryLag: { value: "4.2 Days", status: "warning", trend: "+15%" },
+  queryResponse: { value: "24 Hours", status: "good", trend: "-10%" },
+  aeReporting: { value: "100%", status: "good", trend: "Stable" },
+  protocolDeviations: { value: "8.5%", status: "critical", trend: "+2.5%" }
 };
 
-const messages = [
-  {
-    id: 1,
-    role: "assistant",
-    content: "I've detected a pattern of data anomalies at Site 109 (Charité Berlin) suggesting a potential systemic quality issue.",
-    type: "analysis", 
-    sources: [],
-    time: "10:21 AM"
-  },
-  {
-    id: 2,
-    role: "user",
-    content: "Show me the specific signals contributing to this alert.",
-    time: "10:22 AM"
-  },
-  {
-    id: 3,
-    role: "assistant",
-    content: "There are two distinct but temporally correlated signals:",
-    type: "analysis",
-    sources: [
-      { sys: "Signal 1", val: "Date Discrepancy (Subj 109-004)", field: "ConMed vs Safety Narrative" },
-      { sys: "Signal 2", val: "Stratification Error (Subj 109-007)", field: "IXRS vs EDC Stratum" }
-    ],
-    time: "10:22 AM"
-  },
-  {
-    id: 4,
-    role: "assistant",
-    content: "Connecting these domains: The ConMed date error (Safety vs Clinical) and the Stratification error (Randomization vs Clinical) both occurred within 48 hours of data entry. This suggests a breakdown in source document verification processes at the site level.",
-    type: "text",
-    time: "10:22 AM"
-  },
-  {
-    id: 5,
-    role: "user",
-    content: "What is the impact on the Primary Estimand?",
-    time: "10:23 AM"
-  },
-  {
-    id: 6,
-    role: "assistant",
-    content: "High Impact. Subject 109-007 was randomized to 'Strata A' (PD-L1 High) in IXRS, but EDC lab data shows PD-L1 < 50%. This mis-stratification directly affects the Primary Analysis Set (ITT) and could bias the Hazard Ratio if not corrected before database lock.",
-    type: "text",
-    time: "10:23 AM"
-  },
-  {
-    id: 7,
-    role: "assistant",
-    content: "Recommendation: Trigger a targeted remote monitoring visit for Site 109 to review all source documents for patients randomized in the last 30 days.",
-    type: "text",
-    time: "10:24 AM"
-  }
+const SITE_TEAM = [
+  { name: "Dr. Klaus Webber", role: "Principal Investigator", initials: "DKW" },
+  { name: "Sarah Miller", role: "Study Coordinator", initials: "SM" },
+  { name: "James Chen", role: "Pharmacist", initials: "JC" }
 ];
 
-const evidenceData = [
+const ENROLLMENT_STATS = [
+  { label: "Screened", value: 18, total: 20, color: "bg-blue-500" },
+  { label: "Randomized", value: 12, total: 20, color: "bg-indigo-500" },
+  { label: "Active", value: 11, total: 20, color: "bg-emerald-500" },
+  { label: "Completed", value: 1, total: 20, color: "bg-slate-400" }
+];
+
+const OPEN_SIGNALS = [
   {
-    type: "EDC eCRF Record",
-    id: "Rec-CM-9921",
-    data: {
-      "Form": "Concomitant Medications",
-      "Medication": "Dexamethasone",
-      "Start Date": "12-Jan-2026",
-      "Indication": "Prophylaxis",
-      "Status": "Signed by PI"
-    }
+    id: "SIG-2026-042",
+    title: "ConMed Date Mismatch",
+    status: "Due in 2 days",
+    severity: "critical",
+    category: "Data Integrity"
   },
   {
-    type: "Safety Narrative",
-    id: "Argus-Case-882",
-    text: "...subject experienced Grade 2 Nausea on 10-Jan. Started Dexamethasone 4mg PO BID on 14-Jan for symptom management..."
+    id: "SIG-2026-045",
+    title: "Incorrect Randomization Stratification",
+    status: "Due in 2 days",
+    severity: "critical",
+    category: "Protocol Compliance"
   },
   {
-    type: "IXRS Log",
-    id: "Trans-8821",
-    data: {
-      "Transaction": "Randomization",
-      "Date": "05-Jan-2026 09:14",
-      "Assigned Stratum": "PD-L1 High (>=50%)",
-      "Kit ID": "KIT-10292"
-    }
+    id: "SIG-002",
+    title: "Missed Tumor Assessment",
+    status: "Due in 5 days",
+    severity: "warning",
+    category: "Clinical"
   },
   {
-    type: "EDC Lab Form",
-    id: "Rec-LB-4421",
-    data: {
-      "Form": "Local Lab Results",
-      "Test Name": "PD-L1 Expression",
-      "Result": "42%",
-      "Collection Date": "04-Jan-2026"
-    }
+    id: "SIG-009",
+    title: "Informed Consent Version",
+    status: "Due in 7 days",
+    severity: "info",
+    category: "Regulatory"
   }
 ];
 
 export default function Investigations() {
-  const [input, setInput] = useState("");
-
   return (
-    <div className="flex h-[calc(100vh-140px)] flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-      {/* Header */}
-      <div className="h-14 border-b border-slate-100 bg-white flex items-center justify-between px-6 shrink-0 z-10">
-         <div className="flex items-center gap-4">
-           <div className="h-8 w-8 bg-red-50 text-red-600 rounded-lg flex items-center justify-center border border-red-100">
-             <ShieldCheck className="h-4 w-4" />
-           </div>
-           <div>
-             <h1 className="text-[13px] font-semibold text-slate-900 flex items-center gap-2">
-               INV-2026-109: Site 109 Integrity Investigation
-               <span className="h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-red-100 animate-pulse" />
-             </h1>
-             <p className="text-[11px] text-slate-500 font-medium">
-               Multi-domain anomaly detection (Safety + Randomization)
-             </p>
-           </div>
-         </div>
-         
-         <div className="flex items-center gap-3">
-           <div className="flex -space-x-2">
-              <div className="h-7 w-7 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-600">JD</div>
-              <div className="h-7 w-7 rounded-full bg-slate-900 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">AI</div>
-           </div>
-           <div className="h-4 w-px bg-slate-200 mx-1" />
-           <Button variant="outline" size="sm" className="h-8 text-[11px] font-medium border-slate-200">
-             Resolve
-           </Button>
-         </div>
-      </div>
-
-      {/* 3-Column Layout */}
-      <div className="flex-1 flex overflow-hidden">
-        
-        {/* Left: Related Threads (Sidebar) */}
-        <div className="w-64 border-r border-slate-100 bg-slate-50/50 flex flex-col hidden xl:flex">
-           <div className="p-4 font-semibold text-[11px] text-slate-400 uppercase tracking-wider">
-             Linked Signals
-           </div>
-           <div className="px-2 space-y-1">
-             <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm cursor-pointer border-l-2 border-l-black">
-               <div className="text-[11px] font-bold text-slate-900 mb-0.5">{activeThread.id}</div>
-               <div className="text-[11px] text-slate-500 line-clamp-2 leading-snug">{activeThread.title}</div>
-               <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-400 font-medium">
-                 <Clock className="h-3 w-3" /> Active Now
-               </div>
-             </div>
-             <div className="p-3 hover:bg-slate-100 rounded-xl cursor-pointer transition-colors opacity-70 hover:opacity-100">
-               <div className="text-[11px] font-bold text-slate-900 mb-0.5">SIG-2026-045</div>
-               <div className="text-[11px] text-slate-500 line-clamp-2 leading-snug">Incorrect Randomization Stratification (Subject 109-007)</div>
-             </div>
-           </div>
-        </div>
-
-        {/* Center: Chat Stream */}
-        <div className="flex-1 flex flex-col bg-white relative">
-          <ScrollArea className="flex-1 p-6">
-            <div className="max-w-2xl mx-auto space-y-6 pb-10">
-              <div className="text-center py-4">
-                <span className="text-[10px] font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">
-                  Today, 10:21 AM
-                </span>
-              </div>
-
-              {messages.map((msg) => (
-                <div key={msg.id} className={cn("flex gap-3", msg.role === "user" ? "flex-row-reverse" : "")}>
-                  <div className={cn(
-                    "h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-auto shadow-sm border text-[10px] font-bold",
-                    msg.role === "assistant" ? "bg-slate-900 text-white border-transparent" : "bg-slate-100 text-slate-600 border-slate-200"
-                  )}>
-                    {msg.role === "assistant" ? "AI" : "AM"}
-                  </div>
-
-                  <div className={cn("flex flex-col gap-1 max-w-[85%]", msg.role === "user" ? "items-end" : "items-start")}>
-                    {msg.type === 'analysis' && msg.sources ? (
-                       <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm w-full space-y-3">
-                         <p className="text-[13px] text-slate-700 leading-relaxed">{msg.content}</p>
-                         <div className="bg-slate-50 rounded-xl overflow-hidden border border-slate-100">
-                           <table className="w-full text-[11px] text-left">
-                             <thead className="bg-slate-100/50 text-slate-500 font-medium">
-                               <tr>
-                                 <th className="px-3 py-2">Source</th>
-                                 <th className="px-3 py-2">Field</th>
-                                 <th className="px-3 py-2">Value</th>
-                               </tr>
-                             </thead>
-                             <tbody className="divide-y divide-slate-100">
-                               {msg.sources.map((s, i) => (
-                                 <tr key={i}>
-                                   <td className="px-3 py-2 font-medium text-slate-700">{s.sys}</td>
-                                   <td className="px-3 py-2 text-slate-500 font-mono">{s.field}</td>
-                                   <td className={cn("px-3 py-2 font-medium", i===0 ? "text-red-600" : "text-blue-600")}>{s.val}</td>
-                                 </tr>
-                               ))}
-                             </tbody>
-                           </table>
-                         </div>
-                       </div>
-                    ) : (
-                      <div className={cn(
-                        "px-4 py-2.5 rounded-2xl text-[13px] leading-relaxed shadow-sm",
-                        msg.role === "user" 
-                          ? "bg-slate-900 text-white rounded-br-none" 
-                          : "bg-slate-100 text-slate-700 rounded-bl-none"
-                      )}>
-                        {msg.content}
-                      </div>
-                    )}
-                    <span className="text-[10px] text-slate-300 px-1">{msg.time}</span>
-                  </div>
-                </div>
-              ))}
+    <div className="flex flex-col h-full bg-[#F5F5F7] font-sans text-[#1d1d1f] p-8 overflow-y-auto">
+      
+      {/* 1. Header Card */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/[0.04] mb-6 flex justify-between items-start">
+        <div className="flex items-start gap-6">
+          <div className="h-16 w-16 bg-[#1d1d1f] rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+            109
+          </div>
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <h1 className="text-2xl font-bold tracking-tight">Charité Berlin</h1>
+              <Badge variant="destructive" className="bg-red-50 text-red-600 hover:bg-red-100 border-red-100 font-bold px-2 py-0.5 text-[10px] uppercase tracking-wider">
+                High Risk
+              </Badge>
             </div>
-          </ScrollArea>
-
-          {/* Input Bar */}
-          <div className="p-4 bg-white border-t border-slate-100">
-            <div className="max-w-2xl mx-auto relative">
-              <div className="absolute left-2 top-1/2 -translate-y-1/2 flex gap-1">
-                <button className="p-1.5 text-slate-400 hover:bg-slate-100 rounded-lg transition-colors">
-                  <Paperclip className="h-4 w-4" />
-                </button>
+            <div className="flex items-center gap-4 text-sm text-[#86868b] font-medium">
+              <div className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" /> Berlin, Germany
               </div>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Message..."
-                className="w-full h-10 rounded-full border border-slate-200 bg-slate-50 pl-10 pr-10 text-[13px] shadow-sm focus:border-slate-300 focus:bg-white focus:ring-2 focus:ring-slate-100 outline-none transition-all placeholder:text-slate-400"
-              />
-              <button className={cn(
-                "absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-all",
-                input ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-400"
-              )}>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+              <div className="flex items-center gap-1.5">
+                <Users className="h-3.5 w-3.5" /> PI: Dr. Klaus Webber
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5" /> 14:30 PM (Local)
+              </div>
             </div>
           </div>
         </div>
+        <div className="flex gap-3">
+          <Button variant="outline" className="rounded-full border-black/10 text-xs font-medium h-9">
+            <Mail className="h-3.5 w-3.5 mr-2" /> Contact
+          </Button>
+          <Button className="rounded-full bg-[#1d1d1f] text-white hover:bg-black/80 text-xs font-medium h-9 shadow-md">
+            <Download className="h-3.5 w-3.5 mr-2" /> Download
+          </Button>
+        </div>
+      </div>
 
-        {/* Right: Evidence Panel (Sidekick) */}
-        <div className="w-[320px] border-l border-slate-100 bg-slate-50/30 flex flex-col shrink-0">
-           <div className="p-4 border-b border-slate-100 font-semibold text-[11px] text-slate-400 uppercase tracking-wider flex items-center justify-between bg-white">
-             <span>Evidence Packet</span>
-             <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px]">4 Sources</span>
-           </div>
-           
-           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {evidenceData.map((item, i) => (
-                <div key={i} className="group">
-                   <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">
-                     <FileText className="h-3 w-3" /> {item.type}
-                   </div>
-                   <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow cursor-default">
-                      {item.data ? (
-                        <div className="space-y-2">
-                          {Object.entries(item.data).map(([k, v]) => (
-                            <div key={k} className="flex justify-between border-b border-slate-50 last:border-0 pb-1.5 last:pb-0 text-[11px]">
-                              <span className="text-slate-500">{k}</span>
-                              <span className="font-medium text-slate-900">{v}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="italic text-slate-600 text-[12px] leading-relaxed font-serif bg-slate-50 p-3 rounded-lg border border-slate-100">
-                          "{item.text}"
-                        </p>
-                      )}
-                      <div className="mt-3 pt-3 border-t border-slate-100 flex justify-end">
-                        <button className="text-[10px] font-medium text-blue-600 hover:underline flex items-center gap-1">
-                          View Source <ArrowUpRight className="h-3 w-3" />
-                        </button>
+      <div className="grid grid-cols-12 gap-6">
+        
+        {/* Left Column (Main Content) */}
+        <div className="col-span-8 space-y-6">
+          
+          {/* 2. Intelligence Summary */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-black/[0.04] relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-1 h-full bg-red-500" />
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldCheck className="h-4 w-4 text-red-500" />
+              <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider">Intelligence Summary</h3>
+            </div>
+            <p className="text-lg text-[#1d1d1f] leading-relaxed font-medium">
+              Site 109 shows emerging risk patterns in <span className="text-red-600 bg-red-50 px-1 rounded">Concomitant Medication reporting</span> and <span className="text-red-600 bg-red-50 px-1 rounded">Stratification accuracy</span>. 
+              Cross-system validation between EDC, Safety narratives, and IXRS indicates 2 high-confidence discrepancies affecting the Primary Estimand. 
+              While enrollment is on track (12/15 subjects), data entry latency has increased by 15% since the last monitoring visit.
+            </p>
+          </div>
+
+          {/* 3. Key Risk Indicators */}
+          <div className="grid grid-cols-4 gap-4">
+             {/* KRI 1 */}
+             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
+                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Data Entry Lag</div>
+                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.dataEntryLag.value}</div>
+                <div className="flex items-center gap-1 text-[11px] font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded w-fit">
+                   <TrendingUp className="h-3 w-3" /> Warning
+                </div>
+             </div>
+             {/* KRI 2 */}
+             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
+                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Query Response</div>
+                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.queryResponse.value}</div>
+                <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded w-fit">
+                   <CheckCircle2 className="h-3 w-3" /> Good
+                </div>
+             </div>
+             {/* KRI 3 */}
+             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
+                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">AE Reporting</div>
+                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.aeReporting.value}</div>
+                <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded w-fit">
+                   <Activity className="h-3 w-3" /> Good
+                </div>
+             </div>
+             {/* KRI 4 */}
+             <div className="bg-white rounded-xl p-5 shadow-sm border border-black/[0.04]">
+                <div className="text-[10px] font-bold text-black/40 uppercase tracking-wider mb-2">Protocol Deviations</div>
+                <div className="text-2xl font-bold text-[#1d1d1f] mb-1">{SITE_METRICS.protocolDeviations.value}</div>
+                <div className="flex items-center gap-1 text-[11px] font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded w-fit">
+                   <AlertTriangle className="h-3 w-3" /> Critical
+                </div>
+             </div>
+          </div>
+
+          {/* 4. Open Signals */}
+          <div className="bg-white rounded-2xl shadow-sm border border-black/[0.04] overflow-hidden">
+             <div className="px-6 py-4 border-b border-black/[0.04] flex justify-between items-center">
+                <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider">Open Signals</h3>
+             </div>
+             <div className="divide-y divide-black/[0.04]">
+                {OPEN_SIGNALS.map((signal) => (
+                   <div key={signal.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer group">
+                      <div className="flex items-start gap-4">
+                         <div className={cn("mt-1.5 h-2 w-2 rounded-full ring-2 ring-white shadow-sm", 
+                            signal.severity === 'critical' ? "bg-red-500" :
+                            signal.severity === 'warning' ? "bg-amber-500" : "bg-blue-500"
+                         )} />
+                         <div>
+                            <div className="font-semibold text-sm text-[#1d1d1f] mb-0.5">{signal.title}</div>
+                            <div className="text-[11px] text-[#86868b] font-mono">ID: {signal.id}</div>
+                         </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                         <Badge variant="secondary" className="bg-gray-100 text-gray-600 hover:bg-gray-200 border-transparent font-medium text-[10px]">
+                            {signal.status}
+                         </Badge>
+                         <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
                       </div>
                    </div>
-                </div>
-              ))}
+                ))}
+             </div>
+          </div>
+
+        </div>
+
+        {/* Right Column (Side Panel) */}
+        <div className="col-span-4 space-y-6">
+           
+           {/* 5. Enrollment Funnel */}
+           <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/[0.04]">
+              <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider mb-6">Enrollment Funnel</h3>
+              <div className="space-y-6">
+                 {ENROLLMENT_STATS.map((stat) => (
+                    <div key={stat.label}>
+                       <div className="flex justify-between text-xs font-medium mb-2">
+                          <span className="text-[#1d1d1f]">{stat.label}</span>
+                          <span className="text-[#86868b]">{stat.value}</span>
+                       </div>
+                       <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                          <div 
+                             className={cn("h-full rounded-full", stat.color)} 
+                             style={{ width: `${(stat.value / stat.total) * 100}%` }} 
+                          />
+                       </div>
+                    </div>
+                 ))}
+              </div>
            </div>
+
+           {/* 6. Site Team */}
+           <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/[0.04]">
+              <h3 className="text-xs font-bold text-black/40 uppercase tracking-wider mb-6">Site Team</h3>
+              <div className="space-y-4">
+                 {SITE_TEAM.map((member) => (
+                    <div key={member.name} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-black/[0.04]">
+                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                          {member.initials}
+                       </div>
+                       <div>
+                          <div className="text-sm font-semibold text-[#1d1d1f]">{member.name}</div>
+                          <div className="text-[11px] text-[#86868b]">{member.role}</div>
+                       </div>
+                    </div>
+                 ))}
+              </div>
+           </div>
+
         </div>
 
       </div>
